@@ -1,30 +1,70 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div id="app">
+    <Navbar :nav-items="navItems" @nav-click="handleNavigation">
+      <template #cta>
+        <Button variant="primary" size="sm" @click="handleLogin">
+          Iniciar sesión
+        </Button>
+      </template>
+    </Navbar>
+
+    <main>
+      <Home />
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <p class="footer-text">
+          © 2025 MiApp. Hecho con ❤️ usando Vue.js
+        </p>
+      </div>
+    </footer>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<script setup>
+import { ref } from 'vue'
+import Navbar from './components/layout/Navbar.vue'
+import Button from './components/ui/Button.vue'
+import Home from './views/Home.vue'
+
+const navItems = ref([
+  { label: 'Inicio', href: '/', active: true },
+  { label: 'Productos', href: '/productos', active: false },
+  { label: 'Servicios', href: '/servicios', active: false },
+  { label: 'Contacto', href: '/contacto', active: false }
+])
+
+const handleNavigation = (item) => {
+  console.log('Navegando a:', item.label)
+  
+  // Actualizar item activo
+  navItems.value.forEach(navItem => {
+    navItem.active = navItem.label === item.label
+  })
+  
+  // Aquí podrías usar Vue Router en el futuro
+  alert(`Navegando a: ${item.label}`)
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+const handleLogin = () => {
+  console.log('Login clicked')
+  alert('Login en construcción...')
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+</script>
+
+<style>
+/* Estilos del footer */
+.footer {
+  background-color: var(--bg-dark);
+  color: var(--text-white);
+  padding: var(--space-2xl) 0;
+  margin-top: auto;
+}
+
+.footer-text {
+  text-align: center;
+  font-size: var(--font-size-sm);
+  opacity: 0.8;
 }
 </style>
