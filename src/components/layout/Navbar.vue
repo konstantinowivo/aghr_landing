@@ -158,13 +158,14 @@ const handleMobileNavClick = (item) => {
   gap: var(--space-lg);
   flex: 1;
   justify-content: center;
+  margin-top: var(--space-md); /* Margen superior agregado */
 }
 
 .nav-link {
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
   color: var(--text-secondary);
-  padding: var(--space-sm) var(--space-md);
+  padding: var(--space-lg) var(--space-md) var(--space-sm) var(--space-md); /* Padding superior aumentado */
   border-radius: var(--radius-md);
   transition: all var(--transition-base);
 }
@@ -182,6 +183,7 @@ const handleMobileNavClick = (item) => {
 /* CTA */
 .navbar-cta {
   flex-shrink: 0;
+  margin-top: var(--space-sm); /* Margen superior agregado */
 }
 
 /* Mobile Toggle */

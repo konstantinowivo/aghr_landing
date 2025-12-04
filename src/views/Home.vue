@@ -4,19 +4,25 @@
     <Hero
       variant="gradient"
       pretitle="Bienvenido"
-      title="Construye aplicaciones increíbles con Vue.js"
-      subtitle="Una aplicación moderna con las mejores prácticas de desarrollo web"
+      title="AGHR"
+      subtitle="Potenciá tu carrera, amplificá tu marca, conectá con el éxito"
       :full-height="true"
     >
       <template #actions>
         <ButtonCTA variant="gradient" size="xl" @click="handleCTAClick">
-          Comenzar ahora
+          Agendá una entrevista
         </ButtonCTA>
         <Button variant="outline" size="lg" @click="handleLearnMore">
           Saber más
         </Button>
       </template>
     </Hero>
+
+    <!-- Target Audience Section -->
+    <TargetAudience />
+
+    <!-- Services Section -->
+    <Services />
 
     <!-- Features Section -->
     <section class="features">
@@ -25,33 +31,33 @@
         <div class="features-grid">
           <div class="feature-card">
             <div class="feature-icon">⚡</div>
-            <h3 class="feature-title">Rendimiento</h3>
+            <h3 class="feature-title">Experiencia Comprobada</h3>
             <p class="feature-description">
-              Optimizado para velocidad y eficiencia en cada interacción
+              Más de 15 años de trayectoria acompañando empresas y profesionales en su crecimiento
             </p>
           </div>
           
           <div class="feature-card">
-            <div class="feature-icon">🎨</div>
-            <h3 class="feature-title">Diseño Moderno</h3>
+            <div class="feature-icon">🎯</div>
+            <h3 class="feature-title">Metodología Personalizada</h3>
             <p class="feature-description">
-              Interfaz limpia y atractiva que encanta a los usuarios
+              Soluciones adaptadas a las necesidades específicas de cada cliente y contexto
             </p>
           </div>
           
           <div class="feature-card">
-            <div class="feature-icon">🔒</div>
-            <h3 class="feature-title">Seguro</h3>
+            <div class="feature-icon">🌎</div>
+            <h3 class="feature-title">Alcance Internacional</h3>
             <p class="feature-description">
-              Protección de datos y privacidad en cada nivel
+              Presencia en Argentina, Latinoamérica y España con perspectiva global
             </p>
           </div>
           
           <div class="feature-card">
-            <div class="feature-icon">📱</div>
-            <h3 class="feature-title">Responsive</h3>
+            <div class="feature-icon">📈</div>
+            <h3 class="feature-title">Resultados Medibles</h3>
             <p class="feature-description">
-              Funciona perfectamente en todos los dispositivos
+              Impacto real y cuantificable en el desarrollo de equipos y carreras profesionales
             </p>
           </div>
         </div>
@@ -62,16 +68,16 @@
     <section class="cta-section">
       <div class="container">
         <div class="cta-content">
-          <h2 class="cta-title">¿Listo para empezar?</h2>
+          <h2 class="cta-title">¿Listo para impulsar tu crecimiento?</h2>
           <p class="cta-subtitle">
-            Únete a miles de usuarios que ya confían en nosotros
+            Agendá una entrevista y descubrí cómo podemos ayudarte
           </p>
           <div class="cta-actions">
             <ButtonCTA variant="solid" size="xl" @click="handleSignUp">
-              Crear cuenta gratis
+              Agendá tu entrevista
             </ButtonCTA>
             <Button variant="secondary" size="lg" @click="handleContact">
-              Contactar ventas
+              Más información
             </Button>
           </div>
         </div>
@@ -84,26 +90,31 @@
 import Hero from '../components/sections/Hero.vue'
 import Button from '../components/ui/Button.vue'
 import ButtonCTA from '../components/ui/ButtonCTA.vue'
+import TargetAudience from '../components/sections/TargetAudience.vue'
+import Services from '../components/sections/Services.vue'
 
 const handleCTAClick = () => {
   console.log('CTA Principal clicked!')
-  alert('¡Comenzando tu experiencia!')
+  // Aquí puedes integrar tu sistema de agendamiento
+  window.open('https://calendly.com/tu-usuario', '_blank') // Ejemplo con Calendly
 }
 
 const handleLearnMore = () => {
   console.log('Learn more clicked')
-  // Scroll suave a la sección de features
-  document.querySelector('.features')?.scrollIntoView({ behavior: 'smooth' })
+  // Scroll suave a la sección de audiencia objetivo
+  document.querySelector('.target-audience')?.scrollIntoView({ behavior: 'smooth' })
 }
 
 const handleSignUp = () => {
   console.log('Sign up clicked')
-  alert('Registro en construcción...')
+  // Aquí también puedes abrir tu sistema de agendamiento
+  window.open('https://calendly.com/tu-usuario', '_blank')
 }
 
 const handleContact = () => {
   console.log('Contact clicked')
-  alert('Contacto en construcción...')
+  // Scroll a contacto o abrir WhatsApp/Email
+  window.open('https://wa.me/5493512345678', '_blank') // Ejemplo WhatsApp
 }
 </script>
 
@@ -214,4 +225,4 @@ const handleContact = () => {
     grid-template-columns: 1fr;
   }
 }
-</style>
+</style>  
