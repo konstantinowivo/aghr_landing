@@ -24,6 +24,14 @@
     <!-- Services Section -->
     <Services />
 
+    <!-- About Us Section -->
+    <AboutUs 
+      :founder="founderData"
+      :mission="missionText"
+      :vision="visionText"
+      :team="teamData"
+    />
+
     <!-- Features Section -->
     <section class="features">
       <div class="container">
@@ -64,7 +72,22 @@
       </div>
     </section>
 
-    <!-- CTA Section -->
+    <!-- Testimonials Section -->
+    <Testimonials :testimonials="testimonialsData">
+      <template #cta>
+        <button class="testimonial-cta-button" @click="handleCTAClick">
+          Agendá tu primera reunión
+        </button>
+      </template>
+    </Testimonials>
+
+    <!-- Contact Form Section -->
+    <ContactForm 
+      :contact-info="contactInfo"
+      :social-links="socialLinks"
+    />
+
+    <!-- Final CTA Section -->
     <section class="cta-section">
       <div class="container">
         <div class="cta-content">
@@ -83,38 +106,130 @@
         </div>
       </div>
     </section>
+
+    <!-- Floating Buttons -->
+    <WhatsAppButton 
+      :phone-number="contactInfo.whatsapp"
+      message="¡Hola! Me gustaría obtener más información sobre los servicios de AGHR."
+      tooltip-text="¿Necesitás ayuda?"
+    />
+    
+    <ScrollToTop />
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import Hero from '../components/sections/Hero.vue'
 import Button from '../components/ui/Button.vue'
 import ButtonCTA from '../components/ui/ButtonCTA.vue'
 import TargetAudience from '../components/sections/TargetAudience.vue'
 import Services from '../components/sections/Services.vue'
+import AboutUs from '../components/sections/AboutUs.vue'
+import Testimonials from '../components/sections/Testimonials.vue'
+import ContactForm from '../components/sections/ContactForm.vue'
+import WhatsAppButton from '../components/ui/WhatsappButton.vue'
+import ScrollToTop from '../components/ui/ScrollToTop.vue'
 
+// Datos de contacto centralizados
+const contactInfo = {
+  email: 'contacto@aghr.com',
+  phone: '+5493512345678',
+  phoneDisplay: '+54 9 351 234-5678',
+  whatsapp: '5493512345678',
+  location: 'Córdoba, Argentina'
+}
+
+// Redes sociales (actualizar con URLs reales)
+const socialLinks = [
+  // { name: 'LinkedIn', url: 'https://linkedin.com/company/aghr', icon: null },
+  // { name: 'Instagram', url: 'https://instagram.com/aghr', icon: null },
+  // { name: 'Facebook', url: 'https://facebook.com/aghr', icon: null }
+]
+
+// Datos de la fundadora (actualizar con info real de Andrea)
+const founderData = {
+  name: 'Andrea Gasparetti',
+  title: 'Fundadora & Consultora Senior en RH',
+  image: '', // Agregar URL de la imagen
+  bio: [
+    'Con más de 15 años de experiencia en recursos humanos y desarrollo organizacional, fundé AGHR con la misión de transformar la manera en que empresas y profesionales abordan el talento.',
+    'Mi pasión es conectar a las personas con su máximo potencial, ya sea a través de procesos de selección estratégicos, programas de desarrollo o mentoría personalizada.'
+  ],
+  credentials: [
+    'Licenciada en Recursos Humanos',
+    '15+ años de experiencia en el sector',
+    'Certificada en Coaching Ejecutivo',
+    '100+ empresas asesoradas'
+  ]
+}
+
+// Misión y Visión
+const missionText = 'Acompañar el crecimiento profesional y organizacional a través de soluciones personalizadas en recursos humanos, conectando el talento con las oportunidades que impulsan el éxito.'
+
+const visionText = 'Ser el referente en mentoría y recursos humanos en la región, reconocidos por nuestra capacidad de transformar carreras y organizaciones a través de estrategias innovadoras y centradas en las personas.'
+
+// Equipo (agregar miembros reales)
+const teamData = [
+  // {
+  //   name: 'Victoria López',
+  //   role: 'Consultora en Desarrollo Organizacional',
+  //   image: '',
+  //   description: 'Especialista en diseño de procesos de RH y team building con más de 10 años de experiencia.'
+  // }
+]
+
+// Testimonios (actualizar con testimonios reales)
+const testimonialsData = [
+  {
+    text: 'El proceso de mentoring con AGHR fue transformador. En 6 meses logré un ascenso que venía buscando hace años. Andrea me ayudó a identificar mis fortalezas y a comunicar mi valor de manera efectiva.',
+    author: 'María González',
+    position: 'Gerente de Marketing',
+    company: 'Tech Solutions SA',
+    avatar: '',
+    rating: 5,
+    featured: true
+  },
+  {
+    text: 'Contraté AGHR para optimizar nuestros procesos de selección y el resultado superó nuestras expectativas. Redujimos el tiempo de contratación en un 40% y mejoramos significativamente la calidad de los candidatos.',
+    author: 'Carlos Martínez',
+    position: 'CEO',
+    company: 'Startup Innovation',
+    avatar: '',
+    rating: 5,
+    featured: false
+  },
+  {
+    text: 'El training de team building que diseñaron para nuestro equipo fue excepcional. Logramos mejorar la comunicación interna y aumentar la productividad de manera notable.',
+    author: 'Laura Fernández',
+    position: 'Directora de RH',
+    company: 'Corporación ABC',
+    avatar: '',
+    rating: 5,
+    featured: false
+  }
+]
+
+// Event Handlers
 const handleCTAClick = () => {
-  console.log('CTA Principal clicked!')
-  // Aquí puedes integrar tu sistema de agendamiento
-  window.open('https://calendly.com/tu-usuario', '_blank') // Ejemplo con Calendly
+  // Integrar con sistema de agendamiento (Calendly, Google Calendar, etc.)
+  window.open('https://calendly.com/tu-usuario', '_blank')
 }
 
 const handleLearnMore = () => {
-  console.log('Learn more clicked')
-  // Scroll suave a la sección de audiencia objetivo
   document.querySelector('.target-audience')?.scrollIntoView({ behavior: 'smooth' })
 }
 
 const handleSignUp = () => {
-  console.log('Sign up clicked')
-  // Aquí también puedes abrir tu sistema de agendamiento
   window.open('https://calendly.com/tu-usuario', '_blank')
 }
 
 const handleContact = () => {
-  console.log('Contact clicked')
-  // Scroll a contacto o abrir WhatsApp/Email
-  window.open('https://wa.me/5493512345678', '_blank') // Ejemplo WhatsApp
+  // Opción 1: WhatsApp
+  window.open(`https://wa.me/${contactInfo.whatsapp}`, '_blank')
+  
+  // Opción 2: Scroll al formulario de contacto
+  // document.querySelector('.contact')?.scrollIntoView({ behavior: 'smooth' })
 }
 </script>
 
@@ -207,6 +322,25 @@ const handleContact = () => {
   flex-wrap: wrap;
 }
 
+/* Testimonial CTA Button */
+.testimonial-cta-button {
+  background: white;
+  color: #667eea;
+  padding: 1rem 2.5rem;
+  border-radius: 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .section-title {
@@ -225,4 +359,4 @@ const handleContact = () => {
     grid-template-columns: 1fr;
   }
 }
-</style>  
+</style>
