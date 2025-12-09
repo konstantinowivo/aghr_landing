@@ -5,7 +5,7 @@
       <div class="section-header">
         <h2 class="section-title">¿Con quiénes trabajamos?</h2>
         <p class="section-subtitle">
-          Acompañamos tanto a empresas como a profesionales en su desarrollo y crecimiento
+          Acompañamos a empresas y personas en su desarrollo con soluciones integrales de recursos humanos y mentoría personalizada.
         </p>
       </div>
 
