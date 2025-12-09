@@ -6,7 +6,6 @@
       logo-alt="AGHR Logo"
       pretitle="AGHR Mentoring & HR"
       title="Potenciá tu carrera, amplificá tu marca, conectá con el éxito"
-      subtitle="Acompañamos a empresas y personas en su desarrollo con soluciones integrales de recursos humanos y mentoría personalizada"
       :background-image="heroImage"
       :overlay="true"
       :overlay-opacity="0.3"
@@ -25,9 +24,6 @@
 
     <!-- Target Audience Section -->
     <TargetAudience />
-
-    <!-- Services Section -->
-    <ServicesSection />
 
     <!-- About Us Section -->
     <AboutUs 
@@ -86,12 +82,11 @@
 <script setup>
 import HeroSection from '../components/sections/HeroSection.vue'
 import TargetAudience from '../components/sections/TargetAudience.vue'
-import AboutUs from '../components/sections/Aboutus.vue'
+import AboutUs from '../components/sections/AboutUs.vue'
 import Testimonials from '../components/sections/Testimonials.vue'
 import ContactForm from '../components/sections/ContactForm.vue'
 import WhatsAppButton from '../components/ui/WhatsappButton.vue'
 import ScrollToTop from '../components/ui/ScrollToTop.vue'
-import ServicesSection from '../components/sections/ServicesSection.vue'
 
 // Importar imágenes
 import heroImage from '../assets/images/hero/hero_aghrimage.svg'

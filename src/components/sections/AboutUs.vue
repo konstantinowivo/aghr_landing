@@ -96,15 +96,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
+// Importar foto de Andrea Gasparetti
+import andreaPhoto from '../../assets/images/foto/ag_foto.png'
 
 const props = defineProps({
   founder: {
     type: Object,
     default: () => ({
-      name: 'Andrea',
+      name: 'Andrea Gasparetti',
       title: 'Fundadora & Consultora Senior en RH',
-      image: '', // URL de la imagen
+      image: andreaPhoto, // ← FOTO INTEGRADA
       bio: [
         'Con más de 15 años de experiencia en recursos humanos y desarrollo organizacional, fundé AGHR con la misión de transformar la manera en que empresas y profesionales abordan el talento.',
         'Mi pasión es conectar a las personas con su máximo potencial, ya sea a través de procesos de selección estratégicos, programas de desarrollo o mentoría personalizada.'
@@ -128,6 +130,7 @@ const props = defineProps({
   team: {
     type: Array,
     default: () => [
+      // Ejemplo de miembro del equipo:
       // {
       //   name: 'Victoria López',
       //   role: 'Consultora en Desarrollo Organizacional',
@@ -136,7 +139,7 @@ const props = defineProps({
       // }
     ]
   }
-});
+})
 </script>
 
 <style scoped>

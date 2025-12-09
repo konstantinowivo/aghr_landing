@@ -2,16 +2,15 @@
   <nav class="navbar">
     <div class="container">
       <div class="navbar-content">
-        <!-- Logo -->
-        <div class="navbar-logo">
-          <a href="/" class="logo-link">
+        <!-- Logo + Brand Name -->
+        <div class="navbar-brand">
+          <a href="/" class="brand-link">
             <img 
-              v-if="logo" 
-              :src="logo" 
-              alt="Logo" 
+              src="../../assets/images/logo/aghr_logo.png" 
+              alt="AGHR Logo" 
               class="logo-image"
             >
-            <span v-else class="logo-text">MiApp</span>
+            <span class="brand-text">AGHR | mentoring & HR</span>
           </a>
         </div>
 
@@ -31,9 +30,9 @@
         <!-- CTA Button -->
         <div class="navbar-cta">
           <slot name="cta">
-            <Button variant="primary" size="sm">
-              Comenzar
-            </Button>
+            <button class="cta-button" @click="$emit('cta-click')">
+              Agendar entrevista
+            </button>
           </slot>
         </div>
 
@@ -50,49 +49,45 @@
       </div>
 
       <!-- Mobile Menu -->
-      <div v-if="isMobileMenuOpen" class="navbar-mobile">
-        <a 
-          v-for="(item, index) in navItems" 
-          :key="index"
-          :href="item.href"
-          :class="['mobile-nav-link', { 'mobile-nav-link--active': item.active }]"
-          @click.prevent="handleMobileNavClick(item)"
-        >
-          {{ item.label }}
-        </a>
-        <div class="mobile-cta">
-          <slot name="mobile-cta">
-            <Button variant="primary" size="md">
-              Comenzar
-            </Button>
-          </slot>
+      <transition name="slide">
+        <div v-if="isMobileMenuOpen" class="navbar-mobile">
+          <a 
+            v-for="(item, index) in navItems" 
+            :key="index"
+            :href="item.href"
+            :class="['mobile-nav-link', { 'mobile-nav-link--active': item.active }]"
+            @click.prevent="handleMobileNavClick(item)"
+          >
+            {{ item.label }}
+          </a>
+          <div class="mobile-cta">
+            <button class="cta-button" @click="handleMobileCTA">
+              Agendar entrevista
+            </button>
+          </div>
         </div>
-      </div>
+      </transition>
     </div>
   </nav>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import Button from '../ui/Button.vue'
 
 const props = defineProps({
-  logo: {
-    type: String,
-    default: ''
-  },
   navItems: {
     type: Array,
     default: () => [
-      { label: 'Inicio', href: '/', active: true },
-      { label: 'Productos', href: '/productos', active: false },
-      { label: 'Servicios', href: '/servicios', active: false },
-      { label: 'Contacto', href: '/contacto', active: false }
+      { label: 'Inicio', href: '#home', active: true },
+      { label: 'Servicios', href: '#services', active: false },
+      { label: 'Nosotros', href: '#about', active: false },
+      { label: 'Testimonios', href: '#testimonials', active: false },
+      { label: 'Contacto', href: '#contact', active: false }
     ]
   }
 })
 
-const emit = defineEmits(['nav-click'])
+const emit = defineEmits(['nav-click', 'cta-click'])
 
 const isMobileMenuOpen = ref(false)
 
@@ -102,24 +97,45 @@ const toggleMobileMenu = () => {
 
 const handleNavClick = (item) => {
   emit('nav-click', item)
+  
+  // Smooth scroll a la sección
+  if (item.href.startsWith('#')) {
+    const element = document.querySelector(item.href)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
 }
 
 const handleMobileNavClick = (item) => {
   isMobileMenuOpen.value = false
-  emit('nav-click', item)
+  handleNavClick(item)
+}
+
+const handleMobileCTA = () => {
+  isMobileMenuOpen.value = false
+  emit('cta-click')
 }
 </script>
 
 <style scoped>
+/* Navbar */
 .navbar {
   width: 100%;
-  height: var(--navbar-height);
-  background-color: var(--bg-primary);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  height: 80px;
+  background-color: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   position: sticky;
   top: 0;
-  z-index: var(--z-navbar);
-  box-shadow: var(--shadow-sm);
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  height: 100%;
 }
 
 .navbar-content {
@@ -127,63 +143,117 @@ const handleMobileNavClick = (item) => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-xl);
+  gap: 2rem;
 }
 
-/* Logo */
-.navbar-logo {
+/* Brand (Logo + Text) */
+.navbar-brand {
   flex-shrink: 0;
 }
 
-.logo-link {
+.brand-link {
   display: flex;
   align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.brand-link:hover {
+  opacity: 0.8;
 }
 
 .logo-image {
-  height: 2.5rem;
+  height: 50px;
   width: auto;
 }
 
-.logo-text {
-  font-size: var(--font-size-xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--text-primary);
+.brand-text {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
 }
 
 /* Navigation */
 .navbar-nav {
   display: flex;
   align-items: center;
-  gap: var(--space-lg);
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
   flex: 1;
   justify-content: center;
-  margin-top: var(--space-md); /* Margen superior agregado */
 }
 
 .nav-link {
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
-  color: var(--text-secondary);
-  padding: var(--space-lg) var(--space-md) var(--space-sm) var(--space-md); /* Padding superior aumentado */
-  border-radius: var(--radius-md);
-  transition: all var(--transition-base);
+  font-size: 1rem;
+  font-weight: 500;
+  color: #6b7280;
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: #667eea;
+  transition: width 0.3s ease;
 }
 
 .nav-link:hover {
-  color: var(--primary-color);
-  background-color: var(--primary-light);
+  color: #667eea;
+}
+
+.nav-link:hover::after {
+  width: 80%;
 }
 
 .nav-link--active {
-  color: var(--primary-color);
-  font-weight: var(--font-weight-semibold);
+  color: #667eea;
+  font-weight: 600;
 }
 
-/* CTA */
+.nav-link--active::after {
+  width: 80%;
+}
+
+/* CTA Button */
 .navbar-cta {
   flex-shrink: 0;
-  margin-top: var(--space-sm); /* Margen superior agregado */
+}
+
+.cta-button {
+  padding: 0.625rem 1.5rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  white-space: nowrap;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+.cta-button:active {
+  transform: translateY(0);
 }
 
 /* Mobile Toggle */
@@ -194,53 +264,82 @@ const handleMobileNavClick = (item) => {
   width: 1.5rem;
   height: 1.25rem;
   padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
 
 .toggle-bar {
   width: 100%;
   height: 2px;
-  background-color: var(--text-primary);
-  transition: all var(--transition-base);
-  border-radius: var(--radius-sm);
+  background-color: #111827;
+  transition: all 0.3s ease;
+  border-radius: 2px;
 }
 
 /* Mobile Menu */
 .navbar-mobile {
-  display: none;
+  display: flex;
   flex-direction: column;
-  padding: var(--space-lg) 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1.5rem 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  background: white;
 }
 
 .mobile-nav-link {
-  padding: var(--space-md);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
-  color: var(--text-secondary);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-base);
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #6b7280;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
 .mobile-nav-link:hover {
-  background-color: var(--bg-secondary);
-  color: var(--primary-color);
+  background-color: #f3f4f6;
+  color: #667eea;
 }
 
 .mobile-nav-link--active {
-  color: var(--primary-color);
-  font-weight: var(--font-weight-semibold);
-  background-color: var(--primary-light);
+  color: #667eea;
+  font-weight: 600;
+  background-color: #f0f2ff;
 }
 
 .mobile-cta {
-  margin-top: var(--space-lg);
-  padding-top: var(--space-lg);
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.mobile-cta .cta-button {
+  width: 100%;
+  padding: 1rem;
+}
+
+/* Slide Transition */
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-enter-from {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.slide-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .navbar-nav,
+@media (max-width: 968px) {
+  .navbar-nav {
+    display: none;
+  }
+  
   .navbar-cta {
     display: none;
   }
@@ -248,9 +347,33 @@ const handleMobileNavClick = (item) => {
   .navbar-toggle {
     display: flex;
   }
-  
-  .navbar-mobile {
-    display: flex;
+}
+
+@media (max-width: 640px) {
+  .navbar {
+    height: 70px;
+  }
+
+  .logo-image {
+    height: 40px;
+  }
+
+  .brand-text {
+    font-size: 1rem;
+  }
+
+  .navbar-content {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-text {
+    font-size: 0.875rem;
+  }
+
+  .logo-image {
+    height: 35px;
   }
 }
 </style>
