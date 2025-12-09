@@ -1,92 +1,103 @@
 <template>
-  <section class="target-audience">
+  <section class="work-with">
     <div class="container">
-      <div class="header">
-        <h2 class="title">¿Con quién trabajamos?</h2>
-        <p class="subtitle">Acompañamos el crecimiento de empresas y profesionales en toda su trayectoria</p>
+      <!-- Header -->
+      <div class="section-header">
+        <h2 class="section-title">¿Con quiénes trabajamos?</h2>
+        <p class="section-subtitle">
+          Acompañamos tanto a empresas como a profesionales en su desarrollo y crecimiento
+        </p>
       </div>
 
-      <div class="cards-container">
-        <!-- Card Empresas -->
-        <div class="audience-card card-empresas">
-          <div class="card-icon icon-empresas">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect width="16" height="20" x="4" y="2" rx="2" ry="2"/>
-              <path d="M9 22v-4h6v4"/>
-              <path d="M8 6h.01"/>
-              <path d="M16 6h.01"/>
-              <path d="M12 6h.01"/>
-              <path d="M12 10h.01"/>
-              <path d="M12 14h.01"/>
-              <path d="M16 10h.01"/>
-              <path d="M16 14h.01"/>
-              <path d="M8 10h.01"/>
-              <path d="M8 14h.01"/>
-            </svg>
-          </div>
-          
-          <h3 class="card-title">Empresas</h3>
-          
-          <div class="company-types">
-            <div class="type-badge">Startups</div>
-            <div class="type-badge">PyMEs</div>
-            <div class="type-badge">Corporativo</div>
-          </div>
-          
-          <p class="card-description">Trabajamos con empresas de todos los sectores</p>
-          
-          <div class="location-tags">
-            <span class="location-tag">🇦🇷 Argentina</span>
-            <span class="location-tag">🌎 Latam</span>
-            <span class="location-tag">🇪🇸 España</span>
-          </div>
-
-          <button @click="scrollToSection('soluciones-empresas')" class="cta-button cta-empresas">
-            Ver Soluciones Empresariales
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m9 18 6-6-6-6"/>
-            </svg>
+      <!-- Tabs Container -->
+      <div class="tabs-container">
+        <!-- Tab Headers -->
+        <div class="tab-headers">
+          <button 
+            class="tab-button"
+            :class="{ active: activeTab === 'empresas' }"
+            @click="activeTab = 'empresas'"
+          >
+            <span class="tab-icon">🏢</span>
+            <span class="tab-text">Empresas</span>
+          </button>
+          <button 
+            class="tab-button"
+            :class="{ active: activeTab === 'personas' }"
+            @click="activeTab = 'personas'"
+          >
+            <span class="tab-icon">👤</span>
+            <span class="tab-text">Personas</span>
           </button>
         </div>
 
-        <!-- Card Personas -->
-        <div class="audience-card card-personas">
-          <div class="card-icon icon-personas">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-              <circle cx="9" cy="7" r="4"/>
-              <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-            </svg>
-          </div>
-          
-          <h3 class="card-title">Personas</h3>
-          
-          <div class="profiles-grid">
-            <div class="profile-item">
-              <span class="profile-icon">💼</span>
-              <span class="profile-name">Profesionales en crecimiento</span>
-            </div>
-            <div class="profile-item">
-              <span class="profile-icon">🎯</span>
-              <span class="profile-name">Búsqueda de empleo</span>
-            </div>
-            <div class="profile-item">
-              <span class="profile-icon">🚀</span>
-              <span class="profile-name">Freelancers</span>
-            </div>
-            <div class="profile-item">
-              <span class="profile-icon">💡</span>
-              <span class="profile-name">Emprendedores</span>
-            </div>
-          </div>
+        <!-- Tab Content -->
+        <div class="tab-content-wrapper">
+          <!-- EMPRESAS Content -->
+          <transition name="fade">
+            <div v-if="activeTab === 'empresas'" class="tab-content">
+              <div class="content-header">
+                <h3 class="content-title">Soluciones para Empresas</h3>
+                <p class="content-description">
+                  Optimizamos tu gestión de talento con estrategias personalizadas que impulsan el crecimiento de tu organización
+                </p>
+              </div>
 
-          <button @click="scrollToSection('desarrollo-profesional')" class="cta-button cta-personas">
-            Ver Desarrollo Profesional
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m9 18 6-6-6-6"/>
-            </svg>
-          </button>
+              <div class="services-grid">
+                <div 
+                  v-for="(service, index) in empresasServices" 
+                  :key="index"
+                  class="service-card"
+                >
+                  <div class="service-icon">{{ service.icon }}</div>
+                  <div class="service-content">
+                    <h4 class="service-title">{{ service.title }}</h4>
+                    <p class="service-description">{{ service.description }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="cta-section">
+                <h4 class="cta-title">¿Listo para transformar tu organización?</h4>
+                <button class="cta-button" @click="$emit('empresas-cta')">
+                  Agendar consulta gratuita
+                </button>
+              </div>
+            </div>
+          </transition>
+
+          <!-- PERSONAS Content -->
+          <transition name="fade">
+            <div v-if="activeTab === 'personas'" class="tab-content">
+              <div class="content-header">
+                <h3 class="content-title">Desarrollo para Profesionales</h3>
+                <p class="content-description">
+                  Impulsamos tu crecimiento profesional con herramientas y estrategias que te llevan al siguiente nivel
+                </p>
+              </div>
+
+              <div class="services-grid">
+                <div 
+                  v-for="(service, index) in personasServices" 
+                  :key="index"
+                  class="service-card"
+                >
+                  <div class="service-icon">{{ service.icon }}</div>
+                  <div class="service-content">
+                    <h4 class="service-title">{{ service.title }}</h4>
+                    <p class="service-description">{{ service.description }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="cta-section">
+                <h4 class="cta-title">¿Listo para impulsar tu carrera?</h4>
+                <button class="cta-button" @click="$emit('personas-cta')">
+                  Comenzar ahora
+                </button>
+              </div>
+            </div>
+          </transition>
         </div>
       </div>
     </div>
@@ -94,27 +105,88 @@
 </template>
 
 <script setup>
-const scrollToSection = (sectionId) => {
-  const element = document.getElementById(sectionId)
-  if (element) {
-    element.scrollIntoView({ 
-      behavior: 'smooth',
-      block: 'start'
-    })
+import { ref } from 'vue'
+
+// Estado del tab activo
+const activeTab = ref('empresas')
+
+// Emit events
+defineEmits(['empresas-cta', 'personas-cta'])
+
+// Servicios para Empresas
+const empresasServices = [
+  {
+    icon: '📊',
+    title: 'Selección y Reclutamiento',
+    description: 'Encontramos el talento ideal para cada posición con procesos estratégicos y eficientes'
+  },
+  {
+    icon: '📈',
+    title: 'Evaluación de Desempeño',
+    description: 'Sistemas de evaluación objetivos que impulsan el desarrollo de tu equipo'
+  },
+  {
+    icon: '🎓',
+    title: 'Capacitación a Medida',
+    description: 'Programas de formación diseñados según las necesidades específicas de tu empresa'
+  },
+  {
+    icon: '👥',
+    title: 'Cultura Organizacional',
+    description: 'Desarrollamos ambientes de trabajo que potencian el compromiso y la productividad'
+  },
+  {
+    icon: '⚖️',
+    title: 'Consultoría en RRHH',
+    description: 'Asesoramiento estratégico en todas las áreas de recursos humanos'
+  },
+  {
+    icon: '🎯',
+    title: 'Desarrollo de Liderazgo',
+    description: 'Formamos líderes que inspiran y transforman equipos de alto rendimiento'
   }
-}
+]
+
+// Servicios para Personas
+const personasServices = [
+  {
+    icon: '🎯',
+    title: 'Mentorías Personalizadas',
+    description: 'Acompañamiento 1:1 con expertos que te guían en tu camino profesional'
+  },
+  {
+    icon: '💼',
+    title: 'Coaching Ejecutivo',
+    description: 'Desarrollo de habilidades de liderazgo y gestión para potenciar tu carrera'
+  },
+  {
+    icon: '🗺️',
+    title: 'Plan de Carrera Estratégico',
+    description: 'Diseñamos juntos tu roadmap profesional con objetivos claros y alcanzables'
+  },
+  {
+    icon: '💬',
+    title: 'Preparación para Entrevistas',
+    description: 'Te preparamos para destacar en tus próximos desafíos profesionales'
+  },
+  {
+    icon: '🤝',
+    title: 'Networking Profesional',
+    description: 'Construí conexiones valiosas que aceleran tu desarrollo'
+  },
+  {
+    icon: '📝',
+    title: 'Optimización de CV y LinkedIn',
+    description: 'Potenciamos tu marca personal para atraer las mejores oportunidades'
+  }
+]
 </script>
 
 <style scoped>
-/* Paleta de colores */
-:root {
-  --color-empresas: #008026; /* Verde */
-  --color-personas: #732982; /* Púrpura */
-}
-
-.target-audience {
+/* Section Container */
+.work-with {
   padding: 5rem 0;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: #fafafa;
 }
 
 .container {
@@ -123,222 +195,206 @@ const scrollToSection = (sectionId) => {
   padding: 0 1.5rem;
 }
 
-.header {
+/* Section Header */
+.section-header {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
 }
 
-.title {
+.section-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #1a202c;
+  color: #111827;
   margin-bottom: 1rem;
+  letter-spacing: -0.025em;
 }
 
-.subtitle {
+.section-subtitle {
   font-size: 1.125rem;
-  color: #4a5568;
+  color: #6b7280;
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.6;
 }
 
-.cards-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2rem;
+/* Tabs Container */
+.tabs-container {
   max-width: 900px;
   margin: 0 auto;
-}
-
-.audience-card {
   background: white;
-  border-radius: 1rem;
-  padding: 2.5rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  position: relative;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  border-top: 4px solid var(--card-color);
 }
 
-/* Colores por card */
-.card-empresas {
-  --card-color: var(--color-empresas);
-}
-
-.card-personas {
-  --card-color: var(--color-personas);
-}
-
-.audience-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: var(--card-color);
-  transform: scaleX(1);
-  transform-origin: left;
-  transition: transform 0.3s ease;
-}
-
-.audience-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-}
-
-.audience-card:hover::before {
-  transform: scaleX(1.05);
-}
-
-.card-icon {
-  display: inline-flex;
-  padding: 1rem;
-  border-radius: 1rem;
-  color: white;
-  margin-bottom: 1.5rem;
-  transition: all 0.3s ease;
-}
-
-.icon-empresas {
-  background: linear-gradient(135deg, var(--color-empresas), #00a032);
-}
-
-.icon-personas {
-  background: linear-gradient(135deg, var(--color-personas), #8e3a9e);
-}
-
-.audience-card:hover .card-icon {
-  transform: scale(1.05);
-}
-
-.card-title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #2d3748;
-  margin-bottom: 1.5rem;
-}
-
-.company-types {
+/* Tab Headers */
+.tab-headers {
   display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #e5e7eb;
 }
 
-.type-badge {
-  padding: 0.5rem 1rem;
-  background: var(--card-color);
-  color: white;
-  border-radius: 2rem;
-  font-size: 0.875rem;
+.tab-button {
+  flex: 1;
+  padding: 1.25rem 2rem;
+  font-size: 1.125rem;
   font-weight: 600;
-  transition: all 0.3s ease;
-}
-
-.type-badge:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-.card-description {
-  color: #4a5568;
-  margin-bottom: 1.5rem;
-  font-size: 1rem;
-  line-height: 1.6;
-}
-
-.location-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
-}
-
-.location-tag {
-  padding: 0.5rem 1rem;
-  background: #edf2f7;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-  color: #2d3748;
-  font-weight: 500;
-  transition: background 0.2s ease;
-}
-
-.location-tag:hover {
-  background: #e2e8f0;
-}
-
-.profiles-grid {
-  display: grid;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.profile-item {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem;
-  background: #f7fafc;
-  border-radius: 0.75rem;
-  transition: all 0.2s ease;
-  border-left: 3px solid transparent;
-}
-
-.card-personas .profile-item {
-  border-left-color: var(--color-personas)20;
-}
-
-.profile-item:hover {
-  background: #edf2f7;
-  border-left-color: var(--card-color);
-  transform: translateX(4px);
-}
-
-.profile-icon {
-  font-size: 1.5rem;
-}
-
-.profile-name {
-  color: #2d3748;
-  font-weight: 500;
-  font-size: 0.95rem;
-}
-
-/* Botones CTA */
-.cta-button {
-  width: 100%;
-  padding: 1rem 1.5rem;
-  border: 2px solid var(--card-color);
-  background: white;
-  color: var(--card-color);
-  border-radius: 0.75rem;
-  font-size: 1rem;
-  font-weight: 600;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
   cursor: pointer;
   transition: all 0.3s ease;
+  color: #6b7280;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  position: relative;
+  bottom: -2px;
+}
+
+.tab-button.active {
+  color: #667eea;
+  border-bottom-color: #667eea;
+  background: #f9fafb;
+}
+
+.tab-button:hover:not(.active) {
+  color: #374151;
+  background: #fafafa;
+}
+
+.tab-icon {
+  font-size: 1.5rem;
+}
+
+/* Tab Content */
+.tab-content-wrapper {
+  position: relative;
+  min-height: 500px;
+}
+
+.tab-content {
+  padding: 2.5rem;
+}
+
+/* Fade Transition */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.fade-leave-active {
+  position: absolute;
+  width: 100%;
+}
+
+/* Content Header */
+.content-header {
+  margin-bottom: 2rem;
+}
+
+.content-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.75rem;
+}
+
+.content-description {
+  font-size: 1.0625rem;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* Services Grid */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.service-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: #f9fafb;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.service-card:hover {
+  background: white;
+  border-color: #667eea;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.15);
+}
+
+.service-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.service-content {
+  flex: 1;
+}
+
+.service-title {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.service-description {
+  font-size: 0.9375rem;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+/* CTA Section */
+.cta-section {
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  color: white;
+}
+
+.cta-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+}
+
+.cta-button {
+  padding: 1rem 2.5rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  background: white;
+  color: #667eea;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .cta-button:hover {
-  background: var(--card-color);
-  color: white;
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-}
-
-.cta-button svg {
-  transition: transform 0.3s ease;
-}
-
-.cta-button:hover svg {
-  transform: translateX(4px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 .cta-button:active {
@@ -347,33 +403,91 @@ const scrollToSection = (sectionId) => {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .title {
+  .work-with {
+    padding: 4rem 0;
+  }
+
+  .section-title {
     font-size: 2rem;
   }
-  
-  .subtitle {
+
+  .section-subtitle {
     font-size: 1rem;
   }
-  
-  .cards-container {
-    grid-template-columns: 1fr;
-  }
-  
-  .target-audience {
-    padding: 3rem 0;
+
+  .tab-button {
+    font-size: 1rem;
+    padding: 1rem;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
-  .audience-card {
-    padding: 2rem;
+  .tab-icon {
+    font-size: 1.25rem;
   }
 
-  .card-title {
+  .tab-text {
+    font-size: 0.875rem;
+  }
+
+  .tab-content {
+    padding: 2rem 1.5rem;
+  }
+
+  .content-title {
     font-size: 1.5rem;
   }
 
+  .content-description {
+    font-size: 1rem;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .service-card {
+    padding: 1.25rem;
+  }
+
+  .cta-section {
+    padding: 1.5rem;
+  }
+
+  .cta-title {
+    font-size: 1.25rem;
+  }
+
   .cta-button {
-    font-size: 0.95rem;
-    padding: 0.875rem 1.25rem;
+    width: 100%;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .work-with {
+    padding: 3rem 0;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+  }
+
+  .content-title {
+    font-size: 1.375rem;
+  }
+
+  .service-icon {
+    font-size: 1.5rem;
+  }
+
+  .service-title {
+    font-size: 1rem;
+  }
+
+  .service-description {
+    font-size: 0.875rem;
   }
 }
 </style>
