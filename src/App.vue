@@ -26,7 +26,6 @@
 import { ref } from 'vue'
 import Navbar from './components/layout/Navbar.vue'
 import Button from './components/ui/Button.vue'
-import HeroSection from './components/sections/HeroSection.vue'
 import Home from './views/Home.vue'
 
 const navItems = ref([
