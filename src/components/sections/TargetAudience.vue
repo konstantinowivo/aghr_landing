@@ -5,7 +5,7 @@
       <div class="section-header">
         <h2 class="section-title">¿Con quiénes trabajamos?</h2>
         <p class="section-subtitle">
-          Acompañamos a empresas y personas en su desarrollo con soluciones integrales de recursos humanos y mentoría personalizada.
+          Acompañamos a empresas y personas a potenciar su talento.
         </p>
       </div>
 
@@ -39,7 +39,7 @@
               <div class="content-header">
                 <h3 class="content-title">Soluciones para Empresas</h3>
                 <p class="content-description">
-                  Optimizamos tu gestión de talento con estrategias personalizadas que impulsan el crecimiento de tu organización
+                  Optimizamos la gestión del talento con estrategias a medida que impulsan el crecimiento de tu organización
                 </p>
               </div>
 
@@ -118,32 +118,32 @@ const empresasServices = [
   {
     icon: '📊',
     title: 'Selección y Reclutamiento',
-    description: 'Encontramos el talento ideal para cada posición con procesos estratégicos y eficientes'
+    description: 'Identificamos y atraemos al mejor talento, garantizando las habilidades técnicas y blandas para ocupar la vacante.'
   },
   {
     icon: '📈',
     title: 'Evaluación de Desempeño',
-    description: 'Sistemas de evaluación objetivos que impulsan el desarrollo de tu equipo'
+    description: 'Implementamos evaluaciones psicotécnicas, de competencia y potencial, dentro de los procesos de selección y plan de carrera de los colaboradores de tu empresa.'
   },
   {
     icon: '🎓',
-    title: 'Capacitación a Medida',
-    description: 'Programas de formación diseñados según las necesidades específicas de tu empresa'
+    title: 'Experiencia de aprendizaje',
+    description: 'Diseñamos e implementamos programas de capacitación y espacios de formación para desarrollar las habilidades blandas y competencias técnicas para el éxito de tu equipo.'
   },
   {
     icon: '👥',
     title: 'Cultura Organizacional',
-    description: 'Desarrollamos ambientes de trabajo que potencian el compromiso y la productividad'
+    description: 'Desarrollamos ambientes de trabajo que potencian el compromiso y la productividad.'
   },
   {
     icon: '⚖️',
     title: 'Consultoría en RRHH',
-    description: 'Asesoramiento estratégico en todas las áreas de recursos humanos'
+    description: 'Asesoramiento estratégico en todas las áreas de recursos humanos.'
   },
   {
     icon: '🎯',
     title: 'Desarrollo de Liderazgo',
-    description: 'Formamos líderes que inspiran y transforman equipos de alto rendimiento'
+    description: 'Formamos líderes que inspiran y transforman equipos de alto rendimiento.'
   }
 ]
 
@@ -152,22 +152,22 @@ const personasServices = [
   {
     icon: '🎯',
     title: 'Mentorías Personalizadas',
-    description: 'Acompañamiento 1:1 con expertos que te guían en tu camino profesional'
+    description: 'Acompañamiento 1:1 con expertos que te guían para impulsar tu camino profesional.'
   },
   {
     icon: '💼',
     title: 'Coaching Ejecutivo',
-    description: 'Desarrollo de habilidades de liderazgo y gestión para potenciar tu carrera'
+    description: 'Desarrollo de habilidades de liderazgo y gestión para potenciar tu carrera.'
   },
   {
     icon: '🗺️',
     title: 'Plan de Carrera Estratégico',
-    description: 'Diseñamos juntos tu roadmap profesional con objetivos claros y alcanzables'
+    description: 'Diseñamos juntos tu roadmap profesional con objetivos claros y alcanzables.'
   },
   {
     icon: '💬',
     title: 'Preparación para Entrevistas',
-    description: 'Te preparamos para destacar en tus próximos desafíos profesionales'
+    description: 'Te preparamos para destacar en tus próximos desafíos profesionales, en castellano e inglés'
   },
   {
     icon: '🤝',

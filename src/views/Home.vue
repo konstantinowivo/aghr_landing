@@ -5,7 +5,7 @@
       :logo="logoImage"
       logo-alt="AGHR Logo"
       pretitle="AGHR Mentoring & HR"
-      title="Potenciá tu carrera, amplificá tu marca, conectá con el éxito"
+      title="Potenciá tu carrera, amplificá tu marca, conectá con el mejor talento"
       :background-image="heroImage"
       :overlay="true"
       :overlay-opacity="0.3"
