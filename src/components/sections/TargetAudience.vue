@@ -59,7 +59,7 @@
 
               <div class="cta-section">
                 <h4 class="cta-title">¿Listo para transformar tu organización?</h4>
-                <button class="cta-button" @click="$emit('empresas-cta')">
+                <button class="cta-button" @click="handleEmpresas">
                   Agendar consulta gratuita
                 </button>
               </div>
@@ -92,7 +92,7 @@
 
               <div class="cta-section">
                 <h4 class="cta-title">¿Listo para impulsar tu carrera?</h4>
-                <button class="cta-button" @click="$emit('personas-cta')">
+                <button class="cta-button" @click="handlePersonas">
                   Comenzar ahora
                 </button>
               </div>
@@ -110,8 +110,28 @@ import { ref } from 'vue'
 // Estado del tab activo
 const activeTab = ref('empresas')
 
-// Emit events
-defineEmits(['empresas-cta', 'personas-cta'])
+// Props para configurar el comportamiento de los botones
+const props = defineProps({
+  // Acción del CTA: 'scroll' para desplazarse a una sección, 'url' para abrir un enlace
+  ctaAction: {
+    type: String,
+    default: 'scroll',
+    validator: (value) => ['scroll', 'url'].includes(value)
+  },
+  // Selector del elemento al que hacer scroll (por defecto, sección de contacto)
+  ctaScroll: {
+    type: String,
+    default: '#contact'
+  },
+  // URL a abrir si ctaAction es 'url'
+  ctaUrl: {
+    type: String,
+    default: ''
+  }
+})
+
+// Emit events para tracking/analytics (opcional)
+const emit = defineEmits(['empresas-click', 'personas-click'])
 
 // Servicios para Empresas
 const empresasServices = [
@@ -180,6 +200,35 @@ const personasServices = [
     description: 'Potenciamos tu marca personal para atraer las mejores oportunidades.'
   }
 ]
+
+// Manejador de acciones para empresas
+const handleEmpresas = () => {
+  emit('empresas-click')
+  handleCtaAction()
+}
+
+// Manejador de acciones para personas
+const handlePersonas = () => {
+  emit('personas-click')
+  handleCtaAction()
+}
+
+// Lógica centralizada para manejar acciones CTA
+const handleCtaAction = () => {
+  if (props.ctaAction === 'scroll') {
+    setTimeout(() => {
+      const element = document.querySelector(props.ctaScroll)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      } else {
+        console.warn(`Elemento no encontrado: ${props.ctaScroll}`)
+      }
+    }, 100)
+  } 
+  else if (props.ctaAction === 'url' && props.ctaUrl) {
+    window.open(props.ctaUrl, '_blank')
+  }
+}
 </script>
 
 <style scoped>

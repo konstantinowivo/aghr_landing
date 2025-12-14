@@ -99,7 +99,11 @@ const props = defineProps({
   },
   primaryButtonUrl: {
     type: String,
-    default: ''
+    default: '#'
+  },
+  primaryButtonScroll: {
+    type: String,
+    default: '#services'
   },
   secondaryButtonScroll: {
     type: String,
@@ -168,7 +172,20 @@ const overlayStyles = computed(() => {
 const handlePrimaryAction = () => {
   emit('primary-click')
   
-  if (props.primaryButtonUrl) {
+  // Primero intenta hacer scroll
+  if (props.primaryButtonScroll) {
+    // Usar setTimeout para asegurar que el DOM está listo
+    setTimeout(() => {
+      const element = document.querySelector(props.primaryButtonScroll)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      } else {
+        console.warn(`No se encontró el elemento: ${props.primaryButtonScroll}`)
+      }
+    }, 100)
+  } 
+  // Si no hay scroll, intenta abrir URL
+  else if (props.primaryButtonUrl) {
     window.open(props.primaryButtonUrl, '_blank')
   }
 }

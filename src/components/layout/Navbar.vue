@@ -35,33 +35,44 @@
           </slot>
         </div>
 
-        <!-- Mobile Toggle -->
+        <!-- Mobile Toggle - Minimalista -->
         <button 
           class="navbar-toggle"
+          :class="{ 'navbar-toggle--active': isMobileMenuOpen }"
           @click="toggleMobileMenu"
           aria-label="Toggle menu"
         >
-          <span class="toggle-bar"></span>
-          <span class="toggle-bar"></span>
-          <span class="toggle-bar"></span>
+          <span class="toggle-bar toggle-bar--top"></span>
+          <span class="toggle-bar toggle-bar--middle"></span>
+          <span class="toggle-bar toggle-bar--bottom"></span>
         </button>
       </div>
 
-      <!-- Mobile Menu -->
-      <transition name="slide">
+      <!-- Mobile Menu - Minimalista y limpio -->
+      <transition name="slideDown">
         <div v-if="isMobileMenuOpen" class="navbar-mobile">
-          <a 
-            v-for="(item, index) in navItems" 
-            :key="index"
-            @click.prevent="handleMobileNavClick(item)"
-            :class="['mobile-nav-link', { 'mobile-nav-link--active': activeSection === item.section }]"
-          >
-            {{ item.label }}
-          </a>
-          <div class="mobile-cta">
-            <button class="cta-button" @click="handleMobileCTA">
-              Agendar entrevista
-            </button>
+          <div class="mobile-menu-wrapper">
+            <!-- Navigation Links Mobile -->
+            <div class="mobile-nav-container">
+              <a 
+                v-for="(item, index) in navItems" 
+                :key="index"
+                @click.prevent="handleMobileNavClick(item)"
+                :class="['mobile-nav-link', { 'mobile-nav-link--active': activeSection === item.section }]"
+              >
+                {{ item.label }}
+              </a>
+            </div>
+
+            <!-- Divider -->
+            <div class="mobile-divider"></div>
+
+            <!-- CTA Button Mobile -->
+            <div class="mobile-cta">
+              <button class="cta-button cta-button--mobile" @click="handleMobileCTA">
+                Agendar entrevista
+              </button>
+            </div>
           </div>
         </div>
       </transition>
@@ -70,7 +81,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 const props = defineProps({
   heroRef: Object,
@@ -93,7 +104,7 @@ const props = defineProps({
 const emit = defineEmits(['nav-click', 'cta-click'])
 
 const isMobileMenuOpen = ref(false)
-const activeSection = ref('hero')  // ← Estado local para la sección activa
+const activeSection = ref('hero')
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value
@@ -111,7 +122,7 @@ const scrollToSection = (section) => {
   const targetRef = refMap[section]
   if (targetRef?.value) {
     targetRef.value.scrollIntoView({ behavior: 'smooth' })
-    activeSection.value = section  // ← Actualizar la sección activa
+    activeSection.value = section
   }
 }
 
@@ -134,6 +145,22 @@ const handleMobileCTA = () => {
   isMobileMenuOpen.value = false
   emit('cta-click')
 }
+
+// ✅ Cerrar menú al cambiar resolución
+const handleWindowResize = () => {
+  // Si el ancho supera el breakpoint (968px), cerrar el menú
+  if (window.innerWidth > 968) {
+    isMobileMenuOpen.value = false
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('resize', handleWindowResize)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleWindowResize)
+})
 </script>
 
 <style scoped>
@@ -276,13 +303,13 @@ const handleMobileCTA = () => {
   transform: translateY(0);
 }
 
-/* Mobile Toggle */
+/* Mobile Toggle - Minimalista */
 .navbar-toggle {
   display: none;
   flex-direction: column;
   justify-content: space-between;
-  width: 1.5rem;
-  height: 1.25rem;
+  width: 24px;
+  height: 18px;
   padding: 0;
   background: transparent;
   border: none;
@@ -293,64 +320,100 @@ const handleMobileCTA = () => {
   width: 100%;
   height: 2px;
   background-color: #111827;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 2px;
+  transform-origin: center;
 }
 
-/* Mobile Menu */
+/* Animación del toggle cuando está activo */
+.navbar-toggle--active .toggle-bar--top {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.navbar-toggle--active .toggle-bar--middle {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.navbar-toggle--active .toggle-bar--bottom {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Mobile Menu - Minimalista */
 .navbar-mobile {
   display: flex;
   flex-direction: column;
-  padding: 1.5rem 0;
+  padding: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.08);
   background: white;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+
+.mobile-menu-wrapper {
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-nav-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 .mobile-nav-link {
-  padding: 0.875rem 1rem;
+  padding: 1rem 1.5rem;
   font-size: 1rem;
   font-weight: 500;
   color: #6b7280;
   text-decoration: none;
-  border-radius: 8px;
+  border-left: 3px solid transparent;
   transition: all 0.3s ease;
   cursor: pointer;
+  display: block;
 }
 
 .mobile-nav-link:hover {
-  background-color: #f3f4f6;
   color: #667eea;
+  background-color: rgba(102, 126, 234, 0.05);
 }
 
 .mobile-nav-link--active {
   color: #667eea;
   font-weight: 600;
-  background-color: #f0f2ff;
+  background-color: rgba(102, 126, 234, 0.08);
+  border-left-color: #667eea;
+}
+
+.mobile-divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.08);
+  margin: 0.5rem 0;
 }
 
 .mobile-cta {
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 1rem 1.5rem 0;
 }
 
-.mobile-cta .cta-button {
+.cta-button--mobile {
   width: 100%;
   padding: 1rem;
+  font-size: 1rem;
 }
 
-/* Slide Transition */
-.slide-enter-active,
-.slide-leave-active {
-  transition: all 0.3s ease;
+/* Slide Down Transition */
+.slideDown-enter-active,
+.slideDown-leave-active {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.slide-enter-from {
+.slideDown-enter-from {
   opacity: 0;
   transform: translateY(-10px);
 }
 
-.slide-leave-to {
+.slideDown-leave-to {
   opacity: 0;
   transform: translateY(-10px);
 }
@@ -386,6 +449,19 @@ const handleMobileCTA = () => {
   .navbar-content {
     gap: 1rem;
   }
+
+  .toggle-bar {
+    height: 2.5px;
+  }
+
+  .mobile-nav-link {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .mobile-cta {
+    padding: 1rem 1.5rem 0;
+  }
 }
 
 @media (max-width: 480px) {
@@ -395,6 +471,37 @@ const handleMobileCTA = () => {
 
   .logo-image {
     height: 35px;
+  }
+
+  .navbar-toggle {
+    width: 22px;
+    height: 16px;
+  }
+
+  .navbar-toggle--active .toggle-bar--top {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .navbar-toggle--active .toggle-bar--bottom {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .mobile-menu-wrapper {
+    padding: 1rem 0;
+  }
+
+  .mobile-nav-link {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .mobile-cta {
+    padding: 0.75rem 1.5rem 0;
+  }
+
+  .cta-button--mobile {
+    padding: 0.875rem;
+    font-size: 0.95rem;
   }
 }
 </style>
