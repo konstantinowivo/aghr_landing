@@ -104,18 +104,12 @@ const props = defineProps({
   founder: {
     type: Object,
     default: () => ({
-      name: 'Andrea Gasparetti',
-      title: 'Fundadora & Consultora Senior en RH',
+      name: '',
+      title: '',
       image: andreaPhoto, // ← FOTO INTEGRADA
       bio: [
-        'Con más de 15 años de experiencia en recursos humanos y desarrollo organizacional, fundé AGHR con la misión de transformar la manera en que empresas y profesionales abordan el talento.',
-        'Mi pasión es conectar a las personas con su máximo potencial, ya sea a través de procesos de selección estratégicos, programas de desarrollo o mentoría personalizada.'
       ],
       credentials: [
-        'Licenciada en Recursos Humanos',
-        '15+ años de experiencia en el sector',
-        'Certificada en Coaching Ejecutivo',
-        '100+ empresas asesoradas'
       ]
     })
   },

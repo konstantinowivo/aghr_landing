@@ -91,14 +91,15 @@ import ScrollToTop from '../components/ui/ScrollToTop.vue'
 // Importar imágenes
 import heroImage from '../assets/images/hero/hero_aghrimage.svg'
 import logoImage from '../assets/images/logo/aghr_logo.png'
+import andreaPhoto from '../assets/images/foto/ag_foto.png'
 
 // Datos de contacto centralizados
 const contactInfo = {
-  email: 'contacto@aghr.com',
-  phone: '+5493512345678',
-  phoneDisplay: '+54 9 351 234-5678',
-  whatsapp: '5493512345678',
-  location: 'Córdoba, Argentina'
+  email: 'andrea@aghr-consulting.com',
+  phone: '+5491164644626',
+  phoneDisplay: '+54 9 11 6464-4626',
+  whatsapp: '5491164644626',
+  location: 'Buenos Aires, Argentina'
 }
 
 // Redes sociales (actualizar con URLs reales)
@@ -112,23 +113,23 @@ const socialLinks = [
 const founderData = {
   name: 'Andrea Gasparetti',
   title: 'Fundadora & Consultora Senior en RH',
-  image: '', // Agregar URL de la imagen
+  image: andreaPhoto ,
   bio: [
-    'Con más de 15 años de experiencia en recursos humanos y desarrollo organizacional, fundé AGHR con la misión de transformar la manera en que empresas y profesionales abordan el talento.',
-    'Mi pasión es conectar a las personas con su máximo potencial, ya sea a través de procesos de selección estratégicos, programas de desarrollo o mentoría personalizada.'
+    'Con más de 15 años de experiencia, combinamos estrategia, cercanía y metodologías innovadoras para ofrecer soluciones de mentoring laboral y vocacional, búsqueda y selección de talento, evaluaciones psicotécnicas y capacitaciones. ',
+    'Nuestra propuesta se centra en la co-construcción del perfil profesional, el desarrollo de competencias y la alineación con la cultura organizacional, con procesos adaptados a cada necesidad y disponibles en español e inglés.'
   ],
   credentials: [
-    'Licenciada en Recursos Humanos',
-    '15+ años de experiencia en el sector',
-    'Certificada en Coaching Ejecutivo',
-    '100+ empresas asesoradas'
+    'Licenciada en Psicología | Univesidad del Salvador',
+    'Especialista en RRHH y Empleabilidad | Mentora Coach',
+    'Profesora de Recursos Humanos | Universidad de Palermo',
+    'Profesora de Coaching | Universidad del Salvador'
   ]
 }
 
 // Misión y Visión
-const missionText = 'Acompañar el crecimiento profesional y organizacional a través de soluciones personalizadas en recursos humanos, conectando el talento con las oportunidades que impulsan el éxito.'
+const missionText = 'Acompañar el crecimiento profesional y organizacional a través de soluciones a medida en recursos humanos, conectando el talento con las oportunidades que impulsan el éxito.'
 
-const visionText = 'Ser el referente en mentoría y recursos humanos en la región, reconocidos por nuestra capacidad de transformar carreras y organizaciones a través de estrategias innovadoras y centradas en las personas.'
+const visionText = 'Ser referentes en mentoría y recursos humanos en la región, reconocidos por nuestra capacidad de transformar carreras y organizaciones a través de estrategias innovadoras y centradas en las personas.'
 
 // Equipo (agregar miembros reales)
 const teamData = [
