@@ -19,7 +19,7 @@
           <li v-for="(item, index) in navItems" :key="index">
             <a 
               @click.prevent="handleNavClick(item)"
-              :class="['nav-link', { 'nav-link--active': item.active }]"
+              :class="['nav-link', { 'nav-link--active': activeSection === item.section }]"
             >
               {{ item.label }}
             </a>
@@ -53,8 +53,8 @@
           <a 
             v-for="(item, index) in navItems" 
             :key="index"
-            :class="['mobile-nav-link', { 'mobile-nav-link--active': item.active }]"
             @click.prevent="handleMobileNavClick(item)"
+            :class="['mobile-nav-link', { 'mobile-nav-link--active': activeSection === item.section }]"
           >
             {{ item.label }}
           </a>
@@ -81,11 +81,11 @@ const props = defineProps({
   navItems: {
     type: Array,
     default: () => [
-      { label: 'Inicio', section: 'hero', active: true },
-      { label: 'Servicios', section: 'services', active: false },
-      { label: 'Nosotros', section: 'about', active: false },
-      { label: 'Testimonios', section: 'testimonials', active: false },
-      { label: 'Contacto', section: 'contact', active: false }
+      { label: 'Inicio', section: 'hero' },
+      { label: 'Servicios', section: 'services' },
+      { label: 'Nosotros', section: 'about' },
+      { label: 'Testimonios', section: 'testimonials' },
+      { label: 'Contacto', section: 'contact' }
     ]
   }
 })
@@ -93,6 +93,7 @@ const props = defineProps({
 const emit = defineEmits(['nav-click', 'cta-click'])
 
 const isMobileMenuOpen = ref(false)
+const activeSection = ref('hero')  // ← Estado local para la sección activa
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value
@@ -110,6 +111,7 @@ const scrollToSection = (section) => {
   const targetRef = refMap[section]
   if (targetRef?.value) {
     targetRef.value.scrollIntoView({ behavior: 'smooth' })
+    activeSection.value = section  // ← Actualizar la sección activa
   }
 }
 

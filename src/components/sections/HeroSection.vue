@@ -260,13 +260,13 @@ const handleSecondaryAction = () => {
 
 /* Logo */
 .hero-logo {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
   animation: fadeInUp 1s ease-out;
   animation-fill-mode: both;
 }
 
 .logo-image {
-  max-width: 120px;
+  max-width: 110px;
   height: auto;
   transition: all 0.3s ease;
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));

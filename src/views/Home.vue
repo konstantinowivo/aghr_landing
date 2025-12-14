@@ -24,6 +24,9 @@
     <section ref="contactRef" id="contact" class="section-wrapper">
       <ContactForm />
     </section>
+
+    <!-- Floating Buttons (WhatsApp + Scroll to Top) -->
+    <FloatingButtons />
   </div>
 </template>
 
@@ -34,6 +37,7 @@ import TargetAudience from '../components/sections/TargetAudience.vue'
 import AboutUs from '../components/sections/AboutUs.vue'
 import Testimonials from '../components/sections/Testimonials.vue'
 import ContactForm from '../components/sections/ContactForm.vue'
+import FloatingButtons from '../components/layout/FloatingButtons.vue'
 
 // Crear refs para cada sección
 const heroRef = ref(null)
