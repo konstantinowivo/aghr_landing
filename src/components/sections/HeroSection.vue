@@ -56,11 +56,22 @@
 <script setup>
 import { computed } from 'vue'
 
+// 🔧 IMPORTAR LA IMAGEN CORRECTAMENTE
+import aghrLogo from '../../assets/images/logo/aghr_logo.png'
+import heroBackground from '../../assets/images/hero/hero_aghrimage.svg'
 const props = defineProps({
   // Contenido
   title: {
     type: String,
     default: 'Potenciá tu carrera, amplificá tu marca y conectá con el mejor talento.'
+  },
+  pretitle: {
+    type: String,
+    default: ''
+  },
+  subtitle: {
+    type: String,
+    default: ''
   },
   brandName: {
     type: String,
@@ -70,7 +81,7 @@ const props = defineProps({
   // Logo
   logo: {
     type: String,
-    default: './src/assets/images/logo/aghr_logo.png'
+    default: () => aghrLogo  // ✅ Usar imagen importada
   },
   logoAlt: {
     type: String,
@@ -103,7 +114,7 @@ const props = defineProps({
   },
   backgroundImage: {
     type: String,
-    default: ''
+    default: () => heroBackground  // ✅ Usar imagen importada
   },
   overlay: {
     type: Boolean,
@@ -136,8 +147,12 @@ const heroClasses = computed(() => {
 const heroStyles = computed(() => {
   const styles = {}
   
+  // ✅ Verificar que backgroundImage existe antes de usarlo
   if (props.backgroundImage) {
     styles.backgroundImage = `url(${props.backgroundImage})`
+    styles.backgroundSize = 'cover'
+    styles.backgroundPosition = 'center'
+    styles.backgroundRepeat = 'no-repeat'
   }
   
   return styles
@@ -178,9 +193,6 @@ const handleSecondaryAction = () => {
   align-items: center;
   justify-content: center;
   padding: 2rem 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   overflow: hidden;
 }
 
@@ -210,6 +222,9 @@ const handleSecondaryAction = () => {
 
 .hero--has-image {
   color: white;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* Overlay */
@@ -243,7 +258,7 @@ const handleSecondaryAction = () => {
   gap: 1.5rem;
 }
 
-/* Logo - SIN FILTRO = COLORES ORIGINALES */
+/* Logo */
 .hero-logo {
   margin-bottom: 0.5rem;
   animation: fadeInUp 1s ease-out;
@@ -251,7 +266,7 @@ const handleSecondaryAction = () => {
 }
 
 .logo-image {
-  max-width: 100px;
+  max-width: 120px;
   height: auto;
   transition: all 0.3s ease;
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
@@ -278,7 +293,7 @@ const handleSecondaryAction = () => {
   color: #111827;
 }
 
-/* Pretitle - CON SOMBRA */
+/* Pretitle */
 .hero-pretitle {
   font-size: 1.25rem;
   font-weight: 600;
@@ -305,7 +320,7 @@ const handleSecondaryAction = () => {
   text-shadow: none;
 }
 
-/* Title - CON SOMBRA */
+/* Title */
 .hero-title {
   font-size: 3.5rem;
   font-weight: 700;
@@ -331,7 +346,7 @@ const handleSecondaryAction = () => {
   text-shadow: none;
 }
 
-/* Subtitle - CON SOMBRA */
+/* Subtitle */
 .hero-subtitle {
   font-size: 1.25rem;
   line-height: 1.8;
@@ -368,7 +383,7 @@ const handleSecondaryAction = () => {
   animation-fill-mode: both;
 }
 
-/* Animación fade-in con movimiento desde abajo */
+/* Animaciones */
 @keyframes fadeInUp {
   from {
     opacity: 0;
