@@ -1,6 +1,13 @@
 <template>
   <div id="app">
-    <Navbar :nav-items="navItems" @nav-click="handleNavigation">
+    <Navbar 
+      :heroRef="heroRef"
+      :servicesRef="servicesRef"
+      :aboutRef="aboutRef"
+      :testimonialsRef="testimonialsRef"
+      :contactRef="contactRef"
+      @cta-click="handleCtaClick"
+    >
       <template #cta>
         <!-- Botones de Redes Sociales -->
         <div class="social-buttons">
@@ -44,7 +51,10 @@
     </Navbar>
 
     <main>
-      <Home />
+      <Home 
+        ref="homeRef"
+        @refs-ready="handleHomeRefsReady"
+      />
     </main>
 
     <footer class="footer">
@@ -62,28 +72,28 @@ import { ref } from 'vue'
 import Navbar from './components/layout/Navbar.vue'
 import Home from './views/Home.vue'
 
-const navItems = ref([
-  { label: 'Inicio', href: '#home', active: true },
-  { label: 'Servicios', href: '#services', active: false },
-  { label: 'Nosotros', href: '#about', active: false },
-  { label: 'Testimonios', href: '#testimonials', active: false },
-  { label: 'Contacto', href: '#contact', active: false }
-])
+// Refs para cada sección
+const heroRef = ref(null)
+const servicesRef = ref(null)
+const aboutRef = ref(null)
+const testimonialsRef = ref(null)
+const contactRef = ref(null)
+const homeRef = ref(null)
 
-const handleNavigation = (item) => {
-  console.log('Navegando a:', item.label)
-  
-  // Actualizar item activo
-  navItems.value.forEach(navItem => {
-    navItem.active = navItem.label === item.label
-  })
-  
-  // Smooth scroll a la sección
-  if (item.href.startsWith('#')) {
-    const element = document.querySelector(item.href)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
+// Cuando el componente Home está listo, obtener las refs de sus secciones
+const handleHomeRefsReady = (refs) => {
+  heroRef.value = refs.hero
+  servicesRef.value = refs.services
+  aboutRef.value = refs.about
+  testimonialsRef.value = refs.testimonials
+  contactRef.value = refs.contact
+}
+
+// Manejar clic en el botón CTA
+const handleCtaClick = () => {
+  // Desplazarse a la sección de contacto
+  if (contactRef.value) {
+    contactRef.value.scrollIntoView({ behavior: 'smooth' })
   }
 }
 </script>

@@ -46,8 +46,8 @@
             </div>
           </div>
 
-          <!-- Rating (optional) -->
-          <div v-if="testimonial.rating" class="rating">
+          <!-- Rating -->
+          <div class="rating">
             <span 
               v-for="star in 5" 
               :key="star"
@@ -63,8 +63,9 @@
       <!-- CTA Section -->
       <div class="testimonials-cta">
         <h3 class="cta-title">¿Querés ser parte de estas historias de éxito?</h3>
+        <p class="cta-description">Contáctanos hoy y comencemos tu transformación profesional</p>
         <slot name="cta">
-          <button class="cta-button">
+          <button class="cta-button" @click="$emit('cta-click')">
             Agendá tu primera reunión
           </button>
         </slot>
@@ -74,9 +75,9 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { defineEmits, defineProps } from 'vue'
 
-const props = defineProps({
+defineProps({
   testimonials: {
     type: Array,
     default: () => [
@@ -106,28 +107,12 @@ const props = defineProps({
         avatar: '',
         rating: 5,
         featured: false
-      },
-      {
-        text: 'Como freelancer, el programa de marca personal me ayudó a posicionarme como experto en mi industria. Ahora tengo más clientes y mejores proyectos.',
-        author: 'Javier Ruiz',
-        position: 'Consultor Independiente',
-        company: '',
-        avatar: '',
-        rating: 5,
-        featured: false
-      },
-      {
-        text: 'El Staff Selection Training me dio las herramientas que necesitaba para hacer la transición a recursos humanos. Hoy trabajo en una empresa multinacional gracias a lo que aprendí.',
-        author: 'Sofía Morales',
-        position: 'HR Business Partner',
-        company: 'Global Corp',
-        avatar: '',
-        rating: 5,
-        featured: false
       }
     ]
   }
-});
+})
+
+defineEmits(['cta-click'])
 
 const getInitials = (name) => {
   return name
@@ -135,8 +120,8 @@ const getInitials = (name) => {
     .map(word => word[0])
     .join('')
     .toUpperCase()
-    .slice(0, 2);
-};
+    .slice(0, 2)
+}
 </script>
 
 <style scoped>
@@ -155,6 +140,7 @@ const getInitials = (name) => {
 .header {
   text-align: center;
   margin-bottom: 4rem;
+  animation: fadeInDown 1s ease-out;
 }
 
 .title {
@@ -162,6 +148,7 @@ const getInitials = (name) => {
   font-weight: 700;
   color: #1a202c;
   margin-bottom: 1rem;
+  letter-spacing: -0.025em;
 }
 
 .subtitle {
@@ -174,39 +161,51 @@ const getInitials = (name) => {
 /* Testimonials Grid */
 .testimonials-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   margin-bottom: 4rem;
+  animation: fadeInUp 1s ease-out 0.2s both;
 }
 
 .testimonial-card {
   background: white;
-  padding: 2rem;
-  border-radius: 1rem;
+  padding: 2.5rem;
+  border-radius: 1.25rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 2px solid #f7fafc;
-  transition: all 0.3s ease;
+  border: 2px solid #f0f4ff;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .testimonial-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(102, 126, 234, 0.15);
   border-color: #667eea;
 }
 
 .testimonial-card--featured {
   border-color: #667eea;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.12);
+}
+
+.testimonial-card--featured:hover {
+  box-shadow: 0 12px 50px rgba(102, 126, 234, 0.25);
 }
 
 /* Quote Icon */
 .quote-icon {
   color: #667eea;
-  opacity: 0.3;
-  margin-bottom: 1rem;
+  opacity: 0.4;
+  margin-bottom: 1.5rem;
+  transition: opacity 0.3s ease;
+}
+
+.testimonial-card:hover .quote-icon {
+  opacity: 0.6;
 }
 
 /* Testimonial Text */
@@ -217,6 +216,7 @@ const getInitials = (name) => {
   margin-bottom: 1.5rem;
   flex-grow: 1;
   font-style: italic;
+  font-weight: 500;
 }
 
 /* Author Info */
@@ -224,7 +224,9 @@ const getInitials = (name) => {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #f0f4ff;
 }
 
 .author-avatar {
@@ -232,16 +234,21 @@ const getInitials = (name) => {
 }
 
 .avatar-image {
-  width: 50px;
-  height: 50px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #667eea;
+  border: 3px solid #667eea;
+  transition: transform 0.3s ease;
+}
+
+.testimonial-card:hover .avatar-image {
+  transform: scale(1.08);
 }
 
 .avatar-placeholder {
-  width: 50px;
-  height: 50px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -249,7 +256,8 @@ const getInitials = (name) => {
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 1.125rem;
+  font-size: 1.25rem;
+  flex-shrink: 0;
 }
 
 .author-details {
@@ -257,9 +265,9 @@ const getInitials = (name) => {
 }
 
 .author-name {
-  font-size: 1rem;
+  font-size: 1.0625rem;
   font-weight: 700;
-  color: #2d3748;
+  color: #1a202c;
   margin: 0 0 0.25rem 0;
 }
 
@@ -271,7 +279,7 @@ const getInitials = (name) => {
 }
 
 .author-company {
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
   color: #718096;
   margin: 0.25rem 0 0 0;
 }
@@ -280,7 +288,6 @@ const getInitials = (name) => {
 .rating {
   display: flex;
   gap: 0.25rem;
-  margin-top: 1rem;
 }
 
 .star {
@@ -296,17 +303,28 @@ const getInitials = (name) => {
 /* CTA Section */
 .testimonials-cta {
   text-align: center;
-  padding: 3rem;
+  padding: 3.5rem 3rem;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 1.5rem;
   margin-top: 3rem;
+  animation: fadeInUp 1s ease-out 0.4s both;
 }
 
 .cta-title {
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: 700;
   color: white;
-  margin-bottom: 1.5rem;
+  margin: 0 0 0.75rem 0;
+  letter-spacing: -0.025em;
+}
+
+.cta-description {
+  font-size: 1.0625rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 1.5rem 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .cta-button {
@@ -314,39 +332,135 @@ const getInitials = (name) => {
   color: #667eea;
   padding: 1rem 2.5rem;
   border-radius: 0.75rem;
-  font-size: 1.125rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  letter-spacing: 0.025em;
 }
 
 .cta-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.cta-button:active {
+  transform: translateY(0);
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+  .testimonials-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
+  .testimonials {
+    padding: 3rem 0;
+  }
+
   .title {
     font-size: 2rem;
   }
 
   .testimonials-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
-  .testimonials {
-    padding: 3rem 0;
+  .testimonial-card {
+    padding: 2rem;
   }
 
   .cta-title {
     font-size: 1.5rem;
   }
 
+  .cta-description {
+    font-size: 1rem;
+  }
+
   .testimonials-cta {
-    padding: 2rem;
+    padding: 2.5rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .testimonials {
+    padding: 2rem 0;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .testimonial-card {
+    padding: 1.5rem;
+  }
+
+  .author-info {
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .avatar-placeholder {
+    width: 48px;
+    height: 48px;
+    font-size: 1rem;
+  }
+
+  .avatar-image {
+    width: 48px;
+    height: 48px;
+  }
+
+  .author-name {
+    font-size: 1rem;
+  }
+
+  .testimonial-text {
+    font-size: 0.9375rem;
+  }
+
+  .cta-title {
+    font-size: 1.375rem;
+    margin-bottom: 1rem;
+  }
+
+  .cta-button {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
   }
 }
 </style>

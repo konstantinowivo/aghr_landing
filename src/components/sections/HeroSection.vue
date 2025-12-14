@@ -60,39 +60,31 @@ const props = defineProps({
   // Contenido
   title: {
     type: String,
-    default: 'Bienvenido a tu aplicación'
-  },
-  subtitle: {
-    type: String,
-    default: ''
-  },
-  pretitle: {
-    type: String,
-    default: ''
+    default: 'Potenciá tu carrera, amplificá tu marca y conectá con el mejor talento.'
   },
   brandName: {
     type: String,
-    default: ''
+    default: 'Mentoring & HR Consulting'
   },
   
   // Logo
   logo: {
     type: String,
-    default: ''
+    default: './src/assets/images/logo/aghr_logo.png'
   },
   logoAlt: {
     type: String,
-    default: 'Logo'
+    default: 'AGHR Logo'
   },
   
   // Botones
   primaryButtonText: {
     type: String,
-    default: 'Comenzar'
+    default: 'Conoce Nuestros Servicios'
   },
   secondaryButtonText: {
     type: String,
-    default: ''
+    default: 'Agendar Consulta'
   },
   primaryButtonUrl: {
     type: String,
@@ -100,13 +92,13 @@ const props = defineProps({
   },
   secondaryButtonScroll: {
     type: String,
-    default: ''
+    default: '#contact'
   },
   
   // Estilos
   variant: {
     type: String,
-    default: 'default',
+    default: 'gradient',
     validator: (value) => ['default', 'gradient', 'dark', 'image'].includes(value)
   },
   backgroundImage: {
@@ -115,11 +107,11 @@ const props = defineProps({
   },
   overlay: {
     type: Boolean,
-    default: false
+    default: true
   },
   overlayOpacity: {
     type: Number,
-    default: 0.5,
+    default: 0.4,
     validator: (value) => value >= 0 && value <= 1
   },
   fullHeight: {
@@ -185,7 +177,7 @@ const handleSecondaryAction = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: -1rem 0;
+  padding: 2rem 0;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -238,6 +230,7 @@ const handleSecondaryAction = () => {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
+  width: 100%;
 }
 
 /* Content */
@@ -258,10 +251,14 @@ const handleSecondaryAction = () => {
 }
 
 .logo-image {
-  max-width: 120px;
+  max-width: 100px;
   height: auto;
   transition: all 0.3s ease;
-  /* Sin filtro - Logo en colores originales */
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+}
+
+.logo-image:hover {
+  transform: scale(1.05);
 }
 
 /* Brand Name */
@@ -283,15 +280,15 @@ const handleSecondaryAction = () => {
 
 /* Pretitle - CON SOMBRA */
 .hero-pretitle {
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #667eea;
+  color: #e0e7ff;
   margin: 0;
   animation: fadeInUp 1s ease-out 0.4s; 
   animation-fill-mode: both;
-  font-family: poppins, sans-serif;
+  font-family: 'Poppins', sans-serif;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }
 
@@ -299,8 +296,13 @@ const handleSecondaryAction = () => {
 .hero--dark .hero-pretitle,
 .hero--image .hero-pretitle,
 .hero--has-image .hero-pretitle {
-  color: white;
+  color: #e0e7ff;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.hero--default .hero-pretitle {
+  color: #667eea;
+  text-shadow: none;
 }
 
 /* Title - CON SOMBRA */
@@ -331,9 +333,9 @@ const handleSecondaryAction = () => {
 
 /* Subtitle - CON SOMBRA */
 .hero-subtitle {
-  font-size: 1.3rem;
-  line-height: 1.6;
-  color: #6b7280;
+  font-size: 1.25rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.9);
   margin: 0;
   max-width: 42rem;
   font-weight: 400;
@@ -346,15 +348,20 @@ const handleSecondaryAction = () => {
 .hero--dark .hero-subtitle,
 .hero--image .hero-subtitle,
 .hero--has-image .hero-subtitle {
-  color: white;
+  color: rgba(255, 255, 255, 0.9);
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.hero--default .hero-subtitle {
+  color: #6b7280;
+  text-shadow: none;
 }
 
 /* Actions */
 .hero-actions {
   display: flex;
-  gap: 1rem;
-  margin-top: 1.5rem;
+  gap: 1.5rem;
+  margin-top: 2rem;
   flex-wrap: wrap;
   justify-content: center;
   animation: fadeInUp 1s ease-out 1s;
@@ -375,7 +382,7 @@ const handleSecondaryAction = () => {
 
 /* Botones */
 .btn {
-  padding: 0.875rem 1.75rem;
+  padding: 1rem 2rem;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
@@ -390,14 +397,15 @@ const handleSecondaryAction = () => {
 
 .btn-primary {
   background: white;
-  color: #111827;
+  color: #667eea;
+  font-weight: 700;
 }
 
 .btn-primary:hover {
   background: transparent;
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
 }
 
 .btn-primary:active {
@@ -407,13 +415,15 @@ const handleSecondaryAction = () => {
 .btn-secondary {
   background: transparent;
   color: white;
+  border-color: white;
 }
 
 .btn-secondary:hover {
-  background: white;
-  color: #111827;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2);
+  border-color: white;
 }
 
 .btn-secondary:active {
@@ -438,7 +448,11 @@ const handleSecondaryAction = () => {
 /* Responsive */
 @media (max-width: 768px) {
   .hero {
-    padding: 4rem 0;
+    padding: 3rem 0;
+  }
+
+  .hero--full-height {
+    min-height: auto;
   }
 
   .hero .container {
@@ -454,6 +468,10 @@ const handleSecondaryAction = () => {
     font-size: 1rem;
   }
 
+  .hero-pretitle {
+    font-size: 1.125rem;
+  }
+
   .hero-title {
     font-size: 2.5rem;
   }
@@ -464,12 +482,24 @@ const handleSecondaryAction = () => {
   
   .hero-media {
     max-width: 100%;
+    width: 100%;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .btn {
+    width: 100%;
   }
 }
 
 @media (max-width: 480px) {
   .hero {
-    padding: 3rem 0;
+    padding: 2rem 0;
+    min-height: auto;
   }
 
   .logo-image {
@@ -478,6 +508,10 @@ const handleSecondaryAction = () => {
 
   .hero-brand-name {
     font-size: 0.9375rem;
+  }
+
+  .hero-pretitle {
+    font-size: 1rem;
   }
 
   .hero-title {
@@ -491,11 +525,12 @@ const handleSecondaryAction = () => {
   .hero-actions {
     flex-direction: column;
     width: 100%;
+    gap: 1rem;
   }
 
   .btn {
     width: 100%;
-    padding: 1rem;
+    padding: 0.875rem 1.5rem;
   }
 }
 </style>

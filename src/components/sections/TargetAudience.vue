@@ -167,17 +167,17 @@ const personasServices = [
   {
     icon: '💬',
     title: 'Preparación para Entrevistas',
-    description: 'Te preparamos para destacar en tus próximos desafíos profesionales, en castellano e inglés'
+    description: 'Te preparamos para destacar en tus próximos desafíos profesionales, en castellano e inglés.'
   },
   {
     icon: '🤝',
     title: 'Networking Profesional',
-    description: 'Construí conexiones valiosas que aceleran tu desarrollo'
+    description: 'Construí conexiones valiosas que aceleran tu desarrollo.'
   },
   {
     icon: '📝',
     title: 'Optimización de CV y LinkedIn',
-    description: 'Potenciamos tu marca personal para atraer las mejores oportunidades'
+    description: 'Potenciamos tu marca personal para atraer las mejores oportunidades.'
   }
 ]
 </script>

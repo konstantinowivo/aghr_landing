@@ -4,9 +4,9 @@
       <div class="navbar-content">
         <!-- Logo + Brand Name -->
         <div class="navbar-brand">
-          <a href="/" class="brand-link">
+          <a @click="handleLogoClick" class="brand-link">
             <img 
-              src="../../assets/images/logo/aghr_logo.png" 
+              src="/src/assets/images/logo/aghr_logo.png" 
               alt="AGHR Logo" 
               class="logo-image"
             >
@@ -18,9 +18,8 @@
         <ul class="navbar-nav">
           <li v-for="(item, index) in navItems" :key="index">
             <a 
-              :href="item.href"
-              :class="['nav-link', { 'nav-link--active': item.active }]"
               @click.prevent="handleNavClick(item)"
+              :class="['nav-link', { 'nav-link--active': item.active }]"
             >
               {{ item.label }}
             </a>
@@ -54,7 +53,6 @@
           <a 
             v-for="(item, index) in navItems" 
             :key="index"
-            :href="item.href"
             :class="['mobile-nav-link', { 'mobile-nav-link--active': item.active }]"
             @click.prevent="handleMobileNavClick(item)"
           >
@@ -75,14 +73,19 @@
 import { ref } from 'vue'
 
 const props = defineProps({
+  heroRef: Object,
+  servicesRef: Object,
+  aboutRef: Object,
+  testimonialsRef: Object,
+  contactRef: Object,
   navItems: {
     type: Array,
     default: () => [
-      { label: 'Inicio', href: '#home', active: true },
-      { label: 'Servicios', href: '#services', active: false },
-      { label: 'Nosotros', href: '#about', active: false },
-      { label: 'Testimonios', href: '#testimonials', active: false },
-      { label: 'Contacto', href: '#contact', active: false }
+      { label: 'Inicio', section: 'hero', active: true },
+      { label: 'Servicios', section: 'services', active: false },
+      { label: 'Nosotros', section: 'about', active: false },
+      { label: 'Testimonios', section: 'testimonials', active: false },
+      { label: 'Contacto', section: 'contact', active: false }
     ]
   }
 })
@@ -95,16 +98,29 @@ const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value
 }
 
-const handleNavClick = (item) => {
-  emit('nav-click', item)
-  
-  // Smooth scroll a la sección
-  if (item.href.startsWith('#')) {
-    const element = document.querySelector(item.href)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
-    }
+const scrollToSection = (section) => {
+  const refMap = {
+    hero: props.heroRef,
+    services: props.servicesRef,
+    about: props.aboutRef,
+    testimonials: props.testimonialsRef,
+    contact: props.contactRef
   }
+
+  const targetRef = refMap[section]
+  if (targetRef?.value) {
+    targetRef.value.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+
+const handleLogoClick = () => {
+  scrollToSection('hero')
+  isMobileMenuOpen.value = false
+}
+
+const handleNavClick = (item) => {
+  scrollToSection(item.section)
+  emit('nav-click', item)
 }
 
 const handleMobileNavClick = (item) => {
@@ -157,6 +173,7 @@ const handleMobileCTA = () => {
   gap: 1rem;
   text-decoration: none;
   transition: opacity 0.3s ease;
+  cursor: pointer;
 }
 
 .brand-link:hover {
@@ -197,6 +214,7 @@ const handleMobileCTA = () => {
   border-radius: 6px;
   transition: all 0.3s ease;
   position: relative;
+  cursor: pointer;
 }
 
 .nav-link::after {
@@ -294,6 +312,7 @@ const handleMobileCTA = () => {
   text-decoration: none;
   border-radius: 8px;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .mobile-nav-link:hover {

@@ -1,363 +1,76 @@
 <template>
   <div class="home">
     <!-- Hero Section -->
-    <HeroSection
-      :logo="logoImage"
-      logo-alt="AGHR Logo"
-      pretitle="AGHR Mentoring & HR"
-      title="Potenciá tu carrera, amplificá tu marca, conectá con el mejor talento"
-      :background-image="heroImage"
-      :overlay="true"
-      :overlay-opacity="0.3"
-      variant="image"
-      :full-height="true"
-    >
-      <template #actions>
-        <button class="btn-primary" @click="handleCTAClick">
-          Agendá una entrevista
-        </button>
-        <button class="btn-secondary" @click="handleLearnMore">
-          Saber más
-        </button>
-      </template>
-    </HeroSection>
-
-    <!-- Target Audience Section -->
-    <TargetAudience />
-
-    <!-- About Us Section -->
-    <AboutUs 
-      :founder="founderData"
-      :mission="missionText"
-      :vision="visionText"
-      :team="teamData"
-    />
-
-    <!-- Testimonials Section -->
-    <Testimonials :testimonials="testimonialsData">
-      <template #cta>
-        <button class="testimonial-cta-button" @click="handleCTAClick">
-          Agendá tu primera reunión
-        </button>
-      </template>
-    </Testimonials>
-
-    <!-- Contact Form Section -->
-    <ContactForm 
-      :contact-info="contactInfo"
-      :social-links="socialLinks"
-    />
-
-    <!-- Final CTA Section -->
-    <section class="cta-section">
-      <div class="container">
-        <div class="cta-content">
-          <h2 class="cta-title">¿Listo para impulsar tu crecimiento?</h2>
-          <p class="cta-subtitle">
-            Agendá una entrevista y descubrí cómo podemos ayudarte
-          </p>
-          <div class="cta-actions">
-            <button class="btn-primary" @click="handleSignUp">
-              Agendá tu entrevista
-            </button>
-            <button class="btn-secondary-cta" @click="handleContact">
-              Más información
-            </button>
-          </div>
-        </div>
-      </div>
+    <section ref="heroRef" id="home" class="section-wrapper">
+      <HeroSection />
     </section>
 
-    <!-- Floating Buttons -->
-    <WhatsAppButton 
-      :phone-number="contactInfo.whatsapp"
-      message="¡Hola! Me gustaría obtener más información sobre los servicios de AGHR."
-      tooltip-text="¿Necesitás ayuda?"
-    />
-    
-    <ScrollToTop />
+    <!-- Services Section (TargetAudience) -->
+    <section ref="servicesRef" id="services" class="section-wrapper">
+      <TargetAudience />
+    </section>
+
+    <!-- About Us Section -->
+    <section ref="aboutRef" id="about" class="section-wrapper">
+      <AboutUs />
+    </section>
+
+    <!-- Testimonials Section -->
+    <section ref="testimonialsRef" id="testimonials" class="section-wrapper">
+      <Testimonials />
+    </section>
+
+    <!-- Contact Section -->
+    <section ref="contactRef" id="contact" class="section-wrapper">
+      <ContactForm />
+    </section>
   </div>
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import HeroSection from '../components/sections/HeroSection.vue'
 import TargetAudience from '../components/sections/TargetAudience.vue'
 import AboutUs from '../components/sections/AboutUs.vue'
 import Testimonials from '../components/sections/Testimonials.vue'
 import ContactForm from '../components/sections/ContactForm.vue'
-import WhatsAppButton from '../components/ui/WhatsappButton.vue'
-import ScrollToTop from '../components/ui/ScrollToTop.vue'
 
-// Importar imágenes
-import heroImage from '../assets/images/hero/hero_aghrimage.svg'
-import logoImage from '../assets/images/logo/aghr_logo.png'
-import andreaPhoto from '../assets/images/foto/ag_foto.png'
+// Crear refs para cada sección
+const heroRef = ref(null)
+const servicesRef = ref(null)
+const aboutRef = ref(null)
+const testimonialsRef = ref(null)
+const contactRef = ref(null)
 
-// Datos de contacto centralizados
-const contactInfo = {
-  email: 'andrea@aghr-consulting.com',
-  phone: '+5491164644626',
-  phoneDisplay: '+54 9 11 6464-4626',
-  whatsapp: '5491164644626',
-  location: 'Buenos Aires, Argentina'
-}
+const emit = defineEmits(['refs-ready'])
 
-// Redes sociales (actualizar con URLs reales)
-const socialLinks = [
-  // { name: 'LinkedIn', url: 'https://linkedin.com/company/aghr', icon: null },
-  // { name: 'Instagram', url: 'https://instagram.com/aghr', icon: null },
-  // { name: 'Facebook', url: 'https://facebook.com/aghr', icon: null }
-]
+// Una vez montado el componente, emitir las refs al componente padre
+onMounted(() => {
+  emit('refs-ready', {
+    hero: heroRef,
+    services: servicesRef,
+    about: aboutRef,
+    testimonials: testimonialsRef,
+    contact: contactRef
+  })
+})
 
-// Datos de la fundadora (actualizar con info real de Andrea)
-const founderData = {
-  name: 'Andrea Gasparetti',
-  title: 'Fundadora & Consultora Senior en RH',
-  image: andreaPhoto ,
-  bio: [
-    'Con más de 15 años de experiencia, combinamos estrategia, cercanía y metodologías innovadoras para ofrecer soluciones de mentoring laboral y vocacional, búsqueda y selección de talento, evaluaciones psicotécnicas y capacitaciones. ',
-    'Nuestra propuesta se centra en la co-construcción del perfil profesional, el desarrollo de competencias y la alineación con la cultura organizacional, con procesos adaptados a cada necesidad y disponibles en español e inglés.'
-  ],
-  credentials: [
-    'Licenciada en Psicología | Univesidad del Salvador',
-    'Especialista en RRHH y Empleabilidad | Mentora Coach',
-    'Profesora de Recursos Humanos | Universidad de Palermo',
-    'Profesora de Coaching | Universidad del Salvador'
-  ]
-}
-
-// Misión y Visión
-const missionText = 'Acompañar el crecimiento profesional y organizacional a través de soluciones a medida en recursos humanos, conectando el talento con las oportunidades que impulsan el éxito.'
-
-const visionText = 'Ser referentes en mentoría y recursos humanos en la región, reconocidos por nuestra capacidad de transformar carreras y organizaciones a través de estrategias innovadoras y centradas en las personas.'
-
-// Equipo (agregar miembros reales)
-const teamData = [
-  // {
-  //   name: 'Victoria López',
-  //   role: 'Consultora en Desarrollo Organizacional',
-  //   image: '',
-  //   description: 'Especialista en diseño de procesos de RH y team building con más de 10 años de experiencia.'
-  // }
-]
-
-// Testimonios (actualizar con testimonios reales)
-const testimonialsData = [
-  {
-    text: 'El proceso de mentoring con AGHR fue transformador. En 6 meses logré un ascenso que venía buscando hace años. Andrea me ayudó a identificar mis fortalezas y a comunicar mi valor de manera efectiva.',
-    author: 'María González',
-    position: 'Gerente de Marketing',
-    company: 'Tech Solutions SA',
-    avatar: '',
-    rating: 5,
-    featured: true
-  },
-  {
-    text: 'Contraté AGHR para optimizar nuestros procesos de selección y el resultado superó nuestras expectativas. Redujimos el tiempo de contratación en un 40% y mejoramos significativamente la calidad de los candidatos.',
-    author: 'Carlos Martínez',
-    position: 'CEO',
-    company: 'Startup Innovation',
-    avatar: '',
-    rating: 5,
-    featured: false
-  },
-  {
-    text: 'El training de team building que diseñaron para nuestro equipo fue excepcional. Logramos mejorar la comunicación interna y aumentar la productividad de manera notable.',
-    author: 'Laura Fernández',
-    position: 'Directora de RH',
-    company: 'Corporación ABC',
-    avatar: '',
-    rating: 5,
-    featured: false
-  }
-]
-
-// Event Handlers
-const handleCTAClick = () => {
-  // Integrar con sistema de agendamiento (Calendly, Google Calendar, etc.)
-  window.open('https://calendly.com/tu-usuario', '_blank')
-}
-
-const handleLearnMore = () => {
-  const targetElement = document.querySelector('.target-audience')
-  if (targetElement) {
-    targetElement.scrollIntoView({ behavior: 'smooth' })
-  }
-}
-
-const handleSignUp = () => {
-  window.open('https://calendly.com/tu-usuario', '_blank')
-}
-
-const handleContact = () => {
-  // Opción 1: WhatsApp
-  window.open(`https://wa.me/${contactInfo.whatsapp}`, '_blank')
-  
-  // Opción 2: Scroll al formulario de contacto
-  // const contactForm = document.querySelector('.contact')
-  // if (contactForm) {
-  //   contactForm.scrollIntoView({ behavior: 'smooth' })
-  // }
-}
+// Exponer las refs públicamente (opcional, pero útil para debugging)
+defineExpose({
+  heroRef,
+  servicesRef,
+  aboutRef,
+  testimonialsRef,
+  contactRef
+})
 </script>
 
 <style scoped>
 .home {
-  flex: 1;
+  width: 100%;
 }
 
-/* Hero Buttons */
-.btn-primary,
-.btn-secondary {
-  padding: 0.875rem 1.75rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid white;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn-primary {
-  background: white;
-  color: #111827;
-}
-
-.btn-primary:hover {
-  background: transparent;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.btn-secondary {
-  background: transparent;
-  color: white;
-}
-
-.btn-secondary:hover {
-  background: white;
-  color: #111827;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-/* CTA Section */
-.cta-section {
-  padding: 5rem 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-}
-
-.cta-content {
-  text-align: center;
-  max-width: 50rem;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
-
-.cta-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  letter-spacing: -0.025em;
-}
-
-.cta-subtitle {
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
-  opacity: 0.9;
-  line-height: 1.6;
-}
-
-.cta-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.btn-secondary-cta {
-  padding: 0.875rem 1.75rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  background: transparent;
-  color: white;
-  border: 2px solid white;
-}
-
-.btn-secondary-cta:hover {
-  background: white;
-  color: #667eea;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-/* Testimonial CTA Button */
-.testimonial-cta-button {
-  background: white;
-  color: #667eea;
-  padding: 1rem 2.5rem;
-  border-radius: 0.75rem;
-  font-size: 1.125rem;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.testimonial-cta-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-/* Container */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .cta-title {
-    font-size: 2rem;
-  }
-  
-  .cta-subtitle {
-    font-size: 1.125rem;
-  }
-
-  .cta-section {
-    padding: 4rem 0;
-  }
-
-  .btn-primary,
-  .btn-secondary,
-  .btn-secondary-cta {
-    width: 100%;
-    padding: 1rem;
-  }
-
-  .cta-actions {
-    flex-direction: column;
-  }
-}
-
-@media (max-width: 480px) {
-  .cta-title {
-    font-size: 1.75rem;
-  }
-  
-  .cta-subtitle {
-    font-size: 1rem;
-  }
+.section-wrapper {
+  width: 100%;
 }
 </style>

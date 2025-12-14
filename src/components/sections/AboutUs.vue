@@ -7,7 +7,7 @@
         <p class="subtitle">Profesionales comprometidos con tu crecimiento</p>
       </div>
 
-      <!-- Founder Section - Andrea -->
+      <!-- Founder Section - Andrea Gasparetti -->
       <div class="founder-section">
         <div class="founder-content">
           <div class="founder-image-wrapper">
@@ -24,18 +24,21 @@
             <p class="founder-title">{{ founder.title }}</p>
             
             <div class="founder-bio">
-              <p v-for="(paragraph, index) in founder.bio" :key="index">
+              <p v-for="(paragraph, index) in founder.bio" :key="index" class="bio-paragraph">
                 {{ paragraph }}
               </p>
             </div>
 
             <div class="founder-credentials">
+              <div class="credentials-header">
+                <h4>Formación y Experiencia:</h4>
+              </div>
               <div 
                 v-for="(credential, index) in founder.credentials" 
                 :key="index"
                 class="credential-item"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
                 <span>{{ credential }}</span>
@@ -96,20 +99,27 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-// Importar foto de Andrea Gasparetti
 import andreaPhoto from '../../assets/images/foto/ag_foto.png'
 
 const props = defineProps({
   founder: {
     type: Object,
     default: () => ({
-      name: '',
-      title: '',
-      image: andreaPhoto, // ← FOTO INTEGRADA
+      name: 'Andrea Gasparetti',
+      title: 'Fundadora & Consultora Senior en RH',
+      image: andreaPhoto,
       bio: [
+        'Licenciada en Psicología por la Universidad del Salvador, con especialización en RRHH y Empleabilidad.',
+        'Mentora Coach con más de 15 años de experiencia en Selección y Consultoría de RRHH en consultoras multinacionales y empresas líderes a nivel mundial.',
+        'Docente en Recursos Humanos en la Universidad de Palermo y Profesora de Coaching en la Universidad del Salvador.'
       ],
       credentials: [
+        'Licenciada en Psicología | Universidad del Salvador',
+        'Especialista en RRHH y Empleabilidad',
+        'Mentora Coach Certificada',
+        'Profesora de Recursos Humanos | Universidad de Palermo',
+        'Profesora de Coaching | Universidad del Salvador',
+        '15+ años de experiencia en Selección y Consultoría de RRHH'
       ]
     })
   },
@@ -151,7 +161,8 @@ const props = defineProps({
 /* Header */
 .header {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
+  animation: fadeInDown 1s ease-out;
 }
 
 .title {
@@ -159,6 +170,7 @@ const props = defineProps({
   font-weight: 700;
   color: #1a202c;
   margin-bottom: 1rem;
+  letter-spacing: -0.025em;
 }
 
 .subtitle {
@@ -166,15 +178,51 @@ const props = defineProps({
   color: #4a5568;
 }
 
+/* About Description */
+.about-description {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 1rem;
+  margin-bottom: 4rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  animation: fadeInUp 1s ease-out 0.2s both;
+}
+
+.description-text {
+  color: #2d3748;
+  line-height: 1.8;
+  font-size: 1.0625rem;
+  margin-bottom: 1.5rem;
+}
+
+.description-text:last-child {
+  margin-bottom: 0;
+}
+
+.description-text.main-text {
+  font-weight: 600;
+  color: #1a202c;
+}
+
 /* Founder Section */
 .founder-section {
   margin-bottom: 5rem;
+  animation: fadeInUp 1s ease-out 0.4s both;
+}
+
+.founder-section-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #1a202c;
+  text-align: center;
+  margin-bottom: 2rem;
+  letter-spacing: -0.025em;
 }
 
 .founder-content {
   display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 3rem;
+  grid-template-columns: 320px 1fr;
+  gap: 3.5rem;
   align-items: start;
   background: white;
   padding: 3rem;
@@ -192,6 +240,11 @@ const props = defineProps({
   object-fit: cover;
   border-radius: 1rem;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease;
+}
+
+.founder-image:hover {
+  transform: scale(1.02);
 }
 
 .founder-badge {
@@ -206,6 +259,7 @@ const props = defineProps({
   font-size: 0.875rem;
   font-weight: 600;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  white-space: nowrap;
 }
 
 .founder-info {
@@ -219,6 +273,7 @@ const props = defineProps({
   font-weight: 700;
   color: #1a202c;
   margin: 0;
+  letter-spacing: -0.025em;
 }
 
 .founder-title {
@@ -234,30 +289,48 @@ const props = defineProps({
   gap: 1rem;
 }
 
-.founder-bio p {
-  color: #4a5568;
+.bio-paragraph {
+  color: #2d3748;
   line-height: 1.8;
   margin: 0;
+  font-size: 0.9875rem;
 }
 
 .founder-credentials {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
   margin-top: 1rem;
+}
+
+.credentials-header {
+  margin-bottom: 1rem;
+}
+
+.credentials-header h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .credential-item {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  align-items: flex-start;
+  gap: 0.75rem;
   color: #2d3748;
   font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.credential-item:last-child {
+  margin-bottom: 0;
 }
 
 .credential-item svg {
   color: #667eea;
   flex-shrink: 0;
+  margin-top: 2px;
 }
 
 /* Mission & Vision */
@@ -266,6 +339,7 @@ const props = defineProps({
   grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
   margin-bottom: 5rem;
+  animation: fadeInUp 1s ease-out 0.6s both;
 }
 
 .mission-card {
@@ -275,6 +349,8 @@ const props = defineProps({
   text-align: center;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-top: 4px solid transparent;
+  border-top-color: #667eea;
 }
 
 .mission-card:hover {
@@ -296,16 +372,19 @@ const props = defineProps({
   font-weight: 700;
   color: #2d3748;
   margin-bottom: 1rem;
+  letter-spacing: -0.025em;
 }
 
 .card-text {
   color: #4a5568;
   line-height: 1.8;
+  font-size: 0.9875rem;
 }
 
 /* Team Section */
 .team-section {
   margin-top: 4rem;
+  animation: fadeInUp 1s ease-out 0.8s both;
 }
 
 .team-title {
@@ -314,6 +393,7 @@ const props = defineProps({
   color: #1a202c;
   text-align: center;
   margin-bottom: 3rem;
+  letter-spacing: -0.025em;
 }
 
 .team-grid {
@@ -346,6 +426,11 @@ const props = defineProps({
   object-fit: cover;
   margin: 0 auto;
   border: 4px solid #667eea;
+  transition: transform 0.3s ease;
+}
+
+.team-card:hover .team-image {
+  transform: scale(1.08);
 }
 
 .team-name {
@@ -368,20 +453,40 @@ const props = defineProps({
   line-height: 1.6;
 }
 
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Responsive */
 @media (max-width: 968px) {
   .founder-content {
     grid-template-columns: 1fr;
     text-align: center;
+    gap: 2rem;
   }
 
   .founder-image-wrapper {
-    max-width: 250px;
+    max-width: 280px;
     margin: 0 auto;
-  }
-
-  .founder-credentials {
-    grid-template-columns: 1fr;
   }
 
   .mission-vision {
@@ -390,24 +495,64 @@ const props = defineProps({
 }
 
 @media (max-width: 768px) {
+  .about-us {
+    padding: 3rem 0;
+  }
+
   .title {
     font-size: 2rem;
   }
 
+  .founder-section-title {
+    font-size: 1.5rem;
+  }
+
   .founder-content {
-    padding: 2rem;
+    padding: 1.5rem;
+    gap: 1.5rem;
   }
 
   .founder-name {
     font-size: 1.5rem;
   }
 
+  .description-text {
+    font-size: 1rem;
+  }
+
   .team-grid {
     grid-template-columns: 1fr;
   }
 
+  .card-title {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
   .about-us {
-    padding: 3rem 0;
+    padding: 2rem 0;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .about-description {
+    padding: 1.5rem;
+  }
+
+  .founder-content {
+    padding: 1.5rem;
+  }
+
+  .founder-badge {
+    font-size: 0.75rem;
+    padding: 0.375rem 1rem;
+  }
+
+  .credential-item {
+    font-size: 0.85rem;
   }
 }
 </style>
