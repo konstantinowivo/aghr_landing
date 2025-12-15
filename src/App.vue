@@ -8,8 +8,8 @@
       :contactRef="contactRef"
       @cta-click="handleCtaClick"
     >
-      <template #cta>
-        <!-- Botones de Redes Sociales -->
+      <!-- Slot para botones de redes sociales (visible en mobile) -->
+      <template #social>
         <div class="social-buttons">
           <a 
             href="https://instagram.com/aghr" 
@@ -47,6 +47,11 @@
             </svg>
           </a>
         </div>
+      </template>
+
+      <!-- Slot para CTA (Agendar entrevista) - solo desktop -->
+      <template #cta>
+        <!-- El botón por defecto se usa, pero podría personalizarse aquí -->
       </template>
     </Navbar>
 
@@ -91,10 +96,7 @@ const handleHomeRefsReady = (refs) => {
 
 // Manejar clic en el botón CTA
 const handleCtaClick = () => {
-  // Desplazarse a la sección de contacto
-  if (contactRef.value) {
-    contactRef.value.scrollIntoView({ behavior: 'smooth' })
-  }
+  // La navegación ya se maneja en Navbar.vue (scrollToSection('contact'))
 }
 </script>
 
@@ -164,6 +166,31 @@ main {
   color: white;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(24, 119, 242, 0.4);
+}
+
+/* Responsive para redes sociales en mobile */
+@media (max-width: 968px) {
+  .social-button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .social-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .social-button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .social-icon {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 /* Footer */

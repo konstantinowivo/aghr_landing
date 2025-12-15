@@ -203,11 +203,11 @@ const props = defineProps({
   contactInfo: {
     type: Object,
     default: () => ({
-      email: 'contacto@aghr.com',
+      email: 'consultas@aghr-consulting.com',
       phone: '+5493512345678',
       phoneDisplay: '+54 9 351 234-5678',
       whatsapp: '5493512345678',
-      location: 'Córdoba, Argentina'
+      location: 'Buenos Aires, Argentina'
     })
   },
   socialLinks: {

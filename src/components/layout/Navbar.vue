@@ -26,6 +26,11 @@
           </li>
         </ul>
 
+        <!-- Social Links (Siempre visible en mobile) -->
+        <div class="navbar-social">
+          <slot name="social"></slot>
+        </div>
+
         <!-- CTA Button -->
         <div class="navbar-cta">
           <slot name="cta">
@@ -283,9 +288,28 @@ onUnmounted(() => {
   width: 80%;
 }
 
-/* CTA Button */
+/* CTA Button - Solo visible en mobile */
 .navbar-cta {
   flex-shrink: 0;
+  display: none;
+}
+
+/* Social Links - Visible en desktop y mobile */
+.navbar-social {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+@media (max-width: 968px) {
+  .navbar-social {
+    gap: 0.5rem;
+  }
+  
+  .navbar-cta {
+    display: flex;
+  }
 }
 
 .cta-button {
