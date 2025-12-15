@@ -203,11 +203,11 @@ const props = defineProps({
   contactInfo: {
     type: Object,
     default: () => ({
-      email: 'contacto@aghr.com',
+      email: 'consultas@aghr-consulting.com',
       phone: '+5493512345678',
       phoneDisplay: '+54 9 351 234-5678',
       whatsapp: '5493512345678',
-      location: 'Córdoba, Argentina'
+      location: 'Buenos Aires, Argentina'
     })
   },
   socialLinks: {
@@ -355,8 +355,8 @@ const handleSubmit = async () => {
 .form-select:focus,
 .form-textarea:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #5568D3;
+  box-shadow: 0 0 0 3px rgba(85, 104, 211, 0.1);
 }
 
 .form-textarea {
@@ -366,7 +366,7 @@ const handleSubmit = async () => {
 
 .submit-button {
   padding: 1rem 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
   color: white;
   border: none;
   border-radius: 0.75rem;
@@ -379,7 +379,7 @@ const handleSubmit = async () => {
 
 .submit-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 25px rgba(85, 104, 211, 0.3);
 }
 
 .submit-button:disabled {
@@ -451,7 +451,7 @@ a.info-item:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
   border-radius: 0.75rem;
   color: white;
 }
@@ -477,7 +477,7 @@ a.info-item:hover {
 /* Social Links */
 .social-links {
   padding: 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
   border-radius: 1rem;
   text-align: center;
 }
@@ -509,7 +509,7 @@ a.info-item:hover {
 
 .social-icon:hover {
   background: white;
-  color: #667eea;
+  color: #5568D3;
   transform: translateY(-3px);
 }
 
