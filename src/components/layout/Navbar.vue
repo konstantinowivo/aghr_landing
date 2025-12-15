@@ -29,7 +29,7 @@
         <!-- CTA Button -->
         <div class="navbar-cta">
           <slot name="cta">
-            <button class="cta-button" @click="$emit('cta-click')">
+            <button class="cta-button" @click="handleDesktopCTA">
               Agendar entrevista
             </button>
           </slot>
@@ -141,8 +141,16 @@ const handleMobileNavClick = (item) => {
   handleNavClick(item)
 }
 
+// ✅ CTA Desktop - hace scroll a contact
+const handleDesktopCTA = () => {
+  scrollToSection('contact')
+  emit('cta-click')
+}
+
+// ✅ CTA Mobile - cierra menú y hace scroll a contact
 const handleMobileCTA = () => {
   isMobileMenuOpen.value = false
+  scrollToSection('contact')
   emit('cta-click')
 }
 

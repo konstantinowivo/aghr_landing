@@ -65,7 +65,7 @@
         <h3 class="cta-title">¿Querés ser parte de estas historias de éxito?</h3>
         <p class="cta-description">Contáctanos hoy y comencemos tu transformación profesional</p>
         <slot name="cta">
-          <button class="cta-button" @click="$emit('cta-click')">
+          <button class="cta-button" @click="handleCtaClick">
             Agendá tu primera reunión
           </button>
         </slot>
@@ -77,7 +77,7 @@
 <script setup>
 import { defineEmits, defineProps } from 'vue'
 
-defineProps({
+const props = defineProps({
   testimonials: {
     type: Array,
     default: () => [
@@ -109,10 +109,26 @@ defineProps({
         featured: false
       }
     ]
+  },
+  // Acción del CTA: 'scroll' para desplazarse a una sección, 'url' para abrir un enlace
+  ctaAction: {
+    type: String,
+    default: 'scroll',
+    validator: (value) => ['scroll', 'url'].includes(value)
+  },
+  // Selector del elemento al que hacer scroll (por defecto, sección de contacto)
+  ctaScroll: {
+    type: String,
+    default: '#contact'
+  },
+  // URL a abrir si ctaAction es 'url'
+  ctaUrl: {
+    type: String,
+    default: ''
   }
 })
 
-defineEmits(['cta-click'])
+const emit = defineEmits(['cta-click'])
 
 const getInitials = (name) => {
   return name
@@ -121,6 +137,27 @@ const getInitials = (name) => {
     .join('')
     .toUpperCase()
     .slice(0, 2)
+}
+
+// Manejador de acciones CTA
+const handleCtaClick = () => {
+  // Emitir evento para tracking/analytics
+  emit('cta-click')
+  
+  // Ejecutar la acción configurada
+  if (props.ctaAction === 'scroll') {
+    setTimeout(() => {
+      const element = document.querySelector(props.ctaScroll)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      } else {
+        console.warn(`Elemento no encontrado: ${props.ctaScroll}`)
+      }
+    }, 100)
+  } 
+  else if (props.ctaAction === 'url' && props.ctaUrl) {
+    window.open(props.ctaUrl, '_blank')
+  }
 }
 </script>
 
