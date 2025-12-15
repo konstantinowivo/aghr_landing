@@ -7,7 +7,7 @@
         <!-- Logo -->
         <div v-if="$slots.logo || logo" class="hero-logo">
           <slot name="logo">
-            <img v-if="logo" :src="logo" :alt="logoAlt" class="logo-image" />
+            <img v-if="logo" :src="logo" :alt="logoAlt" width="110" height="165" class="logo-image" />
           </slot>
         </div>
 
@@ -223,7 +223,7 @@ const handleSecondaryAction = () => {
 }
 
 .hero--gradient {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
   color: white;
 }
 
@@ -333,7 +333,7 @@ const handleSecondaryAction = () => {
 }
 
 .hero--default .hero-pretitle {
-  color: #667eea;
+  color: #5568D3;
   text-shadow: none;
 }
 
@@ -429,7 +429,7 @@ const handleSecondaryAction = () => {
 
 .btn-primary {
   background: white;
-  color: #667eea;
+  color: #5568D3;
   font-weight: 700;
 }
 

@@ -302,8 +302,8 @@ const handleCtaAction = () => {
 }
 
 .tab-button.active {
-  color: #667eea;
-  border-bottom-color: #667eea;
+  color: #5568D3;
+  border-bottom-color: #5568D3;
   background: #f9fafb;
 }
 
@@ -386,9 +386,9 @@ const handleCtaAction = () => {
 
 .service-card:hover {
   background: white;
-  border-color: #667eea;
+  border-color: #5568D3;
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.15);
+  box-shadow: 0 8px 20px rgba(85, 104, 211, 0.15);
 }
 
 .service-icon {
@@ -417,7 +417,7 @@ const handleCtaAction = () => {
 .cta-section {
   text-align: center;
   padding: 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
   border-radius: 12px;
   color: white;
 }
@@ -433,7 +433,7 @@ const handleCtaAction = () => {
   font-size: 1.0625rem;
   font-weight: 600;
   background: white;
-  color: #667eea;
+  color: #5568D3;
   border: none;
   border-radius: 8px;
   cursor: pointer;

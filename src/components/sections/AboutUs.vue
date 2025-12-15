@@ -11,11 +11,15 @@
       <div class="founder-section">
         <div class="founder-content">
           <div class="founder-image-wrapper">
-            <img 
-              :src="founder.image || '/placeholder-avatar.jpg'" 
+            <img
+              v-if="founder.image"
+              :src="founder.image"
               :alt="founder.name"
               class="founder-image"
             >
+            <div v-else class="founder-image-placeholder">
+              {{ getInitials(founder.name) }}
+            </div>
             <div class="founder-badge">Fundadora</div>
           </div>
           
@@ -82,11 +86,15 @@
             class="team-card"
           >
             <div class="team-image-wrapper">
-              <img 
-                :src="member.image || '/placeholder-avatar.jpg'" 
+              <img
+                v-if="member.image"
+                :src="member.image"
                 :alt="member.name"
                 class="team-image"
               >
+              <div v-else class="team-image-placeholder">
+                {{ getInitials(member.name) }}
+              </div>
             </div>
             <h4 class="team-name">{{ member.name }}</h4>
             <p class="team-role">{{ member.role }}</p>
@@ -100,6 +108,16 @@
 
 <script setup>
 import andreaPhoto from '../../assets/images/foto/ag_foto.png'
+
+// Función para obtener iniciales
+const getInitials = (name) => {
+  return name
+    .split(' ')
+    .map(word => word[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2)
+}
 
 const props = defineProps({
   founder: {
@@ -247,12 +265,26 @@ const props = defineProps({
   transform: scale(1.02);
 }
 
+.founder-image-placeholder {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
+  color: white;
+  font-size: 4rem;
+  font-weight: 700;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
 .founder-badge {
   position: absolute;
   bottom: -12px;
   left: 50%;
   transform: translateX(-50%);
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
   color: white;
   padding: 0.5rem 1.5rem;
   border-radius: 2rem;
@@ -278,7 +310,7 @@ const props = defineProps({
 
 .founder-title {
   font-size: 1.125rem;
-  color: #667eea;
+  color: #5568D3;
   font-weight: 600;
   margin: 0;
 }
@@ -328,7 +360,7 @@ const props = defineProps({
 }
 
 .credential-item svg {
-  color: #667eea;
+  color: #5568D3;
   flex-shrink: 0;
   margin-top: 2px;
 }
@@ -350,7 +382,7 @@ const props = defineProps({
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border-top: 4px solid transparent;
-  border-top-color: #667eea;
+  border-top-color: #5568D3;
 }
 
 .mission-card:hover {
@@ -361,7 +393,7 @@ const props = defineProps({
 .card-icon {
   display: inline-flex;
   padding: 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
   border-radius: 1rem;
   color: white;
   margin-bottom: 1.5rem;
@@ -425,12 +457,27 @@ const props = defineProps({
   border-radius: 50%;
   object-fit: cover;
   margin: 0 auto;
-  border: 4px solid #667eea;
+  border: 4px solid #5568D3;
   transition: transform 0.3s ease;
 }
 
 .team-card:hover .team-image {
   transform: scale(1.08);
+}
+
+.team-image-placeholder {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 auto;
+  border: 4px solid #5568D3;
 }
 
 .team-name {
@@ -442,7 +489,7 @@ const props = defineProps({
 
 .team-role {
   font-size: 0.95rem;
-  color: #667eea;
+  color: #5568D3;
   font-weight: 600;
   margin-bottom: 1rem;
 }

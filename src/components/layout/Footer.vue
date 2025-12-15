@@ -260,7 +260,7 @@ const scrollTo = (selector) => {
 }
 
 .footer-links a:hover {
-  color: #667eea;
+  color: #5568D3;
 }
 
 /* Contact Info */
@@ -283,7 +283,7 @@ const scrollTo = (selector) => {
   width: 20px;
   height: 20px;
   flex-shrink: 0;
-  color: #667eea;
+  color: #5568D3;
 }
 
 .footer-contact a {
@@ -303,17 +303,17 @@ const scrollTo = (selector) => {
   font-size: 0.9375rem;
   font-weight: 600;
   color: white;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(85, 104, 211, 0.3);
 }
 
 .footer-cta:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 6px 16px rgba(85, 104, 211, 0.4);
 }
 
 /* Footer Bottom */

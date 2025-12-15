@@ -40,7 +40,7 @@
             </div>
             
             <div class="author-details">
-              <h4 class="author-name">{{ testimonial.author }}</h4>
+              <p class="author-name">{{ testimonial.author }}</p>
               <p class="author-position">{{ testimonial.position }}</p>
               <p v-if="testimonial.company" class="author-company">{{ testimonial.company }}</p>
             </div>
@@ -219,23 +219,23 @@ const handleCtaClick = () => {
 
 .testimonial-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(102, 126, 234, 0.15);
-  border-color: #667eea;
+  box-shadow: 0 12px 40px rgba(85, 104, 211, 0.15);
+  border-color: #5568D3;
 }
 
 .testimonial-card--featured {
-  border-color: #667eea;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
-  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.12);
+  border-color: #5568D3;
+  background: linear-gradient(135deg, rgba(85, 104, 211, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+  box-shadow: 0 8px 30px rgba(85, 104, 211, 0.12);
 }
 
 .testimonial-card--featured:hover {
-  box-shadow: 0 12px 50px rgba(102, 126, 234, 0.25);
+  box-shadow: 0 12px 50px rgba(85, 104, 211, 0.25);
 }
 
 /* Quote Icon */
 .quote-icon {
-  color: #667eea;
+  color: #5568D3;
   opacity: 0.4;
   margin-bottom: 1.5rem;
   transition: opacity 0.3s ease;
@@ -275,7 +275,7 @@ const handleCtaClick = () => {
   height: 56px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #667eea;
+  border: 3px solid #5568D3;
   transition: transform 0.3s ease;
 }
 
@@ -287,7 +287,7 @@ const handleCtaClick = () => {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
   color: white;
   display: flex;
   align-items: center;
@@ -310,7 +310,7 @@ const handleCtaClick = () => {
 
 .author-position {
   font-size: 0.875rem;
-  color: #667eea;
+  color: #5568D3;
   font-weight: 600;
   margin: 0;
 }
@@ -341,7 +341,7 @@ const handleCtaClick = () => {
 .testimonials-cta {
   text-align: center;
   padding: 3.5rem 3rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
   border-radius: 1.5rem;
   margin-top: 3rem;
   animation: fadeInUp 1s ease-out 0.4s both;
@@ -366,7 +366,7 @@ const handleCtaClick = () => {
 
 .cta-button {
   background: white;
-  color: #667eea;
+  color: #5568D3;
   padding: 1rem 2.5rem;
   border-radius: 0.75rem;
   font-size: 1rem;

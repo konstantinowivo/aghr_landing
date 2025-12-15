@@ -5,9 +5,11 @@
         <!-- Logo + Brand Name -->
         <div class="navbar-brand">
           <a @click="handleLogoClick" class="brand-link">
-            <img 
-              src="/src/assets/images/logo/aghr_logo.png" 
-              alt="AGHR Logo" 
+            <img
+              src="/src/assets/images/logo/aghr_logo.png"
+              alt="AGHR Logo"
+              width="80"
+              height="50"
               class="logo-image"
             >
             <span class="brand-text">AGHR | mentoring & HR</span>
@@ -267,12 +269,12 @@ onUnmounted(() => {
   transform: translateX(-50%);
   width: 0;
   height: 2px;
-  background: #667eea;
+  background: #5568D3;
   transition: width 0.3s ease;
 }
 
 .nav-link:hover {
-  color: #667eea;
+  color: #5568D3;
 }
 
 .nav-link:hover::after {
@@ -280,7 +282,7 @@ onUnmounted(() => {
 }
 
 .nav-link--active {
-  color: #667eea;
+  color: #5568D3;
   font-weight: 600;
 }
 
@@ -317,18 +319,18 @@ onUnmounted(() => {
   font-size: 0.9375rem;
   font-weight: 600;
   color: white;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(85, 104, 211, 0.3);
   white-space: nowrap;
 }
 
 .cta-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 6px 16px rgba(85, 104, 211, 0.4);
 }
 
 .cta-button:active {
@@ -407,15 +409,15 @@ onUnmounted(() => {
 }
 
 .mobile-nav-link:hover {
-  color: #667eea;
-  background-color: rgba(102, 126, 234, 0.05);
+  color: #5568D3;
+  background-color: rgba(85, 104, 211, 0.05);
 }
 
 .mobile-nav-link--active {
-  color: #667eea;
+  color: #5568D3;
   font-weight: 600;
-  background-color: rgba(102, 126, 234, 0.08);
-  border-left-color: #667eea;
+  background-color: rgba(85, 104, 211, 0.08);
+  border-left-color: #5568D3;
 }
 
 .mobile-divider {
