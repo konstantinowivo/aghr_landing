@@ -5,7 +5,7 @@
       <div class="section-header">
         <h2 class="section-title">¿Con quiénes trabajamos?</h2>
         <p class="section-subtitle">
-          Acompañamos a empresas y personas en su desarrollo con soluciones integrales de recursos humanos y mentoría personalizada.
+          Acompañamos a empresas y personas a potenciar su talento.
         </p>
       </div>
 
@@ -39,7 +39,7 @@
               <div class="content-header">
                 <h3 class="content-title">Soluciones para Empresas</h3>
                 <p class="content-description">
-                  Optimizamos tu gestión de talento con estrategias personalizadas que impulsan el crecimiento de tu organización
+                  Optimizamos la gestión del talento con estrategias a medida que impulsan el crecimiento de tu organización
                 </p>
               </div>
 
@@ -59,7 +59,7 @@
 
               <div class="cta-section">
                 <h4 class="cta-title">¿Listo para transformar tu organización?</h4>
-                <button class="cta-button" @click="$emit('empresas-cta')">
+                <button class="cta-button" @click="handleEmpresas">
                   Agendar consulta gratuita
                 </button>
               </div>
@@ -92,7 +92,7 @@
 
               <div class="cta-section">
                 <h4 class="cta-title">¿Listo para impulsar tu carrera?</h4>
-                <button class="cta-button" @click="$emit('personas-cta')">
+                <button class="cta-button" @click="handlePersonas">
                   Comenzar ahora
                 </button>
               </div>
@@ -110,40 +110,60 @@ import { ref } from 'vue'
 // Estado del tab activo
 const activeTab = ref('empresas')
 
-// Emit events
-defineEmits(['empresas-cta', 'personas-cta'])
+// Props para configurar el comportamiento de los botones
+const props = defineProps({
+  // Acción del CTA: 'scroll' para desplazarse a una sección, 'url' para abrir un enlace
+  ctaAction: {
+    type: String,
+    default: 'scroll',
+    validator: (value) => ['scroll', 'url'].includes(value)
+  },
+  // Selector del elemento al que hacer scroll (por defecto, sección de contacto)
+  ctaScroll: {
+    type: String,
+    default: '#contact'
+  },
+  // URL a abrir si ctaAction es 'url'
+  ctaUrl: {
+    type: String,
+    default: ''
+  }
+})
+
+// Emit events para tracking/analytics (opcional)
+const emit = defineEmits(['empresas-click', 'personas-click'])
 
 // Servicios para Empresas
 const empresasServices = [
   {
     icon: '📊',
     title: 'Selección y Reclutamiento',
-    description: 'Encontramos el talento ideal para cada posición con procesos estratégicos y eficientes'
+    description: 'Identificamos y atraemos al mejor talento, garantizando las habilidades técnicas y blandas para ocupar la vacante.'
   },
   {
     icon: '📈',
     title: 'Evaluación de Desempeño',
-    description: 'Sistemas de evaluación objetivos que impulsan el desarrollo de tu equipo'
+    description: 'Implementamos evaluaciones psicotécnicas, de competencia y potencial, dentro de los procesos de selección y plan de carrera de los colaboradores de tu empresa.'
   },
   {
     icon: '🎓',
-    title: 'Capacitación a Medida',
-    description: 'Programas de formación diseñados según las necesidades específicas de tu empresa'
+    title: 'Experiencia de aprendizaje',
+    description: 'Diseñamos e implementamos programas de capacitación y espacios de formación para desarrollar las habilidades blandas y competencias técnicas para el éxito de tu equipo.'
   },
   {
     icon: '👥',
     title: 'Cultura Organizacional',
-    description: 'Desarrollamos ambientes de trabajo que potencian el compromiso y la productividad'
+    description: 'Desarrollamos ambientes de trabajo que potencian el compromiso y la productividad.'
   },
   {
     icon: '⚖️',
     title: 'Consultoría en RRHH',
-    description: 'Asesoramiento estratégico en todas las áreas de recursos humanos'
+    description: 'Asesoramiento estratégico en todas las áreas de recursos humanos.'
   },
   {
     icon: '🎯',
     title: 'Desarrollo de Liderazgo',
-    description: 'Formamos líderes que inspiran y transforman equipos de alto rendimiento'
+    description: 'Formamos líderes que inspiran y transforman equipos de alto rendimiento.'
   }
 ]
 
@@ -152,34 +172,63 @@ const personasServices = [
   {
     icon: '🎯',
     title: 'Mentorías Personalizadas',
-    description: 'Acompañamiento 1:1 con expertos que te guían en tu camino profesional'
+    description: 'Acompañamiento 1:1 con expertos que te guían para impulsar tu camino profesional.'
   },
   {
     icon: '💼',
     title: 'Coaching Ejecutivo',
-    description: 'Desarrollo de habilidades de liderazgo y gestión para potenciar tu carrera'
+    description: 'Desarrollo de habilidades de liderazgo y gestión para potenciar tu carrera.'
   },
   {
     icon: '🗺️',
     title: 'Plan de Carrera Estratégico',
-    description: 'Diseñamos juntos tu roadmap profesional con objetivos claros y alcanzables'
+    description: 'Diseñamos juntos tu roadmap profesional con objetivos claros y alcanzables.'
   },
   {
     icon: '💬',
     title: 'Preparación para Entrevistas',
-    description: 'Te preparamos para destacar en tus próximos desafíos profesionales'
+    description: 'Te preparamos para destacar en tus próximos desafíos profesionales, en castellano e inglés.'
   },
   {
     icon: '🤝',
     title: 'Networking Profesional',
-    description: 'Construí conexiones valiosas que aceleran tu desarrollo'
+    description: 'Construí conexiones valiosas que aceleran tu desarrollo.'
   },
   {
     icon: '📝',
     title: 'Optimización de CV y LinkedIn',
-    description: 'Potenciamos tu marca personal para atraer las mejores oportunidades'
+    description: 'Potenciamos tu marca personal para atraer las mejores oportunidades.'
   }
 ]
+
+// Manejador de acciones para empresas
+const handleEmpresas = () => {
+  emit('empresas-click')
+  handleCtaAction()
+}
+
+// Manejador de acciones para personas
+const handlePersonas = () => {
+  emit('personas-click')
+  handleCtaAction()
+}
+
+// Lógica centralizada para manejar acciones CTA
+const handleCtaAction = () => {
+  if (props.ctaAction === 'scroll') {
+    setTimeout(() => {
+      const element = document.querySelector(props.ctaScroll)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      } else {
+        console.warn(`Elemento no encontrado: ${props.ctaScroll}`)
+      }
+    }, 100)
+  } 
+  else if (props.ctaAction === 'url' && props.ctaUrl) {
+    window.open(props.ctaUrl, '_blank')
+  }
+}
 </script>
 
 <style scoped>
@@ -253,8 +302,8 @@ const personasServices = [
 }
 
 .tab-button.active {
-  color: #667eea;
-  border-bottom-color: #667eea;
+  color: #5568D3;
+  border-bottom-color: #5568D3;
   background: #f9fafb;
 }
 
@@ -337,9 +386,9 @@ const personasServices = [
 
 .service-card:hover {
   background: white;
-  border-color: #667eea;
+  border-color: #5568D3;
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.15);
+  box-shadow: 0 8px 20px rgba(85, 104, 211, 0.15);
 }
 
 .service-icon {
@@ -368,7 +417,7 @@ const personasServices = [
 .cta-section {
   text-align: center;
   padding: 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
   border-radius: 12px;
   color: white;
 }
@@ -384,7 +433,7 @@ const personasServices = [
   font-size: 1.0625rem;
   font-weight: 600;
   background: white;
-  color: #667eea;
+  color: #5568D3;
   border: none;
   border-radius: 8px;
   cursor: pointer;
