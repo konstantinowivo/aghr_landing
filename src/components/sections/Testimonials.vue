@@ -317,7 +317,7 @@ const handleCtaClick = () => {
 
 .author-company {
   font-size: 0.8125rem;
-  color: #718096;
+  color: #5a6a7a;
   margin: 0.25rem 0 0 0;
 }
 

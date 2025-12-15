@@ -462,7 +462,7 @@ a.info-item:hover {
 
 .info-label {
   font-size: 0.875rem;
-  color: #718096;
+  color: #5a6a7a;
   margin: 0 0 0.25rem 0;
   font-weight: 600;
 }

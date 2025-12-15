@@ -4,7 +4,7 @@
       <div class="navbar-content">
         <!-- Logo + Brand Name -->
         <div class="navbar-brand">
-          <a @click="handleLogoClick" class="brand-link">
+          <a href="#home" @click="handleLogoClick" class="brand-link">
             <img
               src="/src/assets/images/logo/aghr_logo.png"
               alt="AGHR Logo"
@@ -19,7 +19,8 @@
         <!-- Navigation Links -->
         <ul class="navbar-nav">
           <li v-for="(item, index) in navItems" :key="index">
-            <a 
+            <a
+              :href="'#' + item.section"
               @click.prevent="handleNavClick(item)"
               :class="['nav-link', { 'nav-link--active': activeSection === item.section }]"
             >
@@ -61,9 +62,10 @@
           <div class="mobile-menu-wrapper">
             <!-- Navigation Links Mobile -->
             <div class="mobile-nav-container">
-              <a 
-                v-for="(item, index) in navItems" 
+              <a
+                v-for="(item, index) in navItems"
                 :key="index"
+                :href="'#' + item.section"
                 @click.prevent="handleMobileNavClick(item)"
                 :class="['mobile-nav-link', { 'mobile-nav-link--active': activeSection === item.section }]"
               >
