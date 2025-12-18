@@ -1,6 +1,21 @@
 <template>
-  <section :class="heroClasses" :style="heroStyles">
-    <div v-if="overlay" class="hero-overlay" :style="overlayStyles"></div>
+  <section :class="heroClasses">
+    <!-- Video Background (si hay videos) -->
+    <VideoBackground 
+      v-if="videos && videos.length > 0"
+      :videos="videos"
+      :overlay="overlay"
+      :overlay-opacity="overlayOpacity"
+      :show-controls="showVideoControls"
+    />
+
+    <!-- Image Background (si no hay videos y hay imagen) -->
+    <div v-else-if="backgroundImage" class="hero-image-bg" :style="heroStyles">
+      <div v-if="overlay" class="hero-overlay" :style="overlayStyles"></div>
+    </div>
+
+    <!-- Gradient/Color Background (si no hay videos ni imagen) -->
+    <div v-else-if="overlay" class="hero-overlay" :style="overlayStyles"></div>
     
     <div class="container">
       <div class="hero-content">
@@ -55,10 +70,17 @@
 
 <script setup>
 import { computed } from 'vue'
+import VideoBackground from './VideoBackground.vue'
 
-// 🔧 IMPORTAR LA IMAGEN CORRECTAMENTE
+// 🔧 IMPORTAR IMÁGENES
 import aghrLogo from '../../assets/images/logo/aghr_logo.png'
 import heroBackground from '../../assets/images/hero/hero_aghrimage.svg'
+
+// 🎥 IMPORTAR VIDEOS
+import video1 from '../../assets/videos/video_entrevista.mp4'
+import video2 from '../../assets/videos/video_oficina.mp4'
+import video3 from '../../assets/videos/video_estrechar_manos.mp4'
+
 const props = defineProps({
   // Contenido
   title: {
@@ -81,7 +103,7 @@ const props = defineProps({
   // Logo
   logo: {
     type: String,
-    default: () => aghrLogo  // ✅ Usar imagen importada
+    default: () => aghrLogo
   },
   logoAlt: {
     type: String,
@@ -110,15 +132,25 @@ const props = defineProps({
     default: '#contact'
   },
   
-  // Estilos
+  // 🎥 NUEVAS PROPS PARA VIDEOS
+  videos: {
+    type: Array,
+    default: () => [video1, video2, video3]  // ✅ Array de videos por defecto
+  },
+  showVideoControls: {
+    type: Boolean,
+    default: false  // ← CAMBIADO A FALSE (ocultar controles)
+  },
+  
+  // Estilos (mantener para retrocompatibilidad)
   variant: {
     type: String,
     default: 'gradient',
-    validator: (value) => ['default', 'gradient', 'dark', 'image'].includes(value)
+    validator: (value) => ['default', 'gradient', 'dark', 'image', 'video'].includes(value)
   },
   backgroundImage: {
     type: String,
-    default: () => heroBackground  // ✅ Usar imagen importada
+    default: ''  // ✅ Vacío por defecto para usar videos
   },
   overlay: {
     type: Boolean,
@@ -143,7 +175,8 @@ const heroClasses = computed(() => {
     `hero--${props.variant}`,
     {
       'hero--full-height': props.fullHeight,
-      'hero--has-image': props.backgroundImage
+      'hero--has-video': props.videos && props.videos.length > 0,
+      'hero--has-image': props.backgroundImage && (!props.videos || props.videos.length === 0)
     }
   ]
 })
@@ -151,8 +184,7 @@ const heroClasses = computed(() => {
 const heroStyles = computed(() => {
   const styles = {}
   
-  // ✅ Verificar que backgroundImage existe antes de usarlo
-  if (props.backgroundImage) {
+  if (props.backgroundImage && (!props.videos || props.videos.length === 0)) {
     styles.backgroundImage = `url(${props.backgroundImage})`
     styles.backgroundSize = 'cover'
     styles.backgroundPosition = 'center'
@@ -172,9 +204,7 @@ const overlayStyles = computed(() => {
 const handlePrimaryAction = () => {
   emit('primary-click')
   
-  // Primero intenta hacer scroll
   if (props.primaryButtonScroll) {
-    // Usar setTimeout para asegurar que el DOM está listo
     setTimeout(() => {
       const element = document.querySelector(props.primaryButtonScroll)
       if (element) {
@@ -184,7 +214,6 @@ const handlePrimaryAction = () => {
       }
     }, 100)
   } 
-  // Si no hay scroll, intenta abrir URL
   else if (props.primaryButtonUrl) {
     window.open(props.primaryButtonUrl, '_blank')
   }
@@ -232,16 +261,25 @@ const handleSecondaryAction = () => {
   color: white;
 }
 
-.hero--image {
+.hero--image,
+.hero--video {
   background-color: #111827;
   color: white;
 }
 
-.hero--has-image {
+.hero--has-image,
+.hero--has-video {
   color: white;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+/* Image Background */
+.hero-image-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
 }
 
 /* Overlay */
@@ -327,7 +365,9 @@ const handleSecondaryAction = () => {
 .hero--gradient .hero-pretitle,
 .hero--dark .hero-pretitle,
 .hero--image .hero-pretitle,
-.hero--has-image .hero-pretitle {
+.hero--video .hero-pretitle,
+.hero--has-image .hero-pretitle,
+.hero--has-video .hero-pretitle {
   color: #e0e7ff;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }
@@ -353,7 +393,9 @@ const handleSecondaryAction = () => {
 .hero--gradient .hero-title,
 .hero--dark .hero-title,
 .hero--image .hero-title,
-.hero--has-image .hero-title {
+.hero--video .hero-title,
+.hero--has-image .hero-title,
+.hero--has-video .hero-title {
   color: white;
   text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
 }
@@ -379,7 +421,9 @@ const handleSecondaryAction = () => {
 .hero--gradient .hero-subtitle,
 .hero--dark .hero-subtitle,
 .hero--image .hero-subtitle,
-.hero--has-image .hero-subtitle {
+.hero--video .hero-subtitle,
+.hero--has-image .hero-subtitle,
+.hero--has-video .hero-subtitle {
   color: rgba(255, 255, 255, 0.9);
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
 }

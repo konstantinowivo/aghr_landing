@@ -15,9 +15,9 @@
       <AboutUs />
     </section>
 
-    <!-- Testimonials Section -->
-    <section ref="testimonialsRef" id="testimonials" class="section-wrapper">
-      <Testimonials />
+    <!-- Job Board Section -->
+    <section ref="jobsRef" id="jobs" class="section-wrapper">
+      <JobBoard />
     </section>
 
     <!-- Contact Section -->
@@ -35,7 +35,7 @@ import { ref, onMounted } from 'vue'
 import HeroSection from '../components/sections/HeroSection.vue'
 import TargetAudience from '../components/sections/TargetAudience.vue'
 import AboutUs from '../components/sections/AboutUs.vue'
-import Testimonials from '../components/sections/Testimonials.vue'
+import JobBoard from '../components/sections/JobBoard.vue'
 import ContactForm from '../components/sections/ContactForm.vue'
 import FloatingButtons from '../components/layout/FloatingButtons.vue'
 
@@ -43,7 +43,7 @@ import FloatingButtons from '../components/layout/FloatingButtons.vue'
 const heroRef = ref(null)
 const servicesRef = ref(null)
 const aboutRef = ref(null)
-const testimonialsRef = ref(null)
+const jobsRef = ref(null)        // ← Reemplazado: testimonialsRef → jobsRef
 const contactRef = ref(null)
 
 const emit = defineEmits(['refs-ready'])
@@ -54,7 +54,7 @@ onMounted(() => {
     hero: heroRef,
     services: servicesRef,
     about: aboutRef,
-    testimonials: testimonialsRef,
+    jobs: jobsRef,              // ← Reemplazado: testimonials → jobs
     contact: contactRef
   })
 })
@@ -64,7 +64,7 @@ defineExpose({
   heroRef,
   servicesRef,
   aboutRef,
-  testimonialsRef,
+  jobsRef,                      
   contactRef
 })
 </script>

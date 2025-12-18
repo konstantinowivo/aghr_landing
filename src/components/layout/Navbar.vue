@@ -96,7 +96,7 @@ const props = defineProps({
   heroRef: Object,
   servicesRef: Object,
   aboutRef: Object,
-  testimonialsRef: Object,
+  jobsRef: Object,           // ← CAMBIADO: testimonialsRef → jobsRef
   contactRef: Object,
   navItems: {
     type: Array,
@@ -104,7 +104,7 @@ const props = defineProps({
       { label: 'Inicio', section: 'hero' },
       { label: 'Servicios', section: 'services' },
       { label: 'Nosotros', section: 'about' },
-      { label: 'Testimonios', section: 'testimonials' },
+      { label: 'Búsquedas', section: 'jobs' },           // ← CAMBIADO
       { label: 'Contacto', section: 'contact' }
     ]
   }
@@ -124,7 +124,7 @@ const scrollToSection = (section) => {
     hero: props.heroRef,
     services: props.servicesRef,
     about: props.aboutRef,
-    testimonials: props.testimonialsRef,
+    jobs: props.jobsRef,                    // ← CAMBIADO: testimonials → jobs
     contact: props.contactRef
   }
 
