@@ -90,42 +90,45 @@ const handleCtaClick = () => {
 </script>
 
 <style>
-/* Reset básico */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 #app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  font-family: var(--font-family-primary);
 }
 
 main {
   flex: 1;
 }
 
-/* Social Buttons */
+/* ============================================
+   Social Buttons - Modern Corporate Style
+   ============================================ */
 .social-buttons {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.625rem;
 }
 
 .social-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  transition: all 0.3s ease;
+  transition: all var(--transition-base);
   text-decoration: none;
-  background: #f3f4f6;
-  color: #6b7280;
+  background: white;
+  color: var(--color-text-tertiary);
+  border: 1.5px solid #E5E7EB;
+  box-shadow: var(--shadow-xs);
+}
+
+.social-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: transparent;
 }
 
 .social-icon {
@@ -137,43 +140,47 @@ main {
 .social-button.instagram:hover {
   background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
   color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(225, 48, 108, 0.4);
 }
 
 /* LinkedIn */
 .social-button.linkedin:hover {
-  background: #0077b5;
+  background: #0A66C2;
   color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 119, 181, 0.4);
 }
 
-/* Footer */
+/* ============================================
+   Footer - Modern Corporate Style
+   ============================================ */
 .footer {
-  background-color: #111827;
+  background: linear-gradient(180deg, #1F2937 0%, #111827 100%);
   color: white;
-  padding: 2rem 0;
+  padding: 3rem 0 2rem;
   margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
 
 .footer-text {
   text-align: center;
-  font-size: 0.875rem;
-  opacity: 0.8;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  opacity: 0.85;
+  color: #D1D5DB;
+  letter-spacing: 0.01em;
 }
 
-/* Responsive para redes sociales en mobile */
+/* ============================================
+   Responsive Adjustments
+   ============================================ */
 @media (max-width: 968px) {
   .social-button {
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
   }
 
   .social-icon {
@@ -183,14 +190,26 @@ main {
 }
 
 @media (max-width: 640px) {
+  .social-buttons {
+    gap: 0.5rem;
+  }
+
   .social-button {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
   }
 
   .social-icon {
     width: 16px;
     height: 16px;
+  }
+
+  .footer {
+    padding: 2.5rem 0 1.5rem;
+  }
+
+  .footer-text {
+    font-size: 0.875rem;
   }
 }
 </style>

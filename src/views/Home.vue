@@ -5,21 +5,6 @@
       <HeroSection />
     </section>
 
-    <!-- Services Section (TargetAudience) -->
-    <section ref="servicesRef" id="services" class="section-wrapper">
-      <TargetAudience />
-    </section>
-
-    <!-- About Us Section -->
-    <section ref="aboutRef" id="about" class="section-wrapper">
-      <AboutUs />
-    </section>
-
-    <!-- Contact Section -->
-    <section ref="contactRef" id="contact" class="section-wrapper">
-      <ContactForm />
-    </section>
-
     <!-- Floating Buttons (WhatsApp + Scroll to Top) -->
     <FloatingButtons />
   </div>
@@ -27,45 +12,35 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import HeroSection from '../components/sections/HeroSection.vue'
-import TargetAudience from '../components/sections/TargetAudience.vue'
-import AboutUs from '../components/sections/AboutUs.vue'
-import ContactForm from '../components/sections/ContactForm.vue'
+import HeroSection from '../components/sections/HeroSectionOptimized.vue'
 import FloatingButtons from '../components/layout/FloatingButtons.vue'
 
-// Crear refs para cada sección
+// Crear ref para hero section
 const heroRef = ref(null)
-const servicesRef = ref(null)
-const aboutRef = ref(null)
-const jobsRef = ref(null)
-const contactRef = ref(null)
 
 const emit = defineEmits(['refs-ready'])
 
 // Una vez montado el componente, emitir las refs al componente padre
 onMounted(() => {
   emit('refs-ready', {
-    hero: heroRef,
-    services: servicesRef,
-    about: aboutRef,
-    jobs: jobsRef,
-    contact: contactRef
+    hero: heroRef
   })
 })
 
 // Exponer las refs públicamente
 defineExpose({
-  heroRef,
-  servicesRef,
-  aboutRef,
-  jobsRef,
-  contactRef
+  heroRef
 })
 </script>
 
 <style scoped>
+/* ============================================
+   Modern Corporate Home Page
+   ============================================ */
+
 .home {
   width: 100%;
+  min-height: 100vh;
 }
 
 .section-wrapper {

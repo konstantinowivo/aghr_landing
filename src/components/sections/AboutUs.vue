@@ -157,13 +157,17 @@ const props = defineProps({
 </script>
 
 <style scoped>
+/* ============================================
+   Modern Corporate About Us Section
+   ============================================ */
+
 .about-us {
-  padding: 3.5rem 0;  /* Reducido de 5rem */
-  background: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
+  padding: 6rem 0;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 50%, #FAFBFC 100%);
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
@@ -171,38 +175,49 @@ const props = defineProps({
 /* Header */
 .header {
   text-align: center;
-  margin-bottom: 2.5rem;  /* Reducido de 3rem */
-  animation: fadeInDown 1s ease-out;
+  margin-bottom: 4rem;
+  animation: fadeInDown 0.8s ease-out;
 }
 
 .title {
-  font-size: 2rem;  /* Reducido de 2.5rem */
-  font-weight: 700;
-  color: #1a202c;
-  margin-bottom: 0.75rem;  /* Reducido de 1rem */
-  letter-spacing: -0.025em;
+  font-family: var(--font-family-heading);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .subtitle {
-  font-size: 1rem;  /* Reducido de 1.125rem */
-  color: #4a5568;
+  font-family: var(--font-family-primary);
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  line-height: 1.7;
 }
 
 /* Founder Section */
 .founder-section {
-  margin-bottom: 3.5rem;  /* Reducido de 5rem */
-  animation: fadeInUp 1s ease-out 0.4s both;
+  margin-bottom: 4rem;
+  animation: fadeInUp 0.8s ease-out 0.2s both;
 }
 
 .founder-content {
   display: grid;
-  grid-template-columns: 260px 1fr;  /* Reducido de 320px */
-  gap: 2.5rem;  /* Reducido de 3.5rem */
+  grid-template-columns: 280px 1fr;
+  gap: 3rem;
   align-items: start;
   background: white;
-  padding: 2rem;  /* Reducido de 3rem */
-  border-radius: 1rem;  /* Reducido de 1.5rem */
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);  /* Reducido shadow */
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+  box-shadow: var(--shadow-xl);
+  border: 1px solid #F3F4F6;
+  transition: all var(--transition-base);
+}
+
+.founder-content:hover {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
 }
 
 .founder-image-wrapper {
@@ -213,13 +228,16 @@ const props = defineProps({
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
-  border-radius: 0.875rem;  /* Reducido de 1rem */
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);  /* Reducido shadow */
-  transition: transform 0.3s ease;
+  border-radius: 1rem;
+  box-shadow: var(--shadow-lg);
+  transition: all var(--transition-base);
+  border: 3px solid white;
+  box-shadow: var(--shadow-xl);
 }
 
 .founder-image:hover {
-  transform: scale(1.02);
+  transform: scale(1.03);
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.25);
 }
 
 .founder-image-placeholder {
@@ -228,27 +246,30 @@ const props = defineProps({
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
   color: white;
-  font-size: 3rem;  /* Reducido de 4rem */
+  font-family: var(--font-family-heading);
+  font-size: 3.5rem;
   font-weight: 700;
-  border-radius: 0.875rem;  /* Reducido de 1rem */
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-xl);
 }
 
 .founder-badge {
   position: absolute;
-  bottom: -10px;  /* Reducido de -12px */
+  bottom: -12px;
   left: 50%;
   transform: translateX(-50%);
-  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
   color: white;
-  padding: 0.4rem 1.25rem;  /* Reducido */
+  font-family: var(--font-family-primary);
+  padding: 0.5rem 1.5rem;
   border-radius: 2rem;
-  font-size: 0.8125rem;  /* Reducido de 0.875rem */
-  font-weight: 600;
-  box-shadow: 0 3px 10px rgba(102, 126, 234, 0.4);  /* Reducido shadow */
+  font-size: 0.875rem;
+  font-weight: 700;
+  box-shadow: var(--shadow-lg);
   white-space: nowrap;
+  letter-spacing: 0.02em;
 }
 
 .founder-info {
@@ -258,31 +279,36 @@ const props = defineProps({
 }
 
 .founder-name {
-  font-size: 1.625rem;  /* Reducido de 2rem */
+  font-family: var(--font-family-heading);
+  font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 700;
-  color: #1a202c;
+  color: var(--color-text-primary);
   margin: 0;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .founder-title {
-  font-size: 1rem;  /* Reducido de 1.125rem */
-  color: #5568D3;
+  font-family: var(--font-family-primary);
+  font-size: clamp(0.9375rem, 2vw, 1.0625rem);
+  color: var(--color-primary);
   font-weight: 600;
   margin: 0;
+  line-height: 1.5;
 }
 
 .founder-bio {
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;  /* Reducido de 1rem */
+  gap: 1rem;
 }
 
 .bio-paragraph {
-  color: #2d3748;
-  line-height: 1.7;  /* Reducido de 1.8 */
+  font-family: var(--font-family-primary);
+  color: var(--color-text-secondary);
+  line-height: 1.75;
   margin: 0;
-  font-size: 0.9375rem;  /* Reducido de 0.9875rem */
+  font-size: 0.9375rem;
 }
 
 .founder-credentials {
@@ -317,57 +343,71 @@ const props = defineProps({
 }
 
 .credential-item svg {
-  color: #5568D3;
+  color: var(--color-primary);
   flex-shrink: 0;
   margin-top: 2px;
+}
+
+.credentials-header h4 {
+  font-family: var(--font-family-primary);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 /* Mission & Vision */
 .mission-vision {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;  /* Reducido de 2rem */
-  margin-bottom: 3.5rem;  /* Reducido de 5rem */
-  animation: fadeInUp 1s ease-out 0.6s both;
+  gap: 2rem;
+  margin-bottom: 4rem;
+  animation: fadeInUp 0.8s ease-out 0.4s both;
 }
 
 .mission-card {
   background: white;
-  padding: 2rem;  /* Reducido de 2.5rem */
-  border-radius: 0.875rem;  /* Reducido de 1rem */
+  padding: 2.5rem;
+  border-radius: 1.25rem;
   text-align: center;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);  /* Reducido shadow */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-top: 3px solid transparent;  /* Reducido de 4px */
-  border-top-color: #5568D3;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
+  border: 1.5px solid #F3F4F6;
+  border-top: 4px solid var(--color-primary);
 }
 
 .mission-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);  /* Reducido shadow */
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--color-primary-light);
 }
 
 .card-icon {
   display: inline-flex;
-  padding: 0.875rem;  /* Reducido de 1rem */
-  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
-  border-radius: 0.875rem;  /* Reducido de 1rem */
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  border-radius: 1rem;
   color: white;
-  margin-bottom: 1.25rem;  /* Reducido de 1.5rem */
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-md);
 }
 
 .card-title {
-  font-size: 1.25rem;  /* Reducido de 1.5rem */
+  font-family: var(--font-family-heading);
+  font-size: clamp(1.125rem, 2.5vw, 1.375rem);
   font-weight: 700;
-  color: #2d3748;
-  margin-bottom: 0.875rem;  /* Reducido de 1rem */
-  letter-spacing: -0.025em;
+  color: var(--color-text-primary);
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
 }
 
 .card-text {
-  color: #4a5568;
-  line-height: 1.7;  /* Reducido de 1.8 */
-  font-size: 0.9375rem;  /* Reducido de 0.9875rem */
+  font-family: var(--font-family-primary);
+  color: var(--color-text-secondary);
+  line-height: 1.75;
+  font-size: 0.9375rem;
 }
 
 /* Team Section */

@@ -207,20 +207,25 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* Navbar */
+/* ============================================
+   Modern Corporate Navbar
+   ============================================ */
+
 .navbar {
   width: 100%;
   height: 80px;
-  background-color: white;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #E5E7EB;
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 0 1.5rem;
   height: 100%;
@@ -258,10 +263,11 @@ onUnmounted(() => {
 }
 
 .brand-text {
+  font-family: var(--font-family-heading);
   font-size: 1.25rem;
-  font-weight: 600;
-  color: #111827;
-  letter-spacing: -0.025em;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
   white-space: nowrap;
 }
 
@@ -278,13 +284,14 @@ onUnmounted(() => {
 }
 
 .nav-link {
-  font-size: 1rem;
+  font-family: var(--font-family-primary);
+  font-size: 0.9375rem;
   font-weight: 500;
-  color: #6b7280;
+  color: var(--color-text-secondary);
   text-decoration: none;
-  padding: 0.5rem 0.75rem;
-  border-radius: 6px;
-  transition: all 0.3s ease;
+  padding: 0.625rem 1rem;
+  border-radius: 0.5rem;
+  transition: all var(--transition-base);
   position: relative;
   cursor: pointer;
   display: block;
@@ -293,40 +300,44 @@ onUnmounted(() => {
 .nav-link::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: 4px;
   left: 50%;
   transform: translateX(-50%);
   width: 0;
   height: 2px;
-  background: #5568D3;
-  transition: width 0.3s ease;
+  background: var(--color-primary);
+  border-radius: 2px;
+  transition: width var(--transition-base);
 }
 
 .nav-link:hover {
-  color: #5568D3;
+  color: var(--color-primary);
+  background: rgba(79, 70, 229, 0.05);
 }
 
 .nav-link:hover::after {
-  width: 80%;
+  width: 70%;
 }
 
 .nav-link--active {
-  color: #5568D3;
+  color: var(--color-primary);
   font-weight: 600;
+  background: rgba(79, 70, 229, 0.08);
 }
 
 .nav-link--active::after {
-  width: 80%;
+  width: 70%;
 }
 
 /* Router link active */
 .router-link-active.nav-link {
-  color: #5568D3;
+  color: var(--color-primary);
   font-weight: 600;
+  background: rgba(79, 70, 229, 0.08);
 }
 
 .router-link-active.nav-link::after {
-  width: 80%;
+  width: 70%;
 }
 
 /* CTA Button - Solo visible en mobile */
@@ -354,26 +365,28 @@ onUnmounted(() => {
 }
 
 .cta-button {
-  padding: 0.625rem 1.5rem;
+  font-family: var(--font-family-primary);
+  padding: 0.75rem 1.75rem;
   font-size: 0.9375rem;
   font-weight: 600;
   color: white;
-  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
   border: none;
-  border-radius: 8px;
+  border-radius: 0.75rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(85, 104, 211, 0.3);
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-md);
   white-space: nowrap;
 }
 
 .cta-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(85, 104, 211, 0.4);
+  box-shadow: var(--shadow-lg);
 }
 
 .cta-button:active {
   transform: translateY(0);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Mobile Toggle - Minimalista */
@@ -392,8 +405,8 @@ onUnmounted(() => {
 .toggle-bar {
   width: 100%;
   height: 2px;
-  background-color: #111827;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--color-text-primary);
+  transition: all var(--transition-base);
   border-radius: 2px;
   transform-origin: center;
 }
@@ -436,34 +449,35 @@ onUnmounted(() => {
 }
 
 .mobile-nav-link {
+  font-family: var(--font-family-primary);
   padding: 1rem 1.5rem;
   font-size: 1rem;
   font-weight: 500;
-  color: #6b7280;
+  color: var(--color-text-secondary);
   text-decoration: none;
   border-left: 3px solid transparent;
-  transition: all 0.3s ease;
+  transition: all var(--transition-base);
   cursor: pointer;
   display: block;
 }
 
 .mobile-nav-link:hover {
-  color: #5568D3;
-  background-color: rgba(85, 104, 211, 0.05);
+  color: var(--color-primary);
+  background-color: rgba(79, 70, 229, 0.05);
 }
 
 .mobile-nav-link--active {
-  color: #5568D3;
+  color: var(--color-primary);
   font-weight: 600;
-  background-color: rgba(85, 104, 211, 0.08);
-  border-left-color: #5568D3;
+  background-color: rgba(79, 70, 229, 0.08);
+  border-left-color: var(--color-primary);
 }
 
 .router-link-active.mobile-nav-link {
-  color: #5568D3;
+  color: var(--color-primary);
   font-weight: 600;
-  background-color: rgba(85, 104, 211, 0.08);
-  border-left-color: #5568D3;
+  background-color: rgba(79, 70, 229, 0.08);
+  border-left-color: var(--color-primary);
 }
 
 .mobile-divider {
