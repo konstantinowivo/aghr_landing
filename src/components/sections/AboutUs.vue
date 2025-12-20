@@ -42,7 +42,7 @@
                 :key="index"
                 class="credential-item"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
                 <span>{{ credential }}</span>
@@ -56,7 +56,7 @@
       <div class="mission-vision">
         <div class="mission-card">
           <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
             </svg>
           </div>
@@ -66,7 +66,7 @@
 
         <div class="mission-card">
           <div class="card-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
               <circle cx="12" cy="12" r="3"/>
             </svg>
@@ -151,22 +151,14 @@ const props = defineProps({
   },
   team: {
     type: Array,
-    default: () => [
-      // Ejemplo de miembro del equipo:
-      // {
-      //   name: 'Victoria López',
-      //   role: 'Consultora en Desarrollo Organizacional',
-      //   image: '',
-      //   description: 'Especialista en diseño de procesos de RH y team building.'
-      // }
-    ]
+    default: () => []
   }
 })
 </script>
 
 <style scoped>
 .about-us {
-  padding: 5rem 0;
+  padding: 3.5rem 0;  /* Reducido de 5rem */
   background: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
 }
 
@@ -179,73 +171,38 @@ const props = defineProps({
 /* Header */
 .header {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;  /* Reducido de 3rem */
   animation: fadeInDown 1s ease-out;
 }
 
 .title {
-  font-size: 2.5rem;
+  font-size: 2rem;  /* Reducido de 2.5rem */
   font-weight: 700;
   color: #1a202c;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;  /* Reducido de 1rem */
   letter-spacing: -0.025em;
 }
 
 .subtitle {
-  font-size: 1.125rem;
+  font-size: 1rem;  /* Reducido de 1.125rem */
   color: #4a5568;
-}
-
-/* About Description */
-.about-description {
-  background: white;
-  padding: 2.5rem;
-  border-radius: 1rem;
-  margin-bottom: 4rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-  animation: fadeInUp 1s ease-out 0.2s both;
-}
-
-.description-text {
-  color: #2d3748;
-  line-height: 1.8;
-  font-size: 1.0625rem;
-  margin-bottom: 1.5rem;
-}
-
-.description-text:last-child {
-  margin-bottom: 0;
-}
-
-.description-text.main-text {
-  font-weight: 600;
-  color: #1a202c;
 }
 
 /* Founder Section */
 .founder-section {
-  margin-bottom: 5rem;
+  margin-bottom: 3.5rem;  /* Reducido de 5rem */
   animation: fadeInUp 1s ease-out 0.4s both;
-}
-
-.founder-section-title {
-  font-size: 1.875rem;
-  font-weight: 700;
-  color: #1a202c;
-  text-align: center;
-  margin-bottom: 2rem;
-  letter-spacing: -0.025em;
 }
 
 .founder-content {
   display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 3.5rem;
+  grid-template-columns: 260px 1fr;  /* Reducido de 320px */
+  gap: 2.5rem;  /* Reducido de 3.5rem */
   align-items: start;
   background: white;
-  padding: 3rem;
-  border-radius: 1.5rem;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  padding: 2rem;  /* Reducido de 3rem */
+  border-radius: 1rem;  /* Reducido de 1.5rem */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);  /* Reducido shadow */
 }
 
 .founder-image-wrapper {
@@ -256,8 +213,8 @@ const props = defineProps({
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
-  border-radius: 1rem;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  border-radius: 0.875rem;  /* Reducido de 1rem */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);  /* Reducido shadow */
   transition: transform 0.3s ease;
 }
 
@@ -273,35 +230,35 @@ const props = defineProps({
   justify-content: center;
   background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
   color: white;
-  font-size: 4rem;
+  font-size: 3rem;  /* Reducido de 4rem */
   font-weight: 700;
-  border-radius: 1rem;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  border-radius: 0.875rem;  /* Reducido de 1rem */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
 }
 
 .founder-badge {
   position: absolute;
-  bottom: -12px;
+  bottom: -10px;  /* Reducido de -12px */
   left: 50%;
   transform: translateX(-50%);
   background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
   color: white;
-  padding: 0.5rem 1.5rem;
+  padding: 0.4rem 1.25rem;  /* Reducido */
   border-radius: 2rem;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;  /* Reducido de 0.875rem */
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 3px 10px rgba(102, 126, 234, 0.4);  /* Reducido shadow */
   white-space: nowrap;
 }
 
 .founder-info {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;  /* Reducido de 1.5rem */
 }
 
 .founder-name {
-  font-size: 2rem;
+  font-size: 1.625rem;  /* Reducido de 2rem */
   font-weight: 700;
   color: #1a202c;
   margin: 0;
@@ -309,7 +266,7 @@ const props = defineProps({
 }
 
 .founder-title {
-  font-size: 1.125rem;
+  font-size: 1rem;  /* Reducido de 1.125rem */
   color: #5568D3;
   font-weight: 600;
   margin: 0;
@@ -318,26 +275,26 @@ const props = defineProps({
 .founder-bio {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.875rem;  /* Reducido de 1rem */
 }
 
 .bio-paragraph {
   color: #2d3748;
-  line-height: 1.8;
+  line-height: 1.7;  /* Reducido de 1.8 */
   margin: 0;
-  font-size: 0.9875rem;
+  font-size: 0.9375rem;  /* Reducido de 0.9875rem */
 }
 
 .founder-credentials {
-  margin-top: 1rem;
+  margin-top: 0.75rem;  /* Reducido de 1rem */
 }
 
 .credentials-header {
-  margin-bottom: 1rem;
+  margin-bottom: 0.875rem;  /* Reducido de 1rem */
 }
 
 .credentials-header h4 {
-  font-size: 0.95rem;
+  font-size: 0.875rem;  /* Reducido de 0.95rem */
   font-weight: 700;
   color: #1a202c;
   margin: 0;
@@ -348,10 +305,10 @@ const props = defineProps({
 .credential-item {
   display: flex;
   align-items: flex-start;
-  gap: 0.75rem;
+  gap: 0.625rem;  /* Reducido de 0.75rem */
   color: #2d3748;
-  font-size: 0.9rem;
-  margin-bottom: 0.75rem;
+  font-size: 0.875rem;  /* Reducido de 0.9rem */
+  margin-bottom: 0.625rem;  /* Reducido de 0.75rem */
   line-height: 1.5;
 }
 
@@ -369,77 +326,77 @@ const props = defineProps({
 .mission-vision {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-  margin-bottom: 5rem;
+  gap: 1.5rem;  /* Reducido de 2rem */
+  margin-bottom: 3.5rem;  /* Reducido de 5rem */
   animation: fadeInUp 1s ease-out 0.6s both;
 }
 
 .mission-card {
   background: white;
-  padding: 2.5rem;
-  border-radius: 1rem;
+  padding: 2rem;  /* Reducido de 2.5rem */
+  border-radius: 0.875rem;  /* Reducido de 1rem */
   text-align: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);  /* Reducido shadow */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-top: 4px solid transparent;
+  border-top: 3px solid transparent;  /* Reducido de 4px */
   border-top-color: #5568D3;
 }
 
 .mission-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);  /* Reducido shadow */
 }
 
 .card-icon {
   display: inline-flex;
-  padding: 1rem;
+  padding: 0.875rem;  /* Reducido de 1rem */
   background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
-  border-radius: 1rem;
+  border-radius: 0.875rem;  /* Reducido de 1rem */
   color: white;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;  /* Reducido de 1.5rem */
 }
 
 .card-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;  /* Reducido de 1.5rem */
   font-weight: 700;
   color: #2d3748;
-  margin-bottom: 1rem;
+  margin-bottom: 0.875rem;  /* Reducido de 1rem */
   letter-spacing: -0.025em;
 }
 
 .card-text {
   color: #4a5568;
-  line-height: 1.8;
-  font-size: 0.9875rem;
+  line-height: 1.7;  /* Reducido de 1.8 */
+  font-size: 0.9375rem;  /* Reducido de 0.9875rem */
 }
 
 /* Team Section */
 .team-section {
-  margin-top: 4rem;
+  margin-top: 3rem;  /* Reducido de 4rem */
   animation: fadeInUp 1s ease-out 0.8s both;
 }
 
 .team-title {
-  font-size: 2rem;
+  font-size: 1.625rem;  /* Reducido de 2rem */
   font-weight: 700;
   color: #1a202c;
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;  /* Reducido de 3rem */
   letter-spacing: -0.025em;
 }
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));  /* Reducido de 250px */
+  gap: 1.5rem;  /* Reducido de 2rem */
 }
 
 .team-card {
   background: white;
-  padding: 2rem;
-  border-radius: 1rem;
+  padding: 1.5rem;  /* Reducido de 2rem */
+  border-radius: 0.875rem;  /* Reducido de 1rem */
   text-align: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);  /* Reducido shadow */
   transition: transform 0.3s ease;
 }
 
@@ -448,16 +405,16 @@ const props = defineProps({
 }
 
 .team-image-wrapper {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;  /* Reducido de 1.5rem */
 }
 
 .team-image {
-  width: 120px;
-  height: 120px;
+  width: 100px;  /* Reducido de 120px */
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
   margin: 0 auto;
-  border: 4px solid #5568D3;
+  border: 3px solid #5568D3;  /* Reducido de 4px */
   transition: transform 0.3s ease;
 }
 
@@ -466,37 +423,37 @@ const props = defineProps({
 }
 
 .team-image-placeholder {
-  width: 120px;
-  height: 120px;
+  width: 100px;  /* Reducido de 120px */
+  height: 100px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
   color: white;
-  font-size: 2rem;
+  font-size: 1.75rem;  /* Reducido de 2rem */
   font-weight: 700;
   margin: 0 auto;
-  border: 4px solid #5568D3;
+  border: 3px solid #5568D3;  /* Reducido de 4px */
 }
 
 .team-name {
-  font-size: 1.25rem;
+  font-size: 1.125rem;  /* Reducido de 1.25rem */
   font-weight: 700;
   color: #2d3748;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.375rem;  /* Reducido de 0.5rem */
 }
 
 .team-role {
-  font-size: 0.95rem;
+  font-size: 0.875rem;  /* Reducido de 0.95rem */
   color: #5568D3;
   font-weight: 600;
-  margin-bottom: 1rem;
+  margin-bottom: 0.875rem;  /* Reducido de 1rem */
 }
 
 .team-description {
   color: #4a5568;
-  font-size: 0.9rem;
+  font-size: 0.875rem;  /* Reducido de 0.9rem */
   line-height: 1.6;
 }
 
@@ -528,11 +485,11 @@ const props = defineProps({
   .founder-content {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 2rem;
+    gap: 1.5rem;  /* Reducido de 2rem */
   }
 
   .founder-image-wrapper {
-    max-width: 280px;
+    max-width: 240px;  /* Reducido de 280px */
     margin: 0 auto;
   }
 
@@ -543,28 +500,20 @@ const props = defineProps({
 
 @media (max-width: 768px) {
   .about-us {
-    padding: 3rem 0;
+    padding: 2.5rem 0;  /* Reducido de 3rem */
   }
 
   .title {
-    font-size: 2rem;
-  }
-
-  .founder-section-title {
-    font-size: 1.5rem;
+    font-size: 1.75rem;  /* Reducido de 2rem */
   }
 
   .founder-content {
     padding: 1.5rem;
-    gap: 1.5rem;
+    gap: 1.25rem;  /* Reducido de 1.5rem */
   }
 
   .founder-name {
-    font-size: 1.5rem;
-  }
-
-  .description-text {
-    font-size: 1rem;
+    font-size: 1.375rem;  /* Reducido de 1.5rem */
   }
 
   .team-grid {
@@ -572,7 +521,7 @@ const props = defineProps({
   }
 
   .card-title {
-    font-size: 1.25rem;
+    font-size: 1.125rem;  /* Reducido de 1.25rem */
   }
 }
 
@@ -582,24 +531,20 @@ const props = defineProps({
   }
 
   .title {
-    font-size: 1.75rem;
-  }
-
-  .about-description {
-    padding: 1.5rem;
+    font-size: 1.5rem;  /* Reducido de 1.75rem */
   }
 
   .founder-content {
-    padding: 1.5rem;
+    padding: 1.25rem;  /* Reducido de 1.5rem */
   }
 
   .founder-badge {
     font-size: 0.75rem;
-    padding: 0.375rem 1rem;
+    padding: 0.325rem 0.875rem;  /* Reducido */
   }
 
   .credential-item {
-    font-size: 0.85rem;
+    font-size: 0.8125rem;  /* Reducido de 0.85rem */
   }
 }
 </style>

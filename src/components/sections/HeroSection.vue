@@ -74,7 +74,6 @@ import VideoBackground from './VideoBackground.vue'
 
 // 🔧 IMPORTAR IMÁGENES
 import aghrLogo from '../../assets/images/logo/aghr_logo.png'
-import heroBackground from '../../assets/images/hero/hero_aghrimage.svg'
 
 // 🎥 IMPORTAR VIDEOS
 import video1 from '../../assets/videos/video_entrevista.mp4'

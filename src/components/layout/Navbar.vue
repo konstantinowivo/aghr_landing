@@ -4,7 +4,7 @@
       <div class="navbar-content">
         <!-- Logo + Brand Name -->
         <div class="navbar-brand">
-          <a href="#home" @click="handleLogoClick" class="brand-link">
+          <router-link to="/" class="brand-link">
             <img
               src="/src/assets/images/logo/aghr_logo.png"
               alt="AGHR Logo"
@@ -13,13 +13,24 @@
               class="logo-image"
             >
             <span class="brand-text">AGHR | mentoring & HR</span>
-          </a>
+          </router-link>
         </div>
 
         <!-- Navigation Links -->
         <ul class="navbar-nav">
           <li v-for="(item, index) in navItems" :key="index">
+            <!-- Si es link externo (jobs), usar router-link -->
+            <router-link
+              v-if="item.isRoute"
+              :to="item.route"
+              :class="['nav-link', { 'nav-link--active': isActiveRoute(item.route) }]"
+            >
+              {{ item.label }}
+            </router-link>
+            
+            <!-- Si es scroll interno, usar link normal -->
             <a
+              v-else
               :href="'#' + item.section"
               @click.prevent="handleNavClick(item)"
               :class="['nav-link', { 'nav-link--active': activeSection === item.section }]"
@@ -62,15 +73,25 @@
           <div class="mobile-menu-wrapper">
             <!-- Navigation Links Mobile -->
             <div class="mobile-nav-container">
-              <a
-                v-for="(item, index) in navItems"
-                :key="index"
-                :href="'#' + item.section"
-                @click.prevent="handleMobileNavClick(item)"
-                :class="['mobile-nav-link', { 'mobile-nav-link--active': activeSection === item.section }]"
-              >
-                {{ item.label }}
-              </a>
+              <template v-for="(item, index) in navItems" :key="index">
+                <router-link
+                  v-if="item.isRoute"
+                  :to="item.route"
+                  :class="['mobile-nav-link', { 'mobile-nav-link--active': isActiveRoute(item.route) }]"
+                  @click="closeMobileMenu"
+                >
+                  {{ item.label }}
+                </router-link>
+                
+                <a
+                  v-else
+                  :href="'#' + item.section"
+                  @click.prevent="handleMobileNavClick(item)"
+                  :class="['mobile-nav-link', { 'mobile-nav-link--active': activeSection === item.section }]"
+                >
+                  {{ item.label }}
+                </a>
+              </template>
             </div>
 
             <!-- Divider -->
@@ -90,22 +111,25 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 
 const props = defineProps({
   heroRef: Object,
   servicesRef: Object,
   aboutRef: Object,
-  jobsRef: Object,           // ← CAMBIADO: testimonialsRef → jobsRef
+  jobsRef: Object,
   contactRef: Object,
   navItems: {
     type: Array,
     default: () => [
-      { label: 'Inicio', section: 'hero' },
-      { label: 'Servicios', section: 'services' },
-      { label: 'Nosotros', section: 'about' },
-      { label: 'Búsquedas', section: 'jobs' },           // ← CAMBIADO
-      { label: 'Contacto', section: 'contact' }
+      { label: 'Inicio', route: '/', isRoute: true },
+      { label: 'Servicios', route: '/servicios', isRoute: true },
+      { label: 'Nosotros', route: '/nosotros', isRoute: true },
+      { label: 'Búsquedas', route: '/busquedas', isRoute: true },
+      { label: 'Contacto', route: '/contacto', isRoute: true }
     ]
   }
 })
@@ -119,12 +143,20 @@ const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value
 }
 
+const closeMobileMenu = () => {
+  isMobileMenuOpen.value = false
+}
+
+const isActiveRoute = (routePath) => {
+  return route.path === routePath
+}
+
 const scrollToSection = (section) => {
   const refMap = {
     hero: props.heroRef,
     services: props.servicesRef,
     about: props.aboutRef,
-    jobs: props.jobsRef,                    // ← CAMBIADO: testimonials → jobs
+    jobs: props.jobsRef,
     contact: props.contactRef
   }
 
@@ -133,11 +165,6 @@ const scrollToSection = (section) => {
     targetRef.value.scrollIntoView({ behavior: 'smooth' })
     activeSection.value = section
   }
-}
-
-const handleLogoClick = () => {
-  scrollToSection('hero')
-  isMobileMenuOpen.value = false
 }
 
 const handleNavClick = (item) => {
@@ -165,7 +192,6 @@ const handleMobileCTA = () => {
 
 // ✅ Cerrar menú al cambiar resolución
 const handleWindowResize = () => {
-  // Si el ancho supera el breakpoint (968px), cerrar el menú
   if (window.innerWidth > 968) {
     isMobileMenuOpen.value = false
   }
@@ -261,6 +287,7 @@ onUnmounted(() => {
   transition: all 0.3s ease;
   position: relative;
   cursor: pointer;
+  display: block;
 }
 
 .nav-link::after {
@@ -289,6 +316,16 @@ onUnmounted(() => {
 }
 
 .nav-link--active::after {
+  width: 80%;
+}
+
+/* Router link active */
+.router-link-active.nav-link {
+  color: #5568D3;
+  font-weight: 600;
+}
+
+.router-link-active.nav-link::after {
   width: 80%;
 }
 
@@ -416,6 +453,13 @@ onUnmounted(() => {
 }
 
 .mobile-nav-link--active {
+  color: #5568D3;
+  font-weight: 600;
+  background-color: rgba(85, 104, 211, 0.08);
+  border-left-color: #5568D3;
+}
+
+.router-link-active.mobile-nav-link {
   color: #5568D3;
   font-weight: 600;
   background-color: rgba(85, 104, 211, 0.08);
