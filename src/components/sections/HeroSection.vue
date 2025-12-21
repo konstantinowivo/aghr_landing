@@ -70,6 +70,7 @@
 
 <script setup>
 import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import VideoBackground from './VideoBackground.vue'
 
 // Assets
@@ -77,6 +78,9 @@ import aghrLogo from '../../assets/images/logo/aghr_logo.png'
 import video1 from '../../assets/videos/video_entrevista.mp4'
 import video2 from '../../assets/videos/video_oficina.mp4'
 import video3 from '../../assets/videos/video_estrechar_manos.mp4'
+
+// Router
+const router = useRouter()
 
 // Props
 const props = defineProps({
@@ -135,12 +139,12 @@ const handlePrimaryAction = () => {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' })
     } else {
-      // Si no existe el elemento, navegar a la página de servicios
-      window.location.href = '/servicios'
+      // Si no existe el elemento, navegar a la página de servicios usando router
+      router.push('/servicios')
     }
   } else {
-    // Por defecto, navegar a la página de servicios
-    window.location.href = '/servicios'
+    // Por defecto, navegar a la página de servicios usando router
+    router.push('/servicios')
   }
 }
 
@@ -153,12 +157,12 @@ const handleSecondaryAction = () => {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' })
     } else {
-      // Si no existe el elemento, navegar a la página de contacto
-      window.location.href = '/contacto'
+      // Si no existe el elemento, navegar a la página de contacto usando router
+      router.push('/contacto')
     }
   } else {
-    // Por defecto, navegar a la página de contacto
-    window.location.href = '/contacto'
+    // Por defecto, navegar a la página de contacto usando router
+    router.push('/contacto')
   }
 }
 
