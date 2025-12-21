@@ -1,105 +1,97 @@
 <template>
-  <section :class="heroClasses">
-    <!-- Video Background (si hay videos) -->
-    <VideoBackground 
-      v-if="videos && videos.length > 0"
-      :videos="videos"
-      :overlay="overlay"
-      :overlay-opacity="overlayOpacity"
-      :show-controls="showVideoControls"
-    />
-
-    <!-- Image Background (si no hay videos y hay imagen) -->
-    <div v-else-if="backgroundImage" class="hero-image-bg" :style="heroStyles">
-      <div v-if="overlay" class="hero-overlay" :style="overlayStyles"></div>
+  <section class="hero-modern">
+    <!-- Video Background Optimizado -->
+    <div class="hero-background">
+      <VideoBackground
+        v-if="videos && videos.length > 0"
+        :videos="videos"
+        :overlay="false"
+        :show-controls="false"
+      />
+      <div class="hero-overlay"></div>
     </div>
 
-    <!-- Gradient/Color Background (si no hay videos ni imagen) -->
-    <div v-else-if="overlay" class="hero-overlay" :style="overlayStyles"></div>
-    
-    <div class="container">
+    <!-- Content Container -->
+    <div class="hero-container">
       <div class="hero-content">
         <!-- Logo -->
-        <div v-if="$slots.logo || logo" class="hero-logo">
-          <slot name="logo">
-            <img v-if="logo" :src="logo" :alt="logoAlt" width="110" height="165" class="logo-image" />
-          </slot>
+        <div class="hero-logo" data-animate="fade-in-up">
+          <img
+            :src="logo"
+            :alt="logoAlt"
+            width="120"
+            height="120"
+            class="logo-image"
+            loading="eager"
+          />
         </div>
 
         <!-- Brand Name -->
-        <p v-if="brandName" class="hero-brand-name">
+        <p class="hero-brand" data-animate="fade-in-up">
           {{ brandName }}
         </p>
 
-        <!-- Pretitle -->
-        <p v-if="pretitle" class="hero-pretitle">
-          {{ pretitle }}
-        </p>
-
-        <!-- Title -->
-        <h1 class="hero-title">
-          <slot name="title">{{ title }}</slot>
+        <!-- Main Title -->
+        <h1 class="hero-title" data-animate="fade-in-up">
+          {{ title }}
         </h1>
 
         <!-- Subtitle -->
-        <p v-if="subtitle" class="hero-subtitle">
+        <p class="hero-subtitle" data-animate="fade-in-up">
           {{ subtitle }}
         </p>
 
-        <!-- Actions -->
-        <div class="hero-actions">
-          <slot name="actions">
-            <!-- Botones por defecto -->
-            <button class="btn btn-primary" @click="handlePrimaryAction">
-              {{ primaryButtonText }}
-            </button>
-            <button v-if="secondaryButtonText" class="btn btn-secondary" @click="handleSecondaryAction">
-              {{ secondaryButtonText }}
-            </button>
-          </slot>
-        </div>
-      </div>
+        <!-- CTA Buttons -->
+        <div class="hero-actions" data-animate="fade-in-up">
+          <button
+            class="btn-hero btn-hero--primary"
+            @click="handlePrimaryAction"
+            aria-label="Conocer servicios"
+          >
+            <span>{{ primaryButtonText }}</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
 
-      <!-- Optional media -->
-      <div v-if="$slots.media" class="hero-media">
-        <slot name="media"></slot>
+          <button
+            class="btn-hero btn-hero--secondary"
+            @click="handleSecondaryAction"
+            aria-label="Agendar consulta"
+          >
+            <span>{{ secondaryButtonText }}</span>
+          </button>
+        </div>
+
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { onMounted } from 'vue'
 import VideoBackground from './VideoBackground.vue'
 
-// 🔧 IMPORTAR IMÁGENES
+// Assets
 import aghrLogo from '../../assets/images/logo/aghr_logo.png'
-
-// 🎥 IMPORTAR VIDEOS
 import video1 from '../../assets/videos/video_entrevista.mp4'
 import video2 from '../../assets/videos/video_oficina.mp4'
 import video3 from '../../assets/videos/video_estrechar_manos.mp4'
 
+// Props
 const props = defineProps({
-  // Contenido
   title: {
     type: String,
-    default: 'Potenciá tu carrera, amplificá tu marca y conectá con el mejor talento.'
-  },
-  pretitle: {
-    type: String,
-    default: ''
+    default: 'Potenciá tu carrera y conectá con el mejor talento'
   },
   subtitle: {
     type: String,
-    default: ''
+    default: 'Soluciones integrales de Recursos Humanos y Mentoring para empresas y profesionales que buscan excelencia'
   },
   brandName: {
     type: String,
     default: 'Mentoring & HR Consulting'
   },
-  
-  // Logo
   logo: {
     type: String,
     default: () => aghrLogo
@@ -108,19 +100,13 @@ const props = defineProps({
     type: String,
     default: 'AGHR Logo'
   },
-  
-  // Botones
   primaryButtonText: {
     type: String,
-    default: 'Conoce Nuestros Servicios'
+    default: 'Conocer Servicios'
   },
   secondaryButtonText: {
     type: String,
     default: 'Agendar Consulta'
-  },
-  primaryButtonUrl: {
-    type: String,
-    default: '#'
   },
   primaryButtonScroll: {
     type: String,
@@ -130,173 +116,123 @@ const props = defineProps({
     type: String,
     default: '#contact'
   },
-  
-  // 🎥 NUEVAS PROPS PARA VIDEOS
   videos: {
     type: Array,
-    default: () => [video1, video2, video3]  // ✅ Array de videos por defecto
-  },
-  showVideoControls: {
-    type: Boolean,
-    default: false  // ← CAMBIADO A FALSE (ocultar controles)
-  },
-  
-  // Estilos (mantener para retrocompatibilidad)
-  variant: {
-    type: String,
-    default: 'gradient',
-    validator: (value) => ['default', 'gradient', 'dark', 'image', 'video'].includes(value)
-  },
-  backgroundImage: {
-    type: String,
-    default: ''  // ✅ Vacío por defecto para usar videos
-  },
-  overlay: {
-    type: Boolean,
-    default: true
-  },
-  overlayOpacity: {
-    type: Number,
-    default: 0.4,
-    validator: (value) => value >= 0 && value <= 1
-  },
-  fullHeight: {
-    type: Boolean,
-    default: true
+    default: () => [video1, video2, video3]
   }
 })
 
+// Emit
 const emit = defineEmits(['primary-click', 'secondary-click'])
 
-const heroClasses = computed(() => {
-  return [
-    'hero',
-    `hero--${props.variant}`,
-    {
-      'hero--full-height': props.fullHeight,
-      'hero--has-video': props.videos && props.videos.length > 0,
-      'hero--has-image': props.backgroundImage && (!props.videos || props.videos.length === 0)
-    }
-  ]
-})
-
-const heroStyles = computed(() => {
-  const styles = {}
-  
-  if (props.backgroundImage && (!props.videos || props.videos.length === 0)) {
-    styles.backgroundImage = `url(${props.backgroundImage})`
-    styles.backgroundSize = 'cover'
-    styles.backgroundPosition = 'center'
-    styles.backgroundRepeat = 'no-repeat'
-  }
-  
-  return styles
-})
-
-const overlayStyles = computed(() => {
-  return {
-    backgroundColor: `rgba(0, 0, 0, ${props.overlayOpacity})`
-  }
-})
-
-// Event handlers
+// Handlers
 const handlePrimaryAction = () => {
   emit('primary-click')
-  
+
   if (props.primaryButtonScroll) {
-    setTimeout(() => {
-      const element = document.querySelector(props.primaryButtonScroll)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      } else {
-        console.warn(`No se encontró el elemento: ${props.primaryButtonScroll}`)
-      }
-    }, 100)
-  } 
-  else if (props.primaryButtonUrl) {
-    window.open(props.primaryButtonUrl, '_blank')
+    // Si tiene scroll, intentar hacer scroll primero
+    const element = document.querySelector(props.primaryButtonScroll)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    } else {
+      // Si no existe el elemento, navegar a la página de servicios
+      window.location.href = '/servicios'
+    }
+  } else {
+    // Por defecto, navegar a la página de servicios
+    window.location.href = '/servicios'
   }
 }
 
 const handleSecondaryAction = () => {
   emit('secondary-click')
-  
+
   if (props.secondaryButtonScroll) {
+    // Si tiene scroll, intentar hacer scroll primero
     const element = document.querySelector(props.secondaryButtonScroll)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    } else {
+      // Si no existe el elemento, navegar a la página de contacto
+      window.location.href = '/contacto'
     }
+  } else {
+    // Por defecto, navegar a la página de contacto
+    window.location.href = '/contacto'
   }
 }
+
+const scrollToContent = () => {
+  window.scrollBy({
+    top: window.innerHeight,
+    behavior: 'smooth'
+  })
+}
+
+// Animations on mount
+onMounted(() => {
+  // Intersection Observer para animaciones
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('animate')
+        }, index * 100)
+      }
+    })
+  }, {
+    threshold: 0.1
+  })
+
+  // Observar elementos con data-animate
+  document.querySelectorAll('[data-animate]').forEach((el) => {
+    observer.observe(el)
+  })
+})
 </script>
 
 <style scoped>
-.hero {
+/* ============================================
+   Modern Corporate Hero Section - Optimized
+   ============================================ */
+
+.hero-modern {
   position: relative;
   width: 100%;
+  height: 100vh;
+  max-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem 0;
   overflow: hidden;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
 }
 
-.hero--full-height {
-  min-height: 93vh;
-}
-
-/* Variants */
-.hero--default {
-  background-color: #fafafa;
-}
-
-.hero--gradient {
-  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
-  color: white;
-}
-
-.hero--dark {
-  background-color: #111827;
-  color: white;
-}
-
-.hero--image,
-.hero--video {
-  background-color: #111827;
-  color: white;
-}
-
-.hero--has-image,
-.hero--has-video {
-  color: white;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-/* Image Background */
-.hero-image-bg {
+/* Background */
+.hero-background {
   position: absolute;
   inset: 0;
   z-index: 0;
 }
 
-/* Overlay */
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: linear-gradient(
+    135deg,
+    rgba(79, 70, 229, 0.4) 0%,
+    rgba(124, 58, 237, 0.4) 100%
+  );
   z-index: 1;
+  backdrop-filter: blur(0px);
+  transition: backdrop-filter var(--transition-slow);
 }
 
 /* Container */
-.hero .container {
+.hero-container {
   position: relative;
   z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: 3rem;
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 0 1.5rem;
   width: 100%;
@@ -304,26 +240,26 @@ const handleSecondaryAction = () => {
 
 /* Content */
 .hero-content {
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 1.5rem;
+  gap: 1.25rem;
+  padding: 2rem 0;
+  max-height: 100vh;
+  justify-content: center;
 }
 
 /* Logo */
 .hero-logo {
-  margin-bottom: 0.4rem;
-  animation: fadeInUp 1s ease-out;
-  animation-fill-mode: both;
+  margin-bottom: 0;
 }
 
 .logo-image {
-  max-width: 110px;
+  width: 90px;
   height: auto;
-  transition: all 0.3s ease;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.3));
+  transition: transform var(--transition-base);
 }
 
 .logo-image:hover {
@@ -331,281 +267,273 @@ const handleSecondaryAction = () => {
 }
 
 /* Brand Name */
-.hero-brand-name {
-  font-size: 1.125rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: white;
-  margin: 0;
-  opacity: 0.95;
-  animation: fadeInUp 1s ease-out 0.2s;
-  animation-fill-mode: both;
-}
-
-.hero--default .hero-brand-name {
-  color: #111827;
-}
-
-/* Pretitle */
-.hero-pretitle {
-  font-size: 1.25rem;
+.hero-brand {
+  font-family: var(--font-family-primary);
+  font-size: clamp(0.875rem, 2vw, 1rem);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #e0e7ff;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.95);
   margin: 0;
-  animation: fadeInUp 1s ease-out 0.4s; 
-  animation-fill-mode: both;
-  font-family: 'Poppins', sans-serif;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-}
-
-.hero--gradient .hero-pretitle,
-.hero--dark .hero-pretitle,
-.hero--image .hero-pretitle,
-.hero--video .hero-pretitle,
-.hero--has-image .hero-pretitle,
-.hero--has-video .hero-pretitle {
-  color: #e0e7ff;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-}
-
-.hero--default .hero-pretitle {
-  color: #5568D3;
-  text-shadow: none;
 }
 
 /* Title */
 .hero-title {
-  font-size: 3.5rem;
-  font-weight: 700;
-  line-height: 1.2;
-  margin: 0;
-  max-width: 50rem;
-  letter-spacing: -0.025em;
-  animation: fadeInUp 1s ease-out 0.6s;
-  animation-fill-mode: both;
-  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
-}
-
-.hero--gradient .hero-title,
-.hero--dark .hero-title,
-.hero--image .hero-title,
-.hero--video .hero-title,
-.hero--has-image .hero-title,
-.hero--has-video .hero-title {
+  font-family: var(--font-family-heading);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
   color: white;
-  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.7);
-}
-
-.hero--default .hero-title {
-  color: #111827;
-  text-shadow: none;
+  margin: 0;
+  max-width: 900px;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 /* Subtitle */
 .hero-subtitle {
-  font-size: 1.25rem;
-  line-height: 1.8;
+  font-family: var(--font-family-primary);
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  font-weight: 400;
+  line-height: 1.5;
   color: rgba(255, 255, 255, 0.9);
   margin: 0;
-  max-width: 42rem;
-  font-weight: 400;
-  animation: fadeInUp 1s ease-out 0.8s;
-  animation-fill-mode: both;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-}
-
-.hero--gradient .hero-subtitle,
-.hero--dark .hero-subtitle,
-.hero--image .hero-subtitle,
-.hero--video .hero-subtitle,
-.hero--has-image .hero-subtitle,
-.hero--has-video .hero-subtitle {
-  color: rgba(255, 255, 255, 0.9);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-}
-
-.hero--default .hero-subtitle {
-  color: #6b7280;
-  text-shadow: none;
+  max-width: 700px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Actions */
 .hero-actions {
   display: flex;
-  gap: 1.5rem;
-  margin-top: 2rem;
+  gap: 1rem;
   flex-wrap: wrap;
   justify-content: center;
-  animation: fadeInUp 1s ease-out 1s;
-  animation-fill-mode: both;
+  margin-top: 0.5rem;
 }
 
-/* Animaciones */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Botones */
-.btn {
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid white;
+.btn-hero {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  text-decoration: none;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  font-family: var(--font-family-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
 }
 
-.btn-primary {
+.btn-hero--primary {
   background: white;
-  color: #5568D3;
-  font-weight: 700;
+  color: var(--color-primary);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
-.btn-primary:hover {
+.btn-hero--primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+  background: #FAFBFC;
+}
+
+.btn-hero--primary svg {
+  transition: transform var(--transition-base);
+}
+
+.btn-hero--primary:hover svg {
+  transform: translateX(4px);
+}
+
+.btn-hero--secondary {
   background: transparent;
   color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
-.btn-primary:active {
-  transform: translateY(0);
+.btn-hero--secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
-.btn-secondary {
-  background: transparent;
-  color: white;
-  border-color: white;
-}
-
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2);
-  border-color: white;
-}
-
-.btn-secondary:active {
-  transform: translateY(0);
-}
-
-/* Media */
-.hero-media {
-  flex: 1;
+/* Metrics */
+.hero-metrics {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  padding: 2rem 3rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
-.hero-media img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.metric-number {
+  font-family: var(--font-family-heading);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 800;
+  color: white;
+  line-height: 1;
+}
+
+.metric-label {
+  font-family: var(--font-family-primary);
+  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.metric-divider {
+  width: 1px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.scroll-indicator:hover {
+  transform: translateX(-50%) translateY(-4px);
+}
+
+.scroll-mouse {
+  width: 28px;
+  height: 44px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 14px;
+  position: relative;
+}
+
+.scroll-wheel {
+  width: 4px;
+  height: 8px;
+  background: white;
+  border-radius: 2px;
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: scroll-down 1.5s infinite;
+}
+
+.scroll-text {
+  font-family: var(--font-family-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+@keyframes scroll-down {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(16px);
+  }
+}
+
+/* Animations */
+[data-animate] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-animate].animate {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .hero {
+  .hero-content {
     padding: 3rem 0;
-  }
-
-  .hero--full-height {
-    min-height: auto;
-  }
-
-  .hero .container {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .logo-image {
-    max-width: 100px;
-  }
-
-  .hero-brand-name {
-    font-size: 1rem;
-  }
-
-  .hero-pretitle {
-    font-size: 1.125rem;
-  }
-
-  .hero-title {
-    font-size: 2.5rem;
-  }
-  
-  .hero-subtitle {
-    font-size: 1.125rem;
-  }
-  
-  .hero-media {
-    max-width: 100%;
-    width: 100%;
+    gap: 1.5rem;
   }
 
   .hero-actions {
     flex-direction: column;
-    gap: 1rem;
     width: 100%;
+    max-width: 400px;
   }
 
-  .btn {
+  .btn-hero {
     width: 100%;
+    justify-content: center;
+  }
+
+  .hero-metrics {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem;
+  }
+
+  .metric-divider {
+    width: 60px;
+    height: 1px;
+  }
+
+  .scroll-indicator {
+    bottom: 2rem;
   }
 }
 
 @media (max-width: 480px) {
-  .hero {
+  .hero-content {
     padding: 2rem 0;
-    min-height: auto;
   }
 
   .logo-image {
-    max-width: 80px;
+    width: 90px;
   }
 
-  .hero-brand-name {
-    font-size: 0.9375rem;
+  .hero-metrics {
+    padding: 1.25rem 1.5rem;
   }
+}
 
-  .hero-pretitle {
-    font-size: 1rem;
-  }
-
-  .hero-title {
-    font-size: 2rem;
-  }
-  
-  .hero-subtitle {
-    font-size: 1rem;
-  }
-
-  .hero-actions {
-    flex-direction: column;
-    width: 100%;
-    gap: 1rem;
-  }
-
-  .btn {
-    width: 100%;
-    padding: 0.875rem 1.5rem;
+/* Performance Optimizations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 </style>

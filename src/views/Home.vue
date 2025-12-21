@@ -12,8 +12,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import HeroSection from '../components/sections/HeroSectionOptimized.vue'
 import FloatingButtons from '../components/layout/FloatingButtons.vue'
+import HeroSection from '../components/sections/HeroSection.vue'
 
 // Crear ref para hero section
 const heroRef = ref(null)
@@ -40,10 +40,12 @@ defineExpose({
 
 .home {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .section-wrapper {
   width: 100%;
+  height: 100vh;
 }
 </style>

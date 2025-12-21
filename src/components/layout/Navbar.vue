@@ -217,8 +217,9 @@ onUnmounted(() => {
   background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid #E5E7EB;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
   z-index: 1000;
   box-shadow: var(--shadow-sm);
   transition: all var(--transition-base);

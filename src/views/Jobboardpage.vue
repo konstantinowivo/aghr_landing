@@ -2,7 +2,7 @@
   <div class="jobboard-page">
     <!-- Hero Section (personalizado para trabajos) -->
     <section ref="heroRef" id="hero" class="section-wrapper">
-      <HeroSection 
+      <HeroSection
         title="Encontrá tu próxima oportunidad profesional"
         subtitle="Explorá nuestras propuestas laborales y conectá con empresas líderes que buscan talento como el tuyo"
         primaryButtonText="Ver Propuestas"
