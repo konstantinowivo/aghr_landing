@@ -631,9 +631,9 @@ const props = defineProps({
   line-height: 1.15;
   letter-spacing: -0.03em;
   color: white;
-  margin: 0;
-  margin-bottom: 1rem;
+  margin: 0 auto 1rem;
   max-width: 900px;
+  text-align: center;
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
@@ -645,6 +645,7 @@ const props = defineProps({
   color: rgba(255, 255, 255, 0.9);
   margin: 0 auto;
   max-width: 700px;
+  text-align: center;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
