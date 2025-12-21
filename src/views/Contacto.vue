@@ -31,11 +31,16 @@ import HeroContactoAnimation from '@/components/HeroAnimations/HeroContactoAnima
 
 .hero-section {
   position: relative;
-  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #621478 0%, #60A7C6 100%);
   padding: 4rem 0;
   color: white;
   text-align: center;
   overflow: hidden;
+  min-height: 50vh;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .container {
