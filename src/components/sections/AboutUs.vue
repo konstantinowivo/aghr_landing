@@ -1,11 +1,22 @@
 <template>
-  <section class="about-us">
-    <div class="container">
-      <!-- Header -->
-      <div class="header">
-        <h2 class="title">Quiénes Somos</h2>
-        <p class="subtitle">Profesionales comprometidos con tu crecimiento</p>
+  <div>
+    <!-- Hero Section with Animation -->
+    <section class="hero-nosotros">
+      <HeroNosotrosAnimation />
+      <div class="hero-container">
+        <h1 class="hero-title">Nosotros</h1>
+        <p class="hero-subtitle">Profesionales comprometidos con tu crecimiento</p>
       </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <section class="about-us">
+      <div class="container">
+        <!-- Header -->
+        <div class="header">
+          <h2 class="title">Quiénes Somos</h2>
+          <p class="subtitle">Conoce nuestro equipo</p>
+        </div>
 
       <!-- Founder Section - Andrea Gasparetti -->
       <div class="founder-section">
@@ -104,10 +115,12 @@
       </div>
     </div>
   </section>
+  </div>
 </template>
 
 <script setup>
 import andreaPhoto from '../../assets/images/foto/ag_foto.png'
+import HeroNosotrosAnimation from '@/components/HeroAnimations/HeroNosotrosAnimation.vue'
 
 // Función para obtener iniciales
 const getInitials = (name) => {
@@ -585,6 +598,57 @@ const props = defineProps({
 
   .credential-item {
     font-size: 0.8125rem;  /* Reducido de 0.85rem */
+  }
+}
+
+/* Hero Nosotros Section */
+.hero-nosotros {
+  position: relative;
+  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
+  padding: 4rem 0;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+  min-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-container {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  letter-spacing: -0.025em;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  opacity: 0.95;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-nosotros {
+    padding: 3rem 0;
   }
 }
 </style>

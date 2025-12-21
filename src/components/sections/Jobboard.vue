@@ -1,13 +1,24 @@
 <template>
-  <section class="job-board">
-    <div class="container">
-      <!-- Header -->
-      <div class="job-board-header">
-        <h2 class="section-title">Propuestas Laborales</h2>
-        <p class="section-subtitle">
-          Explorá las oportunidades disponibles y encontrá el trabajo ideal para vos
-        </p>
+  <div>
+    <!-- Hero Section with Animation -->
+    <section class="hero-busquedas">
+      <HeroBusquedasAnimation />
+      <div class="hero-container">
+        <h1 class="hero-title">Búsquedas</h1>
+        <p class="hero-subtitle">Encontrá tu próxima oportunidad profesional</p>
       </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <section class="job-board">
+      <div class="container">
+        <!-- Header -->
+        <div class="job-board-header">
+          <h2 class="section-title">Propuestas Laborales</h2>
+          <p class="section-subtitle">
+            Explorá las oportunidades disponibles y encontrá el trabajo ideal para vos
+          </p>
+        </div>
 
       <!-- Filters & Search -->
       <div class="filters-container">
@@ -216,10 +227,12 @@
       </div>
     </Transition>
   </section>
+  </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import HeroBusquedasAnimation from '@/components/HeroAnimations/HeroBusquedasAnimation.vue'
 
 // Props
 const props = defineProps({
@@ -935,6 +948,57 @@ onMounted(() => {
   .filter-btn {
     padding: 0.5rem 1rem;
     font-size: 0.875rem;
+  }
+}
+
+/* Hero Búsquedas Section */
+.hero-busquedas {
+  position: relative;
+  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
+  padding: 4rem 0;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+  min-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-container {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  letter-spacing: -0.025em;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  opacity: 0.95;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-busquedas {
+    padding: 3rem 0;
   }
 }
 </style>

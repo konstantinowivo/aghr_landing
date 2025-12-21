@@ -1,13 +1,24 @@
 <template>
-  <section class="work-with">
-    <div class="container">
-      <!-- Header -->
-      <div class="section-header">
-        <h2 class="section-title">¿Con quiénes trabajamos?</h2>
-        <p class="section-subtitle">
-          Acompañamos a empresas y personas a potenciar su talento.
-        </p>
+  <div>
+    <!-- Hero Section with Animation -->
+    <section class="hero-servicios">
+      <HeroServiciosAnimation />
+      <div class="hero-container">
+        <h1 class="hero-title">Servicios</h1>
+        <p class="hero-subtitle">Soluciones integrales para empresas y profesionales</p>
       </div>
+    </section>
+
+    <!-- Main Content Section -->
+    <section class="work-with">
+      <div class="container">
+        <!-- Header -->
+        <div class="section-header">
+          <h2 class="section-title">¿Con quiénes trabajamos?</h2>
+          <p class="section-subtitle">
+            Acompañamos a empresas y personas a potenciar su talento.
+          </p>
+        </div>
 
       <!-- Tabs Container -->
       <div class="tabs-container">
@@ -102,10 +113,12 @@
       </div>
     </div>
   </section>
+  </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import HeroServiciosAnimation from '@/components/HeroAnimations/HeroServiciosAnimation.vue'
 
 // Estado del tab activo
 const activeTab = ref('empresas')
@@ -588,6 +601,57 @@ const handleCtaAction = () => {
 
   .service-description {
     font-size: 0.875rem;
+  }
+}
+
+/* Hero Servicios Section */
+.hero-servicios {
+  position: relative;
+  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
+  padding: 4rem 0;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+  min-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-container {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  letter-spacing: -0.025em;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  opacity: 0.95;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-servicios {
+    padding: 3rem 0;
   }
 }
 </style>
