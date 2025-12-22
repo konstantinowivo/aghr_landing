@@ -71,6 +71,7 @@ const videoRefs = ref([])
 const currentVideoIndex = ref(0)
 const isPlaying = ref(false)
 const isVideoLoaded = ref(false)
+const videosReady = ref(0)
 
 // Computed
 const overlayStyles = computed(() => ({
@@ -99,7 +100,13 @@ const pauseAllVideos = () => {
 }
 
 const handleVideoLoaded = () => {
-  isVideoLoaded.value = true
+  videosReady.value++
+  // Solo marcar como cargado cuando al menos el primer video esté listo
+  if (videosReady.value >= 1) {
+    setTimeout(() => {
+      isVideoLoaded.value = true
+    }, 300) // Pequeño delay para suavizar la transición
+  }
 }
 
 const handleVideoEnd = () => {
@@ -150,37 +157,38 @@ defineExpose({
 .video-skeleton {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
-  z-index: 0;
-  animation: fadeOut 0.5s ease-out 1s forwards;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  z-index: 1;
+  transition: opacity 1.2s ease-out, visibility 1.2s ease-out;
 }
 
 .skeleton-shimmer {
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    90deg,
+    110deg,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0) 60%,
     rgba(255, 255, 255, 0) 100%
   );
-  animation: shimmer 2s infinite;
+  animation: shimmer 3s ease-in-out infinite;
 }
 
 @keyframes shimmer {
   0% {
-    transform: translateX(-100%);
+    transform: translateX(-150%);
   }
   100% {
-    transform: translateX(100%);
+    transform: translateX(150%);
   }
 }
 
-@keyframes fadeOut {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
+/* Estado de fade out cuando el video está cargado */
+.video-background:has(.video-player--active) .video-skeleton {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .video-container {
@@ -197,15 +205,17 @@ defineExpose({
   min-height: 100%;
   width: auto;
   height: auto;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(1.02);
   object-fit: cover;
   opacity: 0;
-  transition: opacity 1s ease-in-out;
+  transition: opacity 1.5s ease-in-out, transform 1.5s ease-out;
   pointer-events: none;
+  will-change: opacity, transform;
 }
 
 .video-player--active {
   opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
 }
 
 .video-overlay {
