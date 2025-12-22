@@ -84,6 +84,7 @@ onUnmounted(() => {
   flex-direction: column;
   gap: 0.9rem;
   align-items: center; /* 🔑 alineación perfecta en eje Y */
+  animation: float 3s ease-in-out infinite;
 }
 
 /* Base */
@@ -147,6 +148,16 @@ onUnmounted(() => {
       0 0 0 6px rgba(37, 211, 102, 0.35),
       0 0 20px rgba(37, 211, 102, 0.75),
       0 6px 14px rgba(0, 0, 0, 0.35);
+  }
+}
+
+/* Animación de flotación */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
   }
 }
 
