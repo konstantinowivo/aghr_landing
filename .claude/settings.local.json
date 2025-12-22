@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Read(//c/Users/PC/Desktop/**)"
+      "Read(//c/Users/PC/Desktop/**)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nfeat: optimize AboutUs component for all screen resolutions\n\n- Fix founder image display with proper aspect ratio and object-fit\n- Optimize layout grid for all resolutions (desktop, tablet, mobile)\n- Improve typography with clamp() for fluid scaling\n- Enhanced spacing and readability across all sections\n- Better responsive breakpoints for 1024px, 968px, 768px, 640px, 480px, 360px\n- Improved Mission & Vision cards with gradient animations\n- Enhanced Team section with better hover effects\n- Remove unused documentation files from HeroAnimations\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []

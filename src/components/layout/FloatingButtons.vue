@@ -83,7 +83,8 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
-  align-items: center; /* 🔑 alineación perfecta en eje Y */
+  align-items: center;
+  animation: float 3s ease-in-out infinite;
 }
 
 /* Base */
@@ -132,10 +133,20 @@ onUnmounted(() => {
     0 8px 18px rgba(0, 0, 0, 0.4);
 }
 
+/* Animación de flotación */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
 /* Responsive */
 @media (max-width: 480px) {
   .floating-buttons {
-    bottom: 1rem;
+    bottom: 1.5rem;
     right: 1rem;
     gap: 0.75rem;
   }

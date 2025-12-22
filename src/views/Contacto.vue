@@ -15,12 +15,16 @@
     <section class="contact-section">
       <ContactForm />
     </section>
+
+    <!-- Floating Buttons (WhatsApp sticky) -->
+    <FloatingButtons />
   </div>
 </template>
 
 <script setup>
 import ContactForm from '../components/sections/ContactForm.vue'
 import HeroContactoAnimation from '@/components/HeroAnimations/HeroContactoAnimation.vue'
+import FloatingButtons from '@/components/layout/FloatingButtons.vue'
 </script>
 
 <style scoped>
