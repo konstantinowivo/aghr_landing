@@ -1,7 +1,6 @@
 <template>
   <div class="contacto-page">
     <section class="hero-section">
-      <!-- Hero Animation -->
       <HeroContactoAnimation />
 
       <div class="container">
@@ -16,7 +15,7 @@
       <ContactForm />
     </section>
 
-    <!-- Floating Buttons (WhatsApp sticky) -->
+    <!-- Floating Buttons -->
     <FloatingButtons />
   </div>
 </template>
@@ -82,8 +81,10 @@ import FloatingButtons from '@/components/layout/FloatingButtons.vue'
 
 .contact-section {
   background: #f9fafb;
+  padding: 4rem 0;
 }
 
+/* Ajustes para pantallas pequeñas */
 @media (max-width: 768px) {
   .page-title {
     font-size: 2rem;
@@ -96,5 +97,19 @@ import FloatingButtons from '@/components/layout/FloatingButtons.vue'
   .hero-section {
     padding: 3rem 0;
   }
+
+  /* Floating Buttons Configuration */
+  :deep(.floating-buttons) {
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+}
+
+/* Floating Buttons Configuration */
+:deep(.floating-buttons) {
+  position: fixed;
+  bottom: 2.5rem;
+  right: 2rem;
+  z-index: 9999;
 }
 </style>

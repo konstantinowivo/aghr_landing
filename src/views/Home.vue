@@ -5,15 +5,15 @@
       <HeroSection />
     </section>
 
-    <!-- Floating Buttons (WhatsApp + Scroll to Top) -->
+    <!-- Floating Buttons -->
     <FloatingButtons />
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import FloatingButtons from '../components/layout/FloatingButtons.vue'
 import HeroSection from '../components/sections/HeroSection.vue'
+import FloatingButtons from '../components/layout/FloatingButtons.vue'
 
 // Crear ref para hero section
 const heroRef = ref(null)
@@ -40,12 +40,25 @@ defineExpose({
 
 .home {
   width: 100%;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
 }
 
 .section-wrapper {
   width: 100%;
-  height: 100vh;
+}
+
+/* Floating Buttons Configuration */
+:deep(.floating-buttons) {
+  position: fixed;
+  bottom: 2.5rem;
+  right: 2rem;
+  z-index: 9999;
+}
+
+@media (max-width: 768px) {
+  :deep(.floating-buttons) {
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
 }
 </style>
