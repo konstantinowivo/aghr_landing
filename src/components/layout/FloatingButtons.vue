@@ -77,7 +77,7 @@ onUnmounted(() => {
 /* Layout */
 .floating-buttons {
   position: fixed;
-  bottom: 2rem;
+  bottom: 20%; /* 20% desde el bottom = 20% más arriba */
   right: 2rem;
   z-index: 999;
   display: flex;
@@ -153,7 +153,7 @@ onUnmounted(() => {
 /* Responsive */
 @media (max-width: 480px) {
   .floating-buttons {
-    bottom: 1rem;
+    bottom: 20%; /* Mantener 20% también en móvil */
     right: 1rem;
     gap: 0.75rem;
   }
