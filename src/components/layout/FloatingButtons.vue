@@ -23,12 +23,12 @@
       </svg>
     </button>
 
-    <!-- WhatsApp CTA -->
+    <!-- WhatsApp CTA - Siempre visible (sticky) -->
     <a
       href="https://wa.me/5493517654321?text=Hola%20AGHR,%20me%20interesa%20conocer%20más%20sobre%20sus%20servicios"
       target="_blank"
       rel="noopener noreferrer"
-      class="floating-btn floating-btn--whatsapp"
+      class="floating-btn floating-btn--whatsapp floating-btn--sticky"
       aria-label="Contactar por WhatsApp"
       title="Contactar por WhatsApp"
     >
@@ -112,7 +112,7 @@ onUnmounted(() => {
   transform: translateY(-2px);
 }
 
-/* WhatsApp CTA (principal) */
+/* WhatsApp CTA (principal) - Sticky */
 .floating-btn--whatsapp {
   width: 62px;
   height: 62px;
@@ -121,6 +121,7 @@ onUnmounted(() => {
     0 0 0 4px rgba(37, 211, 102, 0.25),
     0 0 14px rgba(37, 211, 102, 0.6),
     0 6px 14px rgba(0, 0, 0, 0.35);
+  animation: pulse-whatsapp 2s ease-in-out infinite;
 }
 
 .floating-btn--whatsapp:hover {
@@ -130,6 +131,23 @@ onUnmounted(() => {
     0 0 0 4px rgba(37, 211, 102, 0.35),
     0 0 20px rgba(37, 211, 102, 0.85),
     0 8px 18px rgba(0, 0, 0, 0.4);
+  animation: none; /* Detener animación en hover */
+}
+
+/* Animación sutil de pulso */
+@keyframes pulse-whatsapp {
+  0%, 100% {
+    box-shadow:
+      0 0 0 4px rgba(37, 211, 102, 0.25),
+      0 0 14px rgba(37, 211, 102, 0.6),
+      0 6px 14px rgba(0, 0, 0, 0.35);
+  }
+  50% {
+    box-shadow:
+      0 0 0 6px rgba(37, 211, 102, 0.35),
+      0 0 20px rgba(37, 211, 102, 0.75),
+      0 6px 14px rgba(0, 0, 0, 0.35);
+  }
 }
 
 /* Responsive */
