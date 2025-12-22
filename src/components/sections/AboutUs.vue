@@ -22,12 +22,16 @@
       <div class="founder-section">
         <div class="founder-content">
           <div class="founder-image-wrapper">
-            <img
+            <OptimizedImage
               v-if="founder.image"
               :src="founder.image"
               :alt="founder.name"
-              class="founder-image"
-            >
+              :width="400"
+              :height="400"
+              aspect-ratio="1/1"
+              img-class="founder-image"
+              :show-skeleton="true"
+            />
             <div v-else class="founder-image-placeholder">
               {{ getInitials(founder.name) }}
             </div>
@@ -121,6 +125,7 @@
 <script setup>
 import andreaPhoto from '../../assets/images/foto/ag_foto.png'
 import HeroNosotrosAnimation from '@/components/HeroAnimations/HeroNosotrosAnimation.vue'
+import OptimizedImage from '@/components/ui/OptimizedImage.vue'
 
 // Función para obtener iniciales
 const getInitials = (name) => {
@@ -235,6 +240,12 @@ const props = defineProps({
 
 .founder-image-wrapper {
   position: relative;
+  width: 400px;
+  height: 400px;
+  min-height: 400px; /* Prevenir CLS */
+  background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+  border-radius: 20px;
+  overflow: hidden;
 }
 
 .founder-image {
