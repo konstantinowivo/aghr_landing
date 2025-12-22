@@ -12,12 +12,14 @@
         :key="index"
         :ref="el => { if (el) videoRefs[index] = el }"
         :class="['video-player', { 'video-player--active': currentVideoIndex === index }]"
-        :src="video"
+        :src="currentVideoIndex === index || index === 0 ? video : undefined"
         muted
         playsinline
-        preload="auto"
+        preload="metadata"
+        loading="lazy"
         @loadeddata="handleVideoLoaded"
         @ended="handleVideoEnd"
+        @canplay="handleCanPlay(index)"
       ></video>
     </div>
 
@@ -111,14 +113,42 @@ const handleVideoLoaded = () => {
 
 const handleVideoEnd = () => {
   // Pasar al siguiente video
-  currentVideoIndex.value = (currentVideoIndex.value + 1) % props.videos.length
+  const nextIndex = (currentVideoIndex.value + 1) % props.videos.length
+
+  // Cargar el siguiente video si no está cargado
+  const nextVideo = videoRefs.value[nextIndex]
+  if (nextVideo && !nextVideo.src) {
+    nextVideo.src = props.videos[nextIndex]
+  }
+
+  currentVideoIndex.value = nextIndex
   playCurrentVideo()
 }
 
 const changeVideo = (index) => {
   pauseAllVideos()
+
+  // Cargar el video si no está cargado
+  const targetVideo = videoRefs.value[index]
+  if (targetVideo && !targetVideo.src) {
+    targetVideo.src = props.videos[index]
+  }
+
   currentVideoIndex.value = index
   playCurrentVideo()
+}
+
+const handleCanPlay = (index) => {
+  // Precargar el siguiente video cuando el actual está listo
+  if (index === currentVideoIndex.value) {
+    const nextIndex = (index + 1) % props.videos.length
+    const nextVideo = videoRefs.value[nextIndex]
+    if (nextVideo && !nextVideo.src) {
+      setTimeout(() => {
+        nextVideo.src = props.videos[nextIndex]
+      }, 2000) // Esperar 2s antes de precargar el siguiente
+    }
+  }
 }
 
 // Lifecycle
