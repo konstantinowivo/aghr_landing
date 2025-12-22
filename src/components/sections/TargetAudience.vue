@@ -177,6 +177,11 @@ const empresasServices = [
     icon: '🎯',
     title: 'Desarrollo de Liderazgo',
     description: 'Formamos líderes que inspiran y transforman equipos de alto rendimiento.'
+  },
+  {
+    icon: '🏆',
+    title: 'Desarrollo de Marca',
+    description: 'Construimos y fortalecemos la identidad de tu empresa en el mercado.'
   }
 ]
 
@@ -211,6 +216,11 @@ const personasServices = [
     icon: '📝',
     title: 'Optimización de CV y LinkedIn',
     description: 'Potenciamos tu marca personal para atraer las mejores oportunidades.'
+  },
+  {
+    icon: '✨',
+    title: 'Marca Personal',
+    description: 'Desarrollamos tu identidad profesional única para destacar en tu industria.'
   }
 ]
 

@@ -52,6 +52,10 @@
 
     <footer class="footer">
       <div class="container">
+        <p class="footer-presence">
+          <span class="presence-icon">🌎</span>
+          ARGENTINA | LATAM | ESPAÑA
+        </p>
         <p class="footer-text">
           © 2025 AGHR Mentoring & HR. Todos los derechos reservados.
         </p>
@@ -165,6 +169,23 @@ main {
   padding: 0 1.5rem;
 }
 
+.footer-presence {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 1rem;
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.presence-icon {
+  font-size: 1.25rem;
+}
+
 .footer-text {
   text-align: center;
   font-size: 0.9375rem;
@@ -206,6 +227,12 @@ main {
 
   .footer {
     padding: 2.5rem 0 1.5rem;
+  }
+
+  .footer-presence {
+    font-size: 0.875rem;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
   .footer-text {
