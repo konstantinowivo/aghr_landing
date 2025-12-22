@@ -1,29 +1,29 @@
 <template>
   <div class="floating-buttons">
-    <!-- Scroll to top -->
-    <button
-      v-show="showScrollButton"
-      class="floating-btn floating-btn--scroll-top"
-      @click="scrollToTop"
-      aria-label="Subir al inicio"
-      title="Ir al inicio"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        width="18"
-        height="18"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+    <Transition name="fade">
+      <button
+        v-show="showScrollButton"
+        class="floating-btn floating-btn--scroll-top"
+        @click="scrollToTop"
+        aria-label="Subir al inicio"
+        title="Ir al inicio"
       >
-        <polyline points="18 15 12 9 6 15" />
-      </svg>
-    </button>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="18"
+          height="18"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="18 15 12 9 6 15" />
+        </svg>
+      </button>
+    </Transition>
 
-    <!-- WhatsApp CTA -->
     <a
       href="https://wa.me/5493517654321?text=Hola%20AGHR,%20me%20interesa%20conocer%20más%20sobre%20sus%20servicios"
       target="_blank"
@@ -74,20 +74,15 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* Layout */
+/* Contenedor - Solo estilos de layout interno */
 .floating-buttons {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 999;
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
+  gap: 1rem;
   align-items: center;
-  animation: float 3s ease-in-out infinite;
 }
 
-/* Base */
+/* Base de botones */
 .floating-btn {
   border-radius: 50%;
   border: none;
@@ -97,68 +92,69 @@ onUnmounted(() => {
   justify-content: center;
   text-decoration: none;
   color: #fff;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Scroll to top (secundario) */
+/* Botón Scroll */
 .floating-btn--scroll-top {
-  width: 48px;
-  height: 48px;
+  width: 45px;
+  height: 45px;
   background-color: #2d3748;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .floating-btn--scroll-top:hover {
   background-color: #1a202c;
-  transform: translateY(-2px);
+  transform: translateY(-5px);
 }
 
-/* WhatsApp CTA (principal) */
+/* Botón WhatsApp con animación suave */
 .floating-btn--whatsapp {
-  width: 62px;
-  height: 62px;
+  width: 60px;
+  height: 60px;
   background-color: #25d366;
-  box-shadow:
-    0 0 0 4px rgba(37, 211, 102, 0.25),
-    0 0 14px rgba(37, 211, 102, 0.6),
-    0 6px 14px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
+  animation: subtle-float 3s ease-in-out infinite;
 }
 
 .floating-btn--whatsapp:hover {
   background-color: #1ebe5d;
-  transform: scale(1.05);
-  box-shadow:
-    0 0 0 4px rgba(37, 211, 102, 0.35),
-    0 0 20px rgba(37, 211, 102, 0.85),
-    0 8px 18px rgba(0, 0, 0, 0.4);
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(37, 211, 102, 0.6);
 }
 
-/* Animación de flotación */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-15px);
-  }
+/* Transición para el botón de scroll */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Responsive */
-@media (max-width: 480px) {
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Animación de flotación (solo para WhatsApp) */
+@keyframes subtle-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Responsive - Solo tamaños de botones */
+@media (max-width: 768px) {
   .floating-buttons {
-    bottom: 1.5rem;
-    right: 1rem;
-    gap: 0.75rem;
+    gap: 0.8rem;
   }
 
   .floating-btn--whatsapp {
-    width: 58px;
-    height: 58px;
+    width: 55px;
+    height: 55px;
   }
 
   .floating-btn--scroll-top {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
   }
 }
 </style>
