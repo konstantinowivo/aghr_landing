@@ -112,6 +112,12 @@ const handleVideoLoaded = () => {
 }
 
 const handleVideoEnd = () => {
+  // Si solo hay un video, reproducirlo en loop
+  if (props.videos.length === 1) {
+    playCurrentVideo()
+    return
+  }
+
   // Pasar al siguiente video
   const nextIndex = (currentVideoIndex.value + 1) % props.videos.length
 
@@ -139,6 +145,9 @@ const changeVideo = (index) => {
 }
 
 const handleCanPlay = (index) => {
+  // Solo precargar si hay múltiples videos
+  if (props.videos.length <= 1) return
+
   // Precargar el siguiente video cuando el actual está listo
   if (index === currentVideoIndex.value) {
     const nextIndex = (index + 1) % props.videos.length
