@@ -1,5 +1,7 @@
-const CACHE_NAME = 'aghr-v1';
-const RUNTIME_CACHE = 'aghr-runtime';
+const CACHE_NAME = 'aghr-v2';
+const RUNTIME_CACHE = 'aghr-runtime-v2';
+const IMAGE_CACHE = 'aghr-images-v2';
+const FONT_CACHE = 'aghr-fonts-v2';
 
 // Recursos para cachear durante la instalación
 const PRECACHE_ASSETS = [
@@ -18,12 +20,13 @@ self.addEventListener('install', (event) => {
 
 // Activación y limpieza de caches antiguos
 self.addEventListener('activate', (event) => {
+  const currentCaches = [CACHE_NAME, RUNTIME_CACHE, IMAGE_CACHE, FONT_CACHE];
   event.waitUntil(
     caches.keys()
       .then(cacheNames => {
         return Promise.all(
           cacheNames
-            .filter(name => name !== CACHE_NAME && name !== RUNTIME_CACHE)
+            .filter(name => !currentCaches.includes(name))
             .map(name => caches.delete(name))
         );
       })
@@ -52,13 +55,46 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Estrategia: Cache First para assets estáticos
-  if (
-    request.destination === 'script' ||
-    request.destination === 'style' ||
-    request.destination === 'font' ||
-    request.destination === 'image'
-  ) {
+  // Estrategia: Cache First para fuentes (máxima prioridad)
+  if (request.destination === 'font' || url.hostname === 'fonts.gstatic.com') {
+    event.respondWith(
+      caches.open(FONT_CACHE).then(cache => {
+        return cache.match(request).then(cachedResponse => {
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+          return fetch(request).then(response => {
+            if (response && response.status === 200) {
+              cache.put(request, response.clone());
+            }
+            return response;
+          });
+        });
+      })
+    );
+    return;
+  }
+
+  // Estrategia: Cache First para imágenes con stale-while-revalidate
+  if (request.destination === 'image') {
+    event.respondWith(
+      caches.open(IMAGE_CACHE).then(cache => {
+        return cache.match(request).then(cachedResponse => {
+          const fetchPromise = fetch(request).then(response => {
+            if (response && response.status === 200) {
+              cache.put(request, response.clone());
+            }
+            return response;
+          });
+          return cachedResponse || fetchPromise;
+        });
+      })
+    );
+    return;
+  }
+
+  // Estrategia: Cache First para JS/CSS
+  if (request.destination === 'script' || request.destination === 'style') {
     event.respondWith(
       caches.match(request)
         .then(cachedResponse => {
@@ -66,7 +102,6 @@ self.addEventListener('fetch', (event) => {
             return cachedResponse;
           }
           return fetch(request).then(response => {
-            // Solo cachear respuestas válidas
             if (!response || response.status !== 200 || response.type === 'error') {
               return response;
             }
