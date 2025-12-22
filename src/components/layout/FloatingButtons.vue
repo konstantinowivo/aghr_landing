@@ -77,13 +77,14 @@ onUnmounted(() => {
 /* Layout */
 .floating-buttons {
   position: fixed;
-  bottom: 20%; /* 20% desde el bottom = 20% más arriba */
-  right: 2rem;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 999;
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
-  align-items: center; /* 🔑 alineación perfecta en eje Y */
+  align-items: center;
   animation: float 3s ease-in-out infinite;
 }
 
@@ -154,18 +155,17 @@ onUnmounted(() => {
 /* Animación de flotación */
 @keyframes float {
   0%, 100% {
-    transform: translateY(0px);
+    transform: translateX(-50%) translateY(0px);
   }
   50% {
-    transform: translateY(-15px);
+    transform: translateX(-50%) translateY(-15px);
   }
 }
 
 /* Responsive */
 @media (max-width: 480px) {
   .floating-buttons {
-    bottom: 20%; /* Mantener 20% también en móvil */
-    right: 1rem;
+    bottom: 1.5rem;
     gap: 0.75rem;
   }
 
