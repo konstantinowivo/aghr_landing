@@ -1,14 +1,5 @@
 <template>
   <div>
-    <!-- Hero Section with Animation -->
-    <section class="hero-nosotros">
-      <HeroNosotrosAnimation />
-      <div class="hero-container">
-        <h1 class="hero-title">Nosotros</h1>
-        <p class="hero-subtitle">Profesionales comprometidos con tu crecimiento</p>
-      </div>
-    </section>
-
     <!-- Main Content Section -->
     <section class="about-us">
       <div class="container">
@@ -27,10 +18,7 @@
               :src="founder.image"
               :alt="founder.name"
               class="founder-image"
-              width="400"
-              height="400"
-              loading="lazy"
-            />
+            >
             <div v-else class="founder-image-placeholder">
               {{ getInitials(founder.name) }}
             </div>
@@ -123,7 +111,6 @@
 
 <script setup>
 import andreaPhoto from '../../assets/images/foto/ag_foto.png'
-import HeroNosotrosAnimation from '@/components/HeroAnimations/HeroNosotrosAnimation.vue'
 
 // Función para obtener iniciales
 const getInitials = (name) => {
@@ -221,49 +208,53 @@ const props = defineProps({
 
 .founder-content {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 300px 1fr;
   gap: 3rem;
   align-items: start;
   background: white;
   padding: 2.5rem;
   border-radius: 1.5rem;
-  box-shadow: var(--shadow-xl);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   border: 1px solid #F3F4F6;
-  transition: all var(--transition-base);
+  transition: all 0.3s ease;
 }
 
 .founder-content:hover {
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
 }
 
 .founder-image-wrapper {
   position: relative;
-  width: 400px;
-  height: 400px;
-  min-height: 400px; /* Prevenir CLS */
-  background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
-  border-radius: 20px;
-  overflow: hidden;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .founder-image {
   width: 100%;
+  max-width: 280px;
+  height: auto;
   aspect-ratio: 1;
   object-fit: cover;
-  border-radius: 1rem;
-  box-shadow: var(--shadow-lg);
-  transition: all var(--transition-base);
-  border: 3px solid white;
-  box-shadow: var(--shadow-xl);
+  object-position: center;
+  border-radius: 1.25rem;
+  transition: all 0.3s ease;
+  border: 4px solid #f0f0f0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  display: block;
 }
 
 .founder-image:hover {
-  transform: scale(1.03);
-  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.25);
+  transform: scale(1.02);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  border-color: var(--color-primary);
 }
 
 .founder-image-placeholder {
   width: 100%;
+  max-width: 280px;
   aspect-ratio: 1;
   display: flex;
   align-items: center;
@@ -273,37 +264,38 @@ const props = defineProps({
   font-family: var(--font-family-heading);
   font-size: 3.5rem;
   font-weight: 700;
-  border-radius: 1rem;
-  box-shadow: var(--shadow-xl);
+  border-radius: 1.25rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .founder-badge {
   position: absolute;
-  bottom: -12px;
+  bottom: -15px;
   left: 50%;
   transform: translateX(-50%);
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
   color: white;
   font-family: var(--font-family-primary);
-  padding: 0.5rem 1.5rem;
+  padding: 0.6rem 1.75rem;
   border-radius: 2rem;
   font-size: 0.875rem;
   font-weight: 700;
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   white-space: nowrap;
   letter-spacing: 0.02em;
+  z-index: 10;
 }
 
 .founder-info {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;  /* Reducido de 1.5rem */
+  gap: 1.5rem;
 }
 
 .founder-name {
   font-family: var(--font-family-heading);
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  font-weight: 700;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 800;
   color: var(--color-text-primary);
   margin: 0;
   letter-spacing: -0.02em;
@@ -312,39 +304,45 @@ const props = defineProps({
 
 .founder-title {
   font-family: var(--font-family-primary);
-  font-size: clamp(0.9375rem, 2vw, 1.0625rem);
+  font-size: clamp(1rem, 2vw, 1.125rem);
   color: var(--color-primary);
   font-weight: 600;
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.4;
+  margin-top: -0.5rem;
 }
 
 .founder-bio {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.125rem;
+  margin-top: 0.25rem;
 }
 
 .bio-paragraph {
   font-family: var(--font-family-primary);
   color: var(--color-text-secondary);
-  line-height: 1.75;
+  line-height: 1.8;
   margin: 0;
-  font-size: 0.9375rem;
+  font-size: 1rem;
+  text-align: justify;
 }
 
 .founder-credentials {
-  margin-top: 0.75rem;  /* Reducido de 1rem */
+  margin-top: 1rem;
+  padding-top: 1.25rem;
+  border-top: 2px solid #f0f0f0;
 }
 
 .credentials-header {
-  margin-bottom: 0.875rem;  /* Reducido de 1rem */
+  margin-bottom: 1rem;
 }
 
 .credentials-header h4 {
-  font-size: 0.875rem;  /* Reducido de 0.95rem */
+  font-family: var(--font-family-primary);
+  font-size: 0.9375rem;
   font-weight: 700;
-  color: #1a202c;
+  color: var(--color-text-primary);
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -353,11 +351,11 @@ const props = defineProps({
 .credential-item {
   display: flex;
   align-items: flex-start;
-  gap: 0.625rem;  /* Reducido de 0.75rem */
+  gap: 0.75rem;
   color: #2d3748;
-  font-size: 0.875rem;  /* Reducido de 0.9rem */
-  margin-bottom: 0.625rem;  /* Reducido de 0.75rem */
-  line-height: 1.5;
+  font-size: 0.9375rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
 }
 
 .credential-item:last-child {
@@ -367,156 +365,186 @@ const props = defineProps({
 .credential-item svg {
   color: var(--color-primary);
   flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.credentials-header h4 {
-  font-family: var(--font-family-primary);
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: var(--color-text-primary);
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  margin-top: 3px;
 }
 
 /* Mission & Vision */
 .mission-vision {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
+  gap: 2.5rem;
   margin-bottom: 4rem;
   animation: fadeInUp 0.8s ease-out 0.4s both;
 }
 
 .mission-card {
   background: white;
-  padding: 2.5rem;
-  border-radius: 1.25rem;
+  padding: 3rem 2.5rem;
+  border-radius: 1.5rem;
   text-align: center;
-  box-shadow: var(--shadow-md);
-  transition: all var(--transition-base);
-  border: 1.5px solid #F3F4F6;
-  border-top: 4px solid var(--color-primary);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid #F3F4F6;
+  border-top: 5px solid var(--color-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.mission-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.mission-card:hover::before {
+  transform: scaleX(1);
 }
 
 .mission-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-xl);
-  border-color: var(--color-primary-light);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+  border-top-color: var(--color-secondary);
 }
 
 .card-icon {
   display: inline-flex;
-  padding: 1rem;
+  padding: 1.25rem;
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-  border-radius: 1rem;
+  border-radius: 1.25rem;
   color: white;
-  margin-bottom: 1.5rem;
-  box-shadow: var(--shadow-md);
+  margin-bottom: 1.75rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.mission-card:hover .card-icon {
+  transform: scale(1.1) rotate(5deg);
 }
 
 .card-title {
   font-family: var(--font-family-heading);
-  font-size: clamp(1.125rem, 2.5vw, 1.375rem);
-  font-weight: 700;
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  font-weight: 800;
   color: var(--color-text-primary);
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
   letter-spacing: -0.02em;
+  line-height: 1.3;
 }
 
 .card-text {
   font-family: var(--font-family-primary);
   color: var(--color-text-secondary);
-  line-height: 1.75;
-  font-size: 0.9375rem;
+  line-height: 1.8;
+  font-size: 1rem;
+  text-align: center;
 }
 
 /* Team Section */
 .team-section {
-  margin-top: 3rem;  /* Reducido de 4rem */
+  margin-top: 4rem;
   animation: fadeInUp 1s ease-out 0.8s both;
 }
 
 .team-title {
-  font-size: 1.625rem;  /* Reducido de 2rem */
-  font-weight: 700;
-  color: #1a202c;
+  font-family: var(--font-family-heading);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 800;
+  color: var(--color-text-primary);
   text-align: center;
-  margin-bottom: 2.5rem;  /* Reducido de 3rem */
+  margin-bottom: 3rem;
   letter-spacing: -0.025em;
+  line-height: 1.2;
 }
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));  /* Reducido de 250px */
-  gap: 1.5rem;  /* Reducido de 2rem */
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
 }
 
 .team-card {
   background: white;
-  padding: 1.5rem;  /* Reducido de 2rem */
-  border-radius: 0.875rem;  /* Reducido de 1rem */
+  padding: 2rem;
+  border-radius: 1.25rem;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);  /* Reducido shadow */
-  transition: transform 0.3s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid #F3F4F6;
 }
 
 .team-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  border-color: var(--color-primary);
 }
 
 .team-image-wrapper {
-  margin-bottom: 1.25rem;  /* Reducido de 1.5rem */
+  margin-bottom: 1.5rem;
 }
 
 .team-image {
-  width: 100px;  /* Reducido de 120px */
-  height: 100px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   object-fit: cover;
+  object-position: center;
   margin: 0 auto;
-  border: 3px solid #5568D3;  /* Reducido de 4px */
-  transition: transform 0.3s ease;
+  border: 4px solid var(--color-primary);
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
 .team-card:hover .team-image {
-  transform: scale(1.08);
+  transform: scale(1.1);
+  border-color: var(--color-secondary);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
 .team-image-placeholder {
-  width: 100px;  /* Reducido de 120px */
-  height: 100px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
   color: white;
-  font-size: 1.75rem;  /* Reducido de 2rem */
+  font-size: 2rem;
   font-weight: 700;
   margin: 0 auto;
-  border: 3px solid #5568D3;  /* Reducido de 4px */
+  border: 4px solid var(--color-primary);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
 .team-name {
-  font-size: 1.125rem;  /* Reducido de 1.25rem */
+  font-family: var(--font-family-heading);
+  font-size: 1.125rem;
   font-weight: 700;
-  color: #2d3748;
-  margin-bottom: 0.375rem;  /* Reducido de 0.5rem */
+  color: var(--color-text-primary);
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
 }
 
 .team-role {
-  font-size: 0.875rem;  /* Reducido de 0.95rem */
-  color: #5568D3;
+  font-family: var(--font-family-primary);
+  font-size: 0.9375rem;
+  color: var(--color-primary);
   font-weight: 600;
-  margin-bottom: 0.875rem;  /* Reducido de 1rem */
+  margin-bottom: 1rem;
+  line-height: 1.4;
 }
 
 .team-description {
-  color: #4a5568;
-  font-size: 0.875rem;  /* Reducido de 0.9rem */
-  line-height: 1.6;
+  font-family: var(--font-family-primary);
+  color: var(--color-text-secondary);
+  font-size: 0.9375rem;
+  line-height: 1.7;
 }
 
 /* Animations */
@@ -543,132 +571,277 @@ const props = defineProps({
 }
 
 /* Responsive */
+
+/* Tablets grandes y pantallas medianas */
+@media (max-width: 1024px) {
+  .founder-content {
+    grid-template-columns: 260px 1fr;
+    gap: 2.5rem;
+    padding: 2rem;
+  }
+
+  .founder-image {
+    max-width: 240px;
+  }
+}
+
+/* Tablets */
 @media (max-width: 968px) {
   .founder-content {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 1.5rem;  /* Reducido de 2rem */
+    gap: 2rem;
+    padding: 2rem 1.5rem;
   }
 
   .founder-image-wrapper {
-    max-width: 240px;  /* Reducido de 280px */
-    margin: 0 auto;
+    max-width: 250px;
+    margin: 0 auto 1rem;
+  }
+
+  .founder-image {
+    max-width: 250px;
+  }
+
+  .founder-badge {
+    bottom: -12px;
+  }
+
+  .founder-info {
+    align-items: center;
+  }
+
+  .credential-item {
+    justify-content: center;
   }
 
   .mission-vision {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 }
 
+/* Móviles grandes */
 @media (max-width: 768px) {
   .about-us {
-    padding: 2.5rem 0;  /* Reducido de 3rem */
+    padding: 4rem 0;
+  }
+
+  .header {
+    margin-bottom: 3rem;
   }
 
   .title {
-    font-size: 1.75rem;  /* Reducido de 2rem */
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
   }
 
   .founder-content {
-    padding: 1.5rem;
-    gap: 1.25rem;  /* Reducido de 1.5rem */
+    padding: 1.75rem 1.25rem;
+    gap: 1.5rem;
+  }
+
+  .founder-image-wrapper {
+    max-width: 220px;
+    margin-bottom: 0.5rem;
+  }
+
+  .founder-image {
+    max-width: 220px;
   }
 
   .founder-name {
-    font-size: 1.375rem;  /* Reducido de 1.5rem */
+    font-size: clamp(1.375rem, 3vw, 1.75rem);
+  }
+
+  .founder-title {
+    font-size: 1rem;
+  }
+
+  .bio-paragraph {
+    font-size: 0.9375rem;
+    text-align: center;
+  }
+
+  .credential-item {
+    font-size: 0.875rem;
+  }
+
+  .mission-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .team-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .card-title {
+    font-size: 1.125rem;
+  }
+}
+
+/* Móviles medianos */
+@media (max-width: 640px) {
+  .container {
+    padding: 0 1.25rem;
+  }
+
+  .about-us {
+    padding: 3rem 0;
+  }
+
+  .header {
+    margin-bottom: 2.5rem;
+  }
+
+  .founder-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .founder-image-wrapper {
+    max-width: 200px;
+  }
+
+  .founder-image {
+    max-width: 200px;
+  }
+
+  .founder-section {
+    margin-bottom: 3rem;
+  }
+
+  .mission-vision {
+    margin-bottom: 3rem;
   }
 
   .team-grid {
     grid-template-columns: 1fr;
   }
-
-  .card-title {
-    font-size: 1.125rem;  /* Reducido de 1.25rem */
-  }
 }
 
+/* Móviles pequeños */
 @media (max-width: 480px) {
   .about-us {
-    padding: 2rem 0;
+    padding: 2.5rem 0;
+  }
+
+  .container {
+    padding: 0 1rem;
   }
 
   .title {
-    font-size: 1.5rem;  /* Reducido de 1.75rem */
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.9375rem;
   }
 
   .founder-content {
-    padding: 1.25rem;  /* Reducido de 1.5rem */
+    padding: 1.25rem 0.875rem;
+    gap: 1.25rem;
+  }
+
+  .founder-image-wrapper {
+    max-width: 180px;
+  }
+
+  .founder-image {
+    max-width: 180px;
+    border-width: 3px;
   }
 
   .founder-badge {
     font-size: 0.75rem;
-    padding: 0.325rem 0.875rem;  /* Reducido */
+    padding: 0.4rem 1rem;
+    bottom: -10px;
+  }
+
+  .founder-name {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .founder-title {
+    font-size: 0.875rem;
+  }
+
+  .bio-paragraph {
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .founder-credentials {
+    margin-top: 0.5rem;
+  }
+
+  .credentials-header h4 {
+    font-size: 0.8125rem;
   }
 
   .credential-item {
-    font-size: 0.8125rem;  /* Reducido de 0.85rem */
-  }
-}
-
-/* Hero Nosotros Section */
-.hero-nosotros {
-  position: relative;
-  background: linear-gradient(135deg, #46B434 0%, #FCCC14 100%);
-  padding: 4rem 0;
-  color: white;
-  text-align: center;
-  overflow: hidden;
-  min-height: 50vh;
-  height: 50vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-container {
-  position: relative;
-  z-index: 2;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
-
-.hero-title {
-  font-family: var(--font-family-heading);
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-  color: white;
-  margin: 0 auto 1rem;
-  max-width: 900px;
-  text-align: center;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-}
-
-.hero-subtitle {
-  font-family: var(--font-family-primary);
-  font-size: clamp(1rem, 2vw, 1.125rem);
-  font-weight: 400;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.9);
-  margin: 0 auto;
-  max-width: 700px;
-  text-align: center;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-@media (max-width: 768px) {
-  .hero-title {
-    font-size: 2rem;
+    font-size: 0.8125rem;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 
-  .hero-subtitle {
+  .credential-item svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .mission-card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .card-icon {
+    padding: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .card-title {
     font-size: 1rem;
+    margin-bottom: 0.75rem;
   }
 
-  .hero-nosotros {
-    padding: 3rem 0;
+  .card-text {
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .team-card {
+    padding: 1.25rem;
+  }
+
+  .team-image,
+  .team-image-placeholder {
+    width: 90px;
+    height: 90px;
   }
 }
+
+/* Móviles extra pequeños */
+@media (max-width: 360px) {
+  .founder-image-wrapper {
+    max-width: 160px;
+  }
+
+  .founder-image {
+    max-width: 160px;
+  }
+
+  .founder-content {
+    padding: 1rem 0.75rem;
+  }
+
+  .mission-card {
+    padding: 1.25rem 1rem;
+  }
+}
+
 </style>

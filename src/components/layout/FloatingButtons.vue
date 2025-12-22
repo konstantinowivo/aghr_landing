@@ -23,12 +23,12 @@
       </svg>
     </button>
 
-    <!-- WhatsApp CTA - Siempre visible (sticky) -->
+    <!-- WhatsApp CTA -->
     <a
       href="https://wa.me/5493517654321?text=Hola%20AGHR,%20me%20interesa%20conocer%20más%20sobre%20sus%20servicios"
       target="_blank"
       rel="noopener noreferrer"
-      class="floating-btn floating-btn--whatsapp floating-btn--sticky"
+      class="floating-btn floating-btn--whatsapp"
       aria-label="Contactar por WhatsApp"
       title="Contactar por WhatsApp"
     >
@@ -78,8 +78,7 @@ onUnmounted(() => {
 .floating-buttons {
   position: fixed;
   bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
+  right: 2rem;
   z-index: 999;
   display: flex;
   flex-direction: column;
@@ -114,7 +113,7 @@ onUnmounted(() => {
   transform: translateY(-2px);
 }
 
-/* WhatsApp CTA (principal) - Sticky */
+/* WhatsApp CTA (principal) */
 .floating-btn--whatsapp {
   width: 62px;
   height: 62px;
@@ -123,7 +122,6 @@ onUnmounted(() => {
     0 0 0 4px rgba(37, 211, 102, 0.25),
     0 0 14px rgba(37, 211, 102, 0.6),
     0 6px 14px rgba(0, 0, 0, 0.35);
-  animation: pulse-whatsapp 2s ease-in-out infinite;
 }
 
 .floating-btn--whatsapp:hover {
@@ -133,32 +131,15 @@ onUnmounted(() => {
     0 0 0 4px rgba(37, 211, 102, 0.35),
     0 0 20px rgba(37, 211, 102, 0.85),
     0 8px 18px rgba(0, 0, 0, 0.4);
-  animation: none; /* Detener animación en hover */
-}
-
-/* Animación sutil de pulso */
-@keyframes pulse-whatsapp {
-  0%, 100% {
-    box-shadow:
-      0 0 0 4px rgba(37, 211, 102, 0.25),
-      0 0 14px rgba(37, 211, 102, 0.6),
-      0 6px 14px rgba(0, 0, 0, 0.35);
-  }
-  50% {
-    box-shadow:
-      0 0 0 6px rgba(37, 211, 102, 0.35),
-      0 0 20px rgba(37, 211, 102, 0.75),
-      0 6px 14px rgba(0, 0, 0, 0.35);
-  }
 }
 
 /* Animación de flotación */
 @keyframes float {
   0%, 100% {
-    transform: translateX(-50%) translateY(0px);
+    transform: translateY(0px);
   }
   50% {
-    transform: translateX(-50%) translateY(-15px);
+    transform: translateY(-15px);
   }
 }
 
@@ -166,6 +147,7 @@ onUnmounted(() => {
 @media (max-width: 480px) {
   .floating-buttons {
     bottom: 1.5rem;
+    right: 1rem;
     gap: 0.75rem;
   }
 
