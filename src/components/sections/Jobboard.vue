@@ -203,8 +203,8 @@
             </div>
           </div>
 
-          <!-- Modal Footer -->
-          <div class="modal-footer">
+          <!-- Modal Footer - Formulario o Botones -->
+          <div v-if="!showApplicationForm" class="modal-footer">
             <button @click="applyToJob(selectedJob)" class="btn btn-primary">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
@@ -223,6 +223,105 @@
               Compartir
             </button>
           </div>
+
+          <!-- Application Form -->
+          <div v-else class="application-form">
+            <div v-if="applicationSuccess" class="success-message">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+              <h3>¡Aplicación enviada!</h3>
+              <p>Tu aplicación ha sido enviada exitosamente. Te contactaremos pronto.</p>
+            </div>
+
+            <div v-else>
+              <h3 class="form-title">Aplicar a {{ selectedJob.title }}</h3>
+              <p class="form-subtitle">Completa el formulario para enviar tu aplicación</p>
+
+              <div class="form-group">
+                <label class="form-label">Nombre completo *</label>
+                <input
+                  v-model="applicationForm.name"
+                  type="text"
+                  class="form-input"
+                  placeholder="Ej: Juan Pérez"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Email *</label>
+                <input
+                  v-model="applicationForm.email"
+                  type="email"
+                  class="form-input"
+                  placeholder="tu@email.com"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Teléfono</label>
+                <input
+                  v-model="applicationForm.phone"
+                  type="tel"
+                  class="form-input"
+                  placeholder="+54 9 11 1234-5678"
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">CV (PDF o Word) *</label>
+                <div class="file-input-wrapper">
+                  <input
+                    type="file"
+                    @change="handleFileUpload"
+                    accept=".pdf,.doc,.docx"
+                    class="file-input"
+                    id="cv-upload"
+                  />
+                  <label for="cv-upload" class="file-input-label">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                      <polyline points="17 8 12 3 7 8"></polyline>
+                      <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    {{ applicationForm.cv ? applicationForm.cv.name : 'Seleccionar archivo' }}
+                  </label>
+                </div>
+                <small class="form-hint">Máximo 5MB - PDF, DOC o DOCX</small>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Mensaje (opcional)</label>
+                <textarea
+                  v-model="applicationForm.message"
+                  class="form-textarea"
+                  placeholder="Cuéntanos por qué eres el candidato ideal para esta posición..."
+                  rows="4"
+                ></textarea>
+              </div>
+
+              <div class="form-actions">
+                <button
+                  @click="closeApplicationForm"
+                  class="btn btn-secondary"
+                  :disabled="applicationLoading"
+                >
+                  Cancelar
+                </button>
+                <button
+                  @click="submitApplication"
+                  class="btn btn-primary"
+                  :disabled="applicationLoading"
+                >
+                  <span v-if="applicationLoading">Enviando...</span>
+                  <span v-else>Enviar aplicación</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </Transition>
@@ -233,6 +332,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import HeroBusquedasAnimation from '@/components/HeroAnimations/HeroBusquedasAnimation.vue'
+import { sendJobApplication } from '@/services/emailService'
 
 // Props
 const props = defineProps({
@@ -250,6 +350,16 @@ const selectedCategory = ref('todas')
 const searchQuery = ref('')
 const selectedJob = ref(null)
 const displayLimit = ref(6)
+const showApplicationForm = ref(false)
+const applicationForm = ref({
+  name: '',
+  email: '',
+  phone: '',
+  cv: null,
+  message: ''
+})
+const applicationLoading = ref(false)
+const applicationSuccess = ref(false)
 
 // Google Sheets Config
 const SHEET_ID = import.meta.env.VITE_GOOGLE_SHEET_ID || '1RxrJw6EGKrfXOs7QwX8efjeenhjsHW3A0QKDM9INjOA'
@@ -397,9 +507,98 @@ const closeJobModal = () => {
 }
 
 const applyToJob = (job) => {
-  const subject = `Aplicación: ${job.title} en ${job.company}`
-  const body = `Hola,\n\nEstoy interesado/a en aplicar para la posición de ${job.title} en ${job.company}.\n\nSaludos cordiales.`
-  window.location.href = `mailto:contacto@aghr.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+  showApplicationForm.value = true
+  applicationSuccess.value = false
+}
+
+const handleFileUpload = (event) => {
+  const file = event.target.files[0]
+  if (file) {
+    // Validar tamaño (máximo 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('El archivo es muy grande. Máximo 5MB.')
+      event.target.value = ''
+      return
+    }
+    // Validar tipo
+    const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+    if (!validTypes.includes(file.type)) {
+      alert('Formato no válido. Solo se permiten archivos PDF o Word.')
+      event.target.value = ''
+      return
+    }
+    applicationForm.value.cv = file
+  }
+}
+
+const submitApplication = async () => {
+  // Validar formulario
+  if (!applicationForm.value.name || !applicationForm.value.email || !applicationForm.value.cv) {
+    alert('Por favor, completa todos los campos obligatorios.')
+    return
+  }
+
+  // Validar email básico
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emailRegex.test(applicationForm.value.email)) {
+    alert('Por favor, ingresa un email válido.')
+    return
+  }
+
+  applicationLoading.value = true
+
+  try {
+    // Usar el servicio de email (EmailJS o Backend)
+    const result = await sendJobApplication(
+      {
+        name: applicationForm.value.name,
+        email: applicationForm.value.email,
+        phone: applicationForm.value.phone,
+        cv: applicationForm.value.cv,
+        message: applicationForm.value.message
+      },
+      {
+        title: selectedJob.value.title,
+        company: selectedJob.value.company
+      }
+    )
+
+    // Mostrar éxito
+    applicationSuccess.value = true
+
+    // Si es fallback (mailto), mostrar mensaje diferente
+    if (result.fallback) {
+      alert(result.message)
+    }
+
+    // Resetear formulario después de 2 segundos
+    setTimeout(() => {
+      resetApplicationForm()
+    }, 2000)
+
+  } catch (error) {
+    alert(error.message || 'Hubo un error al enviar tu aplicación. Por favor, intenta nuevamente.')
+    console.error('Error al enviar aplicación:', error)
+  } finally {
+    applicationLoading.value = false
+  }
+}
+
+const resetApplicationForm = () => {
+  applicationForm.value = {
+    name: '',
+    email: '',
+    phone: '',
+    cv: null,
+    message: ''
+  }
+  showApplicationForm.value = false
+}
+
+const closeApplicationForm = () => {
+  if (!applicationLoading.value) {
+    resetApplicationForm()
+  }
 }
 
 const shareJob = (job) => {
@@ -1010,6 +1209,163 @@ onMounted(() => {
 
   .hero-busquedas {
     padding: 3rem 0;
+  }
+}
+
+/* Application Form Styles */
+.application-form {
+  padding: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.success-message {
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.success-message svg {
+  width: 64px;
+  height: 64px;
+  color: #10b981;
+  stroke-width: 2;
+  margin: 0 auto 1rem;
+}
+
+.success-message h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.success-message p {
+  color: #6b7280;
+  font-size: 1rem;
+}
+
+.form-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.form-subtitle {
+  color: #6b7280;
+  font-size: 0.9375rem;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #5568D3;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.file-input-wrapper {
+  position: relative;
+}
+
+.file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.file-input-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #6b7280;
+  background: #f9fafb;
+  border: 2px dashed #d1d5db;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.file-input-label:hover {
+  border-color: #5568D3;
+  background: #f3f4f6;
+}
+
+.file-input-label svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+.form-hint {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  color: #9ca3af;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.form-actions .btn {
+  flex: 1;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .application-form {
+    padding: 1.5rem;
+  }
+
+  .form-title {
+    font-size: 1.25rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
   }
 }
 </style>

@@ -75,9 +75,8 @@ import VideoBackground from './VideoBackground.vue'
 
 // Assets
 import aghrLogo from '../../assets/images/logo/aghr_logo.png'
-import video1 from '../../assets/videos/video_entrevista.mp4'
-import video2 from '../../assets/videos/video_oficina.mp4'
-import video3 from '../../assets/videos/video_estrechar_manos.mp4'
+import video1 from '../../assets/videos/video_oficina.mp4'
+import video2 from '../../assets/videos/video_estrechar_manos.mp4'
 
 // Router
 const router = useRouter()
@@ -122,7 +121,7 @@ const props = defineProps({
   },
   videos: {
     type: Array,
-    default: () => [video1, video2, video3]
+    default: () => [video1, video2]
   }
 })
 
