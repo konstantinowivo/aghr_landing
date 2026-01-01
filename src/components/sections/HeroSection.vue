@@ -19,8 +19,8 @@
           <img
             :src="logo"
             :alt="logoAlt"
-            width="120"
-            height="120"
+            width="80"
+            height="80"
             class="logo-image"
             loading="eager"
           />
@@ -76,9 +76,8 @@ import VideoBackground from './VideoBackground.vue'
 // Assets
 import aghrLogo from '../../assets/images/logo/aghr_logo.svg'
 
-// Videos en public folder (no se pueden importar directamente)
-const video1 = '/aghr_landing/videos/video_oficina.avi'
-const video2 = '/aghr_landing/videos/video_estrechar_manos.avi'
+// Video en public folder (no se puede importar directamente)
+const video1 = '/videos/video_oficina.avi'
 
 // Router
 const router = useRouter()
@@ -123,7 +122,7 @@ const props = defineProps({
   },
   videos: {
     type: Array,
-    default: () => [video1, video2]
+    default: () => [video1]
   }
 })
 
@@ -261,7 +260,7 @@ onMounted(() => {
 }
 
 .logo-image {
-  width: 90px;
+  width: 70px;
   height: auto;
   filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.3));
   transition: transform var(--transition-base);
@@ -523,7 +522,7 @@ onMounted(() => {
   }
 
   .logo-image {
-    width: 90px;
+    width: 60px;
   }
 
   .hero-metrics {
