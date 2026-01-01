@@ -33,7 +33,7 @@ export default defineConfig({
     })
   ],
 
-  base: '/aghr_landing/',
+  base: '/',
 
   resolve: {
     alias: {
