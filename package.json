@@ -7,15 +7,27 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "gh-pages -d dist --no-history --git git"
+    "deploy": "gh-pages -d dist --no-history --git git",
+    "optimize:images": "node optimize-images.js",
+    "optimize:posters": "node optimize-posters.js",
+    "optimize:videos": "optimize-videos.bat",
+    "install:ffmpeg": "powershell -ExecutionPolicy Bypass -File install-ffmpeg.ps1",
+    "install:ffmpeg-simple": "install-ffmpeg-simple.bat",
+    "analyze": "npm run build && start dist/stats.html"
   },
   "dependencies": {
     "vue": "^3.5.24",
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
+    "@ffmpeg/core": "^0.12.10",
+    "@ffmpeg/ffmpeg": "^0.12.15",
     "@vitejs/plugin-vue": "^6.0.1",
     "gh-pages": "^6.3.0",
-    "vite": "^7.2.4"
+    "rollup-plugin-visualizer": "^6.0.5",
+    "sharp": "^0.34.5",
+    "terser": "^5.44.1",
+    "vite": "^7.2.4",
+    "vite-plugin-compression": "^0.5.1"
   }
 }

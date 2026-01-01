@@ -6,10 +6,11 @@
           <!-- Company Info -->
           <div class="footer-column">
             <div class="footer-brand">
-              <img 
-                src="../../assets/images/logo/aghr_logo.png" 
-                alt="AGHR Logo" 
+              <img
+                src="../../assets/images/logo/aghr_logo.svg"
+                alt="AGHR Logo"
                 class="footer-logo"
+                loading="lazy"
               >
               <h3 class="footer-brand-name">AGHR</h3>
             </div>

@@ -6,19 +6,30 @@
     </div>
 
     <!-- Video Container -->
-    <div class="video-container">
+    <div class="video-container" ref="containerRef">
       <video
         v-for="(video, index) in videos"
         :key="index"
         :ref="el => { if (el) videoRefs[index] = el }"
         :class="['video-player', { 'video-player--active': currentVideoIndex === index }]"
-        :src="video"
+        :poster="getVideoPoster(video)"
         muted
         playsinline
-        preload="auto"
+        preload="none"
         @loadeddata="handleVideoLoaded"
         @ended="handleVideoEnd"
-      ></video>
+      >
+        <!-- Soporte para múltiples formatos (WebM + MP4 + AVI) -->
+        <template v-if="isVideoObject(video)">
+          <source v-if="video.webm" :data-src="video.webm" type="video/webm">
+          <source v-if="video.mp4" :data-src="video.mp4" type="video/mp4">
+          <source v-if="video.avi" :data-src="video.avi" type="video/avi">
+          <source v-if="video.src" :data-src="video.src" type="video/avi">
+        </template>
+        <template v-else>
+          <source :data-src="video" type="video/avi">
+        </template>
+      </video>
     </div>
 
     <!-- Overlay opcional -->
@@ -68,14 +79,28 @@ const props = defineProps({
 
 // State
 const videoRefs = ref([])
+const containerRef = ref(null)
 const currentVideoIndex = ref(0)
 const isPlaying = ref(false)
 const isVideoLoaded = ref(false)
+const videosInitialized = ref(false)
 
 // Computed
 const overlayStyles = computed(() => ({
   backgroundColor: `rgba(0, 0, 0, ${props.overlayOpacity})`
 }))
+
+// Helpers
+const isVideoObject = (video) => {
+  return typeof video === 'object' && video !== null
+}
+
+const getVideoPoster = (video) => {
+  if (isVideoObject(video)) {
+    return video.poster || ''
+  }
+  return ''
+}
 
 // Methods
 const playCurrentVideo = () => {
@@ -114,13 +139,54 @@ const changeVideo = (index) => {
   playCurrentVideo()
 }
 
-// Lifecycle
-onMounted(() => {
+// Lazy load videos usando Intersection Observer
+const initializeVideos = () => {
+  if (videosInitialized.value) return
+
+  videoRefs.value.forEach((video) => {
+    if (video) {
+      // Cargar sources dentro del video
+      const sources = video.querySelectorAll('source[data-src]')
+      sources.forEach(source => {
+        source.src = source.dataset.src
+        source.removeAttribute('data-src')
+      })
+
+      // Si el video tiene data-src directamente (backward compatibility)
+      if (video.dataset.src) {
+        video.src = video.dataset.src
+      }
+
+      video.load()
+    }
+  })
+
+  videosInitialized.value = true
+
   if (props.autoplay) {
-    // Pequeño delay para asegurar que los videos están cargados
     setTimeout(() => {
       playCurrentVideo()
     }, 100)
+  }
+}
+
+// Lifecycle
+onMounted(() => {
+  // Usar Intersection Observer para lazy load
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          initializeVideos()
+          observer.disconnect()
+        }
+      })
+    },
+    { threshold: 0.1 }
+  )
+
+  if (containerRef.value) {
+    observer.observe(containerRef.value)
   }
 })
 

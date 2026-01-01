@@ -6,7 +6,7 @@
         <div class="navbar-brand">
           <router-link to="/" class="brand-link">
             <img
-              src="/src/assets/images/logo/aghr_logo.png"
+              src="/src/assets/images/logo/aghr_logo.svg"
               alt="AGHR Logo"
               width="80"
               height="50"
