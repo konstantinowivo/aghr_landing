@@ -364,7 +364,7 @@ const applicationSuccess = ref(false)
 // Google Sheets Config
 const SHEET_ID = import.meta.env.VITE_GOOGLE_SHEET_ID || '1RxrJw6EGKrfXOs7QwX8efjeenhjsHW3A0QKDM9INjOA'
 const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY || 'AIzaSyBEevPLi34jF3djjhVHOXSETTNz1FR4eIo'
-const SHEET_NAME = import.meta.env.VITE_GOOGLE_SHEET_NAME || 'Jobs'
+const SHEET_NAME = import.meta.env.VITE_GOOGLE_SHEET_NAME || 'Trabajos'
 
 // Categories
 const categories = [
