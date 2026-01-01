@@ -7,7 +7,14 @@
       "Bash(npm run build:*)",
       "Bash(git push:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run deploy:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(find:*)",
+      "Bash(node optimize-images.js:*)",
+      "Bash(ffmpeg:*)",
+      "Bash(where:*)"
     ],
     "deny": [],
     "ask": []

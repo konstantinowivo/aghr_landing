@@ -1,16 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import Servicios from '../views/Servicios.vue'
-import Nosotros from '../views/Nosotros.vue'
-import Busquedas from '../views/Busquedas.vue'
-import Contacto from '../views/Contacto.vue'
-import JobBoardPage from '../views/Jobboardpage.vue'
 
+// Lazy loading de rutas con dynamic imports para code splitting
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home,
+    component: () => import('../views/Home.vue'),
     meta: {
       title: 'AGHR | Mentoring & HR Consulting'
     }
@@ -18,7 +13,7 @@ const routes = [
   {
     path: '/servicios',
     name: 'servicios',
-    component: Servicios,
+    component: () => import('../views/Servicios.vue'),
     meta: {
       title: 'Nuestros Servicios | AGHR'
     }
@@ -26,7 +21,7 @@ const routes = [
   {
     path: '/nosotros',
     name: 'nosotros',
-    component: Nosotros,
+    component: () => import('../views/Nosotros.vue'),
     meta: {
       title: 'Sobre Nosotros | AGHR'
     }
@@ -34,7 +29,7 @@ const routes = [
   {
     path: '/busquedas',
     name: 'busquedas',
-    component: Busquedas,
+    component: () => import('../views/Busquedas.vue'),
     meta: {
       title: 'Búsquedas Activas | AGHR'
     }
@@ -42,7 +37,7 @@ const routes = [
   {
     path: '/contacto',
     name: 'contacto',
-    component: Contacto,
+    component: () => import('../views/Contacto.vue'),
     meta: {
       title: 'Contacto | AGHR'
     }
@@ -50,7 +45,7 @@ const routes = [
   {
     path: '/trabajos',
     name: 'trabajos',
-    component: JobBoardPage,
+    component: () => import('../views/Jobboardpage.vue'),
     meta: {
       title: 'Propuestas Laborales | AGHR'
     }

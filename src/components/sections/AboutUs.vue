@@ -13,12 +13,17 @@
       <div class="founder-section">
         <div class="founder-content">
           <div class="founder-image-wrapper">
-            <img
-              v-if="founder.image"
-              :src="founder.image"
-              :alt="founder.name"
-              class="founder-image"
-            >
+            <picture v-if="founder.image">
+              <source :srcset="founder.imageWebP" type="image/webp">
+              <img
+                :src="founder.image"
+                :alt="founder.name"
+                class="founder-image"
+                loading="lazy"
+                width="800"
+                height="800"
+              >
+            </picture>
             <div v-else class="founder-image-placeholder">
               {{ getInitials(founder.name) }}
             </div>
@@ -93,6 +98,7 @@
                 :src="member.image"
                 :alt="member.name"
                 class="team-image"
+                loading="lazy"
               >
               <div v-else class="team-image-placeholder">
                 {{ getInitials(member.name) }}
@@ -110,7 +116,8 @@
 </template>
 
 <script setup>
-import andreaPhoto from '../../assets/images/foto/ag_foto.png'
+import andreaPhoto from '../../assets/images/foto/ag_foto_optimized.png'
+import andreaPhotoWebP from '../../assets/images/foto/ag_foto.webp'
 
 // Función para obtener iniciales
 const getInitials = (name) => {
@@ -129,6 +136,7 @@ const props = defineProps({
       name: 'Andrea Gasparetti',
       title: 'Fundadora & Consultora Senior en RH',
       image: andreaPhoto,
+      imageWebP: andreaPhotoWebP,
       bio: [
         'Licenciada en Psicología por la Universidad del Salvador, con especialización en RRHH y Empleabilidad.',
         'Mentora Coach con más de 15 años de experiencia en Selección y Consultoría de RRHH en consultoras multinacionales y empresas líderes a nivel mundial.',

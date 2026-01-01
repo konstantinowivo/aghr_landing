@@ -25,7 +25,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import HeroSection from '../components/sections/HeroSection.vue'
-import JobBoard from '../components/sections/JobBoard.vue'
+import JobBoard from '../components/sections/Jobboard.vue'
 import FloatingButtons from '@/components/layout/FloatingButtons.vue'
 
 // Crear refs para las secciones

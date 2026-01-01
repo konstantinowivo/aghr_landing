@@ -2,24 +2,34 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import viteCompression from 'vite-plugin-compression'
-
+import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
   plugins: [
     vue(),
+
+    // Compresión gzip
     viteCompression({
       algorithm: 'gzip',
       ext: '.gz',
-      threshold: 10240,
-      deleteOriginFile: false,
-      verbose: false
+      threshold: 10240, // Solo comprimir archivos > 10KB
+      deleteOriginFile: false
     }),
+
+    // Compresión brotli (mejor que gzip)
     viteCompression({
       algorithm: 'brotliCompress',
       ext: '.br',
       threshold: 10240,
-      deleteOriginFile: false,
-      verbose: false
+      deleteOriginFile: false
+    }),
+
+    // Bundle analyzer (genera reporte en stats.html)
+    visualizer({
+      filename: 'dist/stats.html',
+      open: false,
+      gzipSize: true,
+      brotliSize: true
     })
   ],
 
@@ -31,72 +41,40 @@ export default defineConfig({
     },
   },
 
-  // Assets públicos
-  publicDir: 'public',
-
   // Optimizaciones de build
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: false,
+
+    // Minificación mejorada
     minify: 'terser',
-    cssMinify: true,
     terserOptions: {
       compress: {
-        drop_console: true,
-        drop_debugger: true,
-        pure_funcs: ['console.log', 'console.info', 'console.warn'],
-        passes: 2,
-        ecma: 2020,
-        module: true
-      },
-      mangle: {
-        safari10: true
-      },
-      format: {
-        comments: false,
-        ecma: 2020
+        drop_console: true, // Eliminar console.log en producción
+        drop_debugger: true
       }
     },
+
+    // Chunks optimizados
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
-          if (id.includes('node_modules')) {
-            if (id.includes('vue-router')) {
-              return 'vue-router-vendor'
-            }
-            if (id.includes('vue')) {
-              return 'vue-vendor'
-            }
-            return 'vendor'
-          }
+        manualChunks: {
+          'vue-vendor': ['vue', 'vue-router'],
+          'components': [
+            './src/components/sections/HeroSection.vue',
+            './src/components/sections/VideoBackground.vue'
+          ]
         },
+
+        // Nombres de archivos con hash para cache busting
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
-        assetFileNames: (assetInfo) => {
-          const info = assetInfo.name.split('.')
-          const ext = info[info.length - 1]
-          if (/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/i.test(assetInfo.name)) {
-            return 'assets/media/[name]-[hash][extname]'
-          }
-          if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico|webp)(\?.*)?$/i.test(assetInfo.name)) {
-            return 'assets/img/[name]-[hash][extname]'
-          }
-          if (ext === 'css') {
-            return 'assets/css/[name]-[hash][extname]'
-          }
-          return 'assets/[name]-[hash][extname]'
-        }
+        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]'
       }
     },
-    chunkSizeWarningLimit: 1000,
-    assetsInlineLimit: 4096,
-    reportCompressedSize: false
-  },
 
-  server: {
-    headers: {
-      'Cache-Control': 'public, max-age=31536000'
-    }
+    // Optimizar chunks
+    chunkSizeWarningLimit: 600
   }
 })

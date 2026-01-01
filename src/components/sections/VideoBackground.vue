@@ -6,21 +6,30 @@
     </div>
 
     <!-- Video Container -->
-    <div class="video-container">
+    <div class="video-container" ref="containerRef">
       <video
         v-for="(video, index) in videos"
         :key="index"
         :ref="el => { if (el) videoRefs[index] = el }"
         :class="['video-player', { 'video-player--active': currentVideoIndex === index }]"
-        :src="currentVideoIndex === index || index === 0 ? video : undefined"
+        :poster="getVideoPoster(video)"
         muted
         playsinline
-        preload="metadata"
-        loading="lazy"
+        preload="none"
         @loadeddata="handleVideoLoaded"
         @ended="handleVideoEnd"
-        @canplay="handleCanPlay(index)"
-      ></video>
+      >
+        <!-- Soporte para múltiples formatos (WebM + MP4 + AVI) -->
+        <template v-if="isVideoObject(video)">
+          <source v-if="video.webm" :data-src="video.webm" type="video/webm">
+          <source v-if="video.mp4" :data-src="video.mp4" type="video/mp4">
+          <source v-if="video.avi" :data-src="video.avi" type="video/avi">
+          <source v-if="video.src" :data-src="video.src" type="video/avi">
+        </template>
+        <template v-else>
+          <source :data-src="video" type="video/avi">
+        </template>
+      </video>
     </div>
 
     <!-- Overlay opcional -->
@@ -70,15 +79,28 @@ const props = defineProps({
 
 // State
 const videoRefs = ref([])
+const containerRef = ref(null)
 const currentVideoIndex = ref(0)
 const isPlaying = ref(false)
 const isVideoLoaded = ref(false)
-const videosReady = ref(0)
+const videosInitialized = ref(false)
 
 // Computed
 const overlayStyles = computed(() => ({
   backgroundColor: `rgba(0, 0, 0, ${props.overlayOpacity})`
 }))
+
+// Helpers
+const isVideoObject = (video) => {
+  return typeof video === 'object' && video !== null
+}
+
+const getVideoPoster = (video) => {
+  if (isVideoObject(video)) {
+    return video.poster || ''
+  }
+  return ''
+}
 
 // Methods
 const playCurrentVideo = () => {
@@ -102,71 +124,69 @@ const pauseAllVideos = () => {
 }
 
 const handleVideoLoaded = () => {
-  videosReady.value++
-  // Solo marcar como cargado cuando al menos el primer video esté listo
-  if (videosReady.value >= 1) {
-    setTimeout(() => {
-      isVideoLoaded.value = true
-    }, 300) // Pequeño delay para suavizar la transición
-  }
+  isVideoLoaded.value = true
 }
 
 const handleVideoEnd = () => {
-  // Si solo hay un video, reproducirlo en loop
-  if (props.videos.length === 1) {
-    playCurrentVideo()
-    return
-  }
-
   // Pasar al siguiente video
-  const nextIndex = (currentVideoIndex.value + 1) % props.videos.length
-
-  // Cargar el siguiente video si no está cargado
-  const nextVideo = videoRefs.value[nextIndex]
-  if (nextVideo && !nextVideo.src) {
-    nextVideo.src = props.videos[nextIndex]
-  }
-
-  currentVideoIndex.value = nextIndex
+  currentVideoIndex.value = (currentVideoIndex.value + 1) % props.videos.length
   playCurrentVideo()
 }
 
 const changeVideo = (index) => {
   pauseAllVideos()
-
-  // Cargar el video si no está cargado
-  const targetVideo = videoRefs.value[index]
-  if (targetVideo && !targetVideo.src) {
-    targetVideo.src = props.videos[index]
-  }
-
   currentVideoIndex.value = index
   playCurrentVideo()
 }
 
-const handleCanPlay = (index) => {
-  // Solo precargar si hay múltiples videos
-  if (props.videos.length <= 1) return
+// Lazy load videos usando Intersection Observer
+const initializeVideos = () => {
+  if (videosInitialized.value) return
 
-  // Precargar el siguiente video cuando el actual está listo
-  if (index === currentVideoIndex.value) {
-    const nextIndex = (index + 1) % props.videos.length
-    const nextVideo = videoRefs.value[nextIndex]
-    if (nextVideo && !nextVideo.src) {
-      setTimeout(() => {
-        nextVideo.src = props.videos[nextIndex]
-      }, 2000) // Esperar 2s antes de precargar el siguiente
+  videoRefs.value.forEach((video) => {
+    if (video) {
+      // Cargar sources dentro del video
+      const sources = video.querySelectorAll('source[data-src]')
+      sources.forEach(source => {
+        source.src = source.dataset.src
+        source.removeAttribute('data-src')
+      })
+
+      // Si el video tiene data-src directamente (backward compatibility)
+      if (video.dataset.src) {
+        video.src = video.dataset.src
+      }
+
+      video.load()
     }
+  })
+
+  videosInitialized.value = true
+
+  if (props.autoplay) {
+    setTimeout(() => {
+      playCurrentVideo()
+    }, 100)
   }
 }
 
 // Lifecycle
 onMounted(() => {
-  if (props.autoplay) {
-    // Pequeño delay para asegurar que los videos están cargados
-    setTimeout(() => {
-      playCurrentVideo()
-    }, 100)
+  // Usar Intersection Observer para lazy load
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          initializeVideos()
+          observer.disconnect()
+        }
+      })
+    },
+    { threshold: 0.1 }
+  )
+
+  if (containerRef.value) {
+    observer.observe(containerRef.value)
   }
 })
 
@@ -196,38 +216,37 @@ defineExpose({
 .video-skeleton {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-  z-index: 1;
-  transition: opacity 1.2s ease-out, visibility 1.2s ease-out;
+  background: linear-gradient(135deg, #5568D3 0%, #764ba2 100%);
+  z-index: 0;
+  animation: fadeOut 0.5s ease-out 1s forwards;
 }
 
 .skeleton-shimmer {
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    110deg,
+    90deg,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0) 40%,
-    rgba(255, 255, 255, 0.15) 50%,
-    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0.1) 50%,
     rgba(255, 255, 255, 0) 100%
   );
-  animation: shimmer 3s ease-in-out infinite;
+  animation: shimmer 2s infinite;
 }
 
 @keyframes shimmer {
   0% {
-    transform: translateX(-150%);
+    transform: translateX(-100%);
   }
   100% {
-    transform: translateX(150%);
+    transform: translateX(100%);
   }
 }
 
-/* Estado de fade out cuando el video está cargado */
-.video-background:has(.video-player--active) .video-skeleton {
-  opacity: 0;
-  visibility: hidden;
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
 .video-container {
@@ -244,17 +263,15 @@ defineExpose({
   min-height: 100%;
   width: auto;
   height: auto;
-  transform: translate(-50%, -50%) scale(1.02);
+  transform: translate(-50%, -50%);
   object-fit: cover;
   opacity: 0;
-  transition: opacity 1.5s ease-in-out, transform 1.5s ease-out;
+  transition: opacity 1s ease-in-out;
   pointer-events: none;
-  will-change: opacity, transform;
 }
 
 .video-player--active {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
 }
 
 .video-overlay {

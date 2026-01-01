@@ -74,9 +74,11 @@ import { useRouter } from 'vue-router'
 import VideoBackground from './VideoBackground.vue'
 
 // Assets
-import aghrLogo from '../../assets/images/logo/aghr_logo.png'
-import video1 from '../../assets/videos/video_oficina.mp4'
-import video2 from '../../assets/videos/video_estrechar_manos.mp4'
+import aghrLogo from '../../assets/images/logo/aghr_logo.svg'
+
+// Videos en public folder (no se pueden importar directamente)
+const video1 = '/aghr_landing/videos/video_oficina.avi'
+const video2 = '/aghr_landing/videos/video_estrechar_manos.avi'
 
 // Router
 const router = useRouter()
