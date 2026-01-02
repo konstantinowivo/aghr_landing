@@ -173,6 +173,7 @@ const props = defineProps({
    ============================================ */
 
 .about-us {
+  margin-top: 10vh;
   padding: 6rem 0;
   background: linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 50%, #FAFBFC 100%);
 }
