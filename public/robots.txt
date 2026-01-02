@@ -1,0 +1,11 @@
+# robots.txt for AGHR Mentoring & HR
+# https://aghr-project.vercel.app
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://aghr-project.vercel.app/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
