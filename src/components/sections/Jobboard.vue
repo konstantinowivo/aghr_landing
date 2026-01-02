@@ -1,13 +1,5 @@
 <template>
   <div>
-    <!-- Hero Section with Animation -->
-    <section class="hero-busquedas">
-      <HeroBusquedasAnimation />
-      <div class="hero-container">
-        <h1 class="hero-title">Búsquedas</h1>
-        <p class="hero-subtitle">Encontrá tu próxima oportunidad profesional</p>
-      </div>
-    </section>
 
     <!-- Main Content Section -->
     <section class="job-board">
@@ -331,7 +323,6 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import HeroBusquedasAnimation from '@/components/HeroAnimations/HeroBusquedasAnimation.vue'
 import { sendJobApplication } from '@/services/emailService'
 
 // Props
@@ -623,13 +614,17 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* ============================================
+   Modern Corporate Job Board Section
+   ============================================ */
+
 .job-board {
-  padding: 5rem 0;
-  background: linear-gradient(to bottom, #ffffff, #f9fafb);
+  padding: 6rem 0;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 50%, #FAFBFC 100%);
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
@@ -637,20 +632,27 @@ onMounted(() => {
 /* Header */
 .job-board-header {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 4rem;
+  animation: fadeInDown 0.8s ease-out;
 }
 
 .section-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #111827;
+  font-family: var(--font-family-heading);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 800;
+  color: var(--color-text-primary);
   margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .section-subtitle {
-  font-size: 1.125rem;
-  color: #6b7280;
-  max-width: 600px;
+  font-family: var(--font-family-primary);
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  line-height: 1.7;
+  max-width: 700px;
   margin: 0 auto;
 }
 
@@ -1366,6 +1368,29 @@ onMounted(() => {
 
   .form-actions {
     flex-direction: column;
+  }
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>

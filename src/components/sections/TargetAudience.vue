@@ -1,13 +1,5 @@
 <template>
   <div>
-    <!-- Hero Section with Animation -->
-    <section class="hero-servicios">
-      <HeroServiciosAnimation />
-      <div class="hero-container">
-        <h1 class="hero-title">Servicios</h1>
-        <p class="hero-subtitle">Soluciones integrales para empresas y profesionales</p>
-      </div>
-    </section>
 
     <!-- Main Content Section -->
     <section class="work-with">
@@ -118,7 +110,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import HeroServiciosAnimation from '@/components/HeroAnimations/HeroServiciosAnimation.vue'
 
 // Estado del tab activo
 const activeTab = ref('empresas')
@@ -261,7 +252,7 @@ const handleCtaAction = () => {
 
 .work-with {
   padding: 6rem 0;
-  background: linear-gradient(180deg, #FAFBFC 0%, #FFFFFF 50%, #F9FAFB 100%);
+  background: linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 50%, #FAFBFC 100%);
 }
 
 .container {
@@ -673,6 +664,38 @@ const handleCtaAction = () => {
 
   .hero-servicios {
     padding: 3rem 0;
+  }
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 </style>

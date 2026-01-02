@@ -12,7 +12,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import HeroSection from '../components/sections/HeroSection.vue'
+import HeroSection from '../components/sections/HeroSectionOptimized.vue'
 import FloatingButtons from '../components/layout/FloatingButtons.vue'
 
 // Crear ref para hero section

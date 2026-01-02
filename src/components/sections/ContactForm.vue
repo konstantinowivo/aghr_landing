@@ -271,13 +271,17 @@ const handleSubmit = async () => {
 </script>
 
 <style scoped>
+/* ============================================
+   Modern Corporate Contact Section
+   ============================================ */
+
 .contact {
-  padding: 5rem 0;
-  background: linear-gradient(180deg, #f7fafc 0%, #ffffff 100%);
+  padding: 6rem 0;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 50%, #FAFBFC 100%);
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 0 1.5rem;
 }
@@ -286,18 +290,25 @@ const handleSubmit = async () => {
 .header {
   text-align: center;
   margin-bottom: 4rem;
+  animation: fadeInDown 0.8s ease-out;
 }
 
 .title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #1a202c;
+  font-family: var(--font-family-heading);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 800;
+  color: var(--color-text-primary);
   margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .subtitle {
-  font-size: 1.125rem;
-  color: #4a5568;
+  font-family: var(--font-family-primary);
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  line-height: 1.7;
 }
 
 /* Contact Wrapper */
@@ -531,6 +542,29 @@ a.info-item:hover {
 
   .contact {
     padding: 3rem 0;
+  }
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>
