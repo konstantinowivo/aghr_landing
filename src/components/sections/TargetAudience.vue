@@ -63,7 +63,7 @@
               <div class="cta-section">
                 <h4 class="cta-title">¿Listo para transformar tu organización?</h4>
                 <button class="cta-button" @click="handleEmpresas">
-                  Agendar consulta gratuita
+                  Agendar consulta
                 </button>
               </div>
             </div>
@@ -110,29 +110,13 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 // Estado del tab activo
 const activeTab = ref('empresas')
 
-// Props para configurar el comportamiento de los botones
-const props = defineProps({
-  // Acción del CTA: 'scroll' para desplazarse a una sección, 'url' para abrir un enlace
-  ctaAction: {
-    type: String,
-    default: 'scroll',
-    validator: (value) => ['scroll', 'url'].includes(value)
-  },
-  // Selector del elemento al que hacer scroll (por defecto, sección de contacto)
-  ctaScroll: {
-    type: String,
-    default: '#contact'
-  },
-  // URL a abrir si ctaAction es 'url'
-  ctaUrl: {
-    type: String,
-    default: ''
-  }
-})
+// Router para navegación
+const router = useRouter()
 
 // Emit events para tracking/analytics (opcional)
 const emit = defineEmits(['empresas-click', 'personas-click'])
@@ -218,30 +202,13 @@ const personasServices = [
 // Manejador de acciones para empresas
 const handleEmpresas = () => {
   emit('empresas-click')
-  handleCtaAction()
+  router.push('/contacto')
 }
 
 // Manejador de acciones para personas
 const handlePersonas = () => {
   emit('personas-click')
-  handleCtaAction()
-}
-
-// Lógica centralizada para manejar acciones CTA
-const handleCtaAction = () => {
-  if (props.ctaAction === 'scroll') {
-    setTimeout(() => {
-      const element = document.querySelector(props.ctaScroll)
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      } else {
-        console.warn(`Elemento no encontrado: ${props.ctaScroll}`)
-      }
-    }, 100)
-  } 
-  else if (props.ctaAction === 'url' && props.ctaUrl) {
-    window.open(props.ctaUrl, '_blank')
-  }
+  router.push('/contacto')
 }
 </script>
 
