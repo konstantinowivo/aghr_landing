@@ -240,8 +240,8 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 1.25rem;
-  padding: 2rem 0;
+  gap: 1rem;
+  padding: 1.5rem 0;
   max-height: 100vh;
   justify-content: center;
 }
@@ -252,7 +252,7 @@ onMounted(() => {
 }
 
 .logo-image {
-  width: 70px;
+  width: 60px;
   height: auto;
   filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.3));
   transition: transform var(--transition-base);
@@ -277,13 +277,13 @@ onMounted(() => {
 /* Title */
 .hero-title {
   font-family: var(--font-family-heading);
-  font-size: clamp(2.25rem, 6vw, 3.75rem);
+  font-size: clamp(1.75rem, 5vw, 2.75rem);
   font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -0.04em;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
   color: white;
   margin: 0;
-  max-width: 1000px;
+  max-width: 900px;
   text-shadow: 0 6px 30px rgba(0, 0, 0, 0.5);
   background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.95) 100%);
   -webkit-background-clip: text;
