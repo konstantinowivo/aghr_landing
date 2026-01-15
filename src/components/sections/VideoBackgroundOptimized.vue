@@ -21,10 +21,11 @@
         class="video-player"
         :class="{ 'video-player--loaded': isVideoLoaded }"
         :poster="posterImage"
+        autoplay
         muted
         loop
         playsinline
-        preload="none"
+        preload="metadata"
         @loadeddata="handleVideoLoaded"
         @canplay="handleCanPlay"
         @error="handleVideoError"
@@ -55,6 +56,10 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 // Props
 const props = defineProps({
   videoMp4: {
+    type: String,
+    default: ''
+  },
+  videoMp4Mobile: {
     type: String,
     default: ''
   },
@@ -112,7 +117,14 @@ const posterImage = computed(() => {
   return props.poster
 })
 
-const videoSourceMp4 = computed(() => props.videoMp4)
+const videoSourceMp4 = computed(() => {
+  // Usar versión mobile si está disponible y estamos en mobile
+  if (isMobile.value && props.videoMp4Mobile) {
+    return props.videoMp4Mobile
+  }
+  return props.videoMp4
+})
+
 const videoSourceWebm = computed(() => props.videoWebm)
 
 // Device Detection

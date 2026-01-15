@@ -4,11 +4,12 @@
     <div class="hero-background">
       <VideoBackgroundOptimized
         :video-mp4="videoMp4"
+        :video-mp4-mobile="videoMp4Mobile"
         :video-webm="videoWebm"
         :poster="posterDesktop"
         :poster-mobile="posterMobile"
         :overlay="false"
-        image-alt="AGHR Oficina - Recursos Humanos"
+        image-alt="Obelisco Buenos Aires - AGHR Consultoría de Recursos Humanos Argentina"
       />
       <div class="hero-overlay"></div>
     </div>
@@ -78,12 +79,16 @@ import VideoBackgroundOptimized from './VideoBackgroundOptimized.vue'
 // Assets
 import aghrLogo from '../../assets/images/logo/aghr_logo.svg'
 
-// Videos optimizados
-// IMPORTANTE: Después de ejecutar los comandos ffmpeg, actualizar estas rutas
-const videoMp4 = '/videos/video_oficina_optimized.mp4'  // ~3-4MB
-const videoWebm = '/videos/video_oficina.webm'           // ~2-3MB
-const posterDesktop = '/images/video_poster.webp'        // ~100KB
-const posterMobile = '/images/video_poster_mobile.webp'  // ~40KB
+// Cloudinary Configuration
+const CLOUD_NAME = 'dav0f6jpk'
+const PUBLIC_ID = 'video_obelisco_xunslf'
+
+// Video URLs optimizadas desde Cloudinary
+const videoMp4 = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/f_auto,q_auto:good,w_1280/${PUBLIC_ID}.mp4`
+const videoMp4Mobile = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/f_auto,q_auto:good,w_768/${PUBLIC_ID}.mp4`
+const videoWebm = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/f_auto,q_auto:good,w_1280/${PUBLIC_ID}.webm`
+const posterDesktop = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/f_auto,q_auto,w_1280,so_0/${PUBLIC_ID}.jpg`
+const posterMobile = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/f_auto,q_auto,w_768,so_0/${PUBLIC_ID}.jpg`
 
 // Router
 const router = useRouter()
@@ -190,8 +195,8 @@ onMounted(() => {
 .hero-modern {
   position: relative;
   width: 100%;
-  height: 100vh;
-  max-height: 100vh;
+  min-height: 100svh;
+  min-height: 100vh; /* Fallback para navegadores sin soporte svh */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -260,37 +265,43 @@ onMounted(() => {
 /* Brand Name */
 .hero-brand {
   font-family: var(--font-family-primary);
-  font-size: clamp(0.875rem, 2vw, 1rem);
-  font-weight: 600;
+  font-size: clamp(0.875rem, 2vw, 1.125rem);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: rgba(255, 255, 255, 0.95);
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 1);
   margin: 0;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* Title */
 .hero-title {
   font-family: var(--font-family-heading);
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
+  font-size: clamp(2.25rem, 6vw, 3.75rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
   color: white;
   margin: 0;
-  max-width: 900px;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  max-width: 1000px;
+  text-shadow: 0 6px 30px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.95) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Subtitle */
 .hero-subtitle {
   font-family: var(--font-family-primary);
-  font-size: clamp(1rem, 2vw, 1.125rem);
-  font-weight: 400;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+  font-weight: 500;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.98);
   margin: 0;
-  max-width: 700px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  max-width: 800px;
+  text-shadow: 0 3px 15px rgba(0, 0, 0, 0.4);
+  letter-spacing: 0.01em;
 }
 
 /* Actions */
@@ -305,8 +316,10 @@ onMounted(() => {
 .btn-hero {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   padding: 0.875rem 2rem;
+  min-height: 48px; /* Tamaño táctil mínimo */
   font-family: var(--font-family-primary);
   font-size: 1rem;
   font-weight: 600;
@@ -368,20 +381,37 @@ onMounted(() => {
 
 /* Responsive */
 @media (max-width: 768px) {
+  .hero-modern {
+    min-height: 100svh;
+    min-height: 100vh;
+  }
+
   .hero-content {
-    padding: 3rem 0;
-    gap: 1.5rem;
+    padding: 2rem 0;
+    gap: 1.25rem;
+    max-height: none;
   }
 
   .hero-actions {
     flex-direction: column;
     width: 100%;
-    max-width: 400px;
+    max-width: 100%;
+    gap: 0.875rem;
   }
 
   .btn-hero {
     width: 100%;
     justify-content: center;
+    min-height: 52px; /* Más grande en mobile para mejor UX */
+    padding: 1rem 2rem;
+    font-size: 1.0625rem;
+  }
+
+  /* Asegurar que el CTA sea visible sin scroll */
+  .hero-container {
+    display: flex;
+    align-items: center;
+    min-height: 100%;
   }
 }
 

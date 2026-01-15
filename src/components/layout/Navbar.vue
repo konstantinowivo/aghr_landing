@@ -296,6 +296,8 @@ onUnmounted(() => {
   position: relative;
   cursor: pointer;
   display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .nav-link::after {
@@ -460,6 +462,8 @@ onUnmounted(() => {
   transition: all var(--transition-base);
   cursor: pointer;
   display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .mobile-nav-link:hover {
