@@ -192,9 +192,9 @@ const props = defineProps({
 }
 
 .title {
-  font-family: var(--font-family-heading);
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  font-weight: 800;
+  font-family: 'Garamond', serif;
+  font-size: clamp(2.4rem, 4.8vw, 3.3rem);
+  font-weight: bold;
   color: var(--color-text-primary);
   margin-bottom: 1rem;
   letter-spacing: -0.02em;
@@ -203,7 +203,7 @@ const props = defineProps({
 
 .subtitle {
   font-family: var(--font-family-primary);
-  font-size: clamp(1rem, 2vw, 1.125rem);
+  font-size: clamp(1.2rem, 2.4vw, 1.35rem);
   color: var(--color-text-secondary);
   font-weight: 500;
   line-height: 1.7;
@@ -302,9 +302,9 @@ const props = defineProps({
 }
 
 .founder-name {
-  font-family: var(--font-family-heading);
-  font-size: clamp(1.75rem, 3vw, 2.25rem);
-  font-weight: 800;
+  font-family: 'Garamond', serif;
+  font-size: clamp(2.1rem, 3.6vw, 2.7rem);
+  font-weight: bold;
   color: var(--color-text-primary);
   margin: 0;
   letter-spacing: -0.02em;
@@ -313,7 +313,7 @@ const props = defineProps({
 
 .founder-title {
   font-family: var(--font-family-primary);
-  font-size: clamp(1rem, 2vw, 1.125rem);
+  font-size: clamp(1.2rem, 2.4vw, 1.35rem);
   color: var(--color-primary);
   font-weight: 600;
   margin: 0;
@@ -333,7 +333,7 @@ const props = defineProps({
   color: var(--color-text-secondary);
   line-height: 1.8;
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.2rem;
   text-align: justify;
 }
 
@@ -349,7 +349,7 @@ const props = defineProps({
 
 .credentials-header h4 {
   font-family: var(--font-family-primary);
-  font-size: 0.9375rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--color-text-primary);
   margin: 0;
@@ -362,7 +362,7 @@ const props = defineProps({
   align-items: flex-start;
   gap: 0.75rem;
   color: #2d3748;
-  font-size: 0.9375rem;
+  font-size: 1.125rem;
   margin-bottom: 0.75rem;
   line-height: 1.6;
 }
@@ -437,9 +437,9 @@ const props = defineProps({
 }
 
 .card-title {
-  font-family: var(--font-family-heading);
-  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
-  font-weight: 800;
+  font-family: 'Garamond', serif;
+  font-size: clamp(1.5rem, 3vw, 1.8rem);
+  font-weight: bold;
   color: var(--color-text-primary);
   margin-bottom: 1.25rem;
   letter-spacing: -0.02em;
@@ -450,7 +450,7 @@ const props = defineProps({
   font-family: var(--font-family-primary);
   color: var(--color-text-secondary);
   line-height: 1.8;
-  font-size: 1rem;
+  font-size: 1.2rem;
   text-align: center;
 }
 
@@ -461,9 +461,9 @@ const props = defineProps({
 }
 
 .team-title {
-  font-family: var(--font-family-heading);
-  font-size: clamp(1.75rem, 3vw, 2.25rem);
-  font-weight: 800;
+  font-family: 'Garamond', serif;
+  font-size: clamp(2.1rem, 3.6vw, 2.7rem);
+  font-weight: bold;
   color: var(--color-text-primary);
   text-align: center;
   margin-bottom: 3rem;
@@ -532,9 +532,9 @@ const props = defineProps({
 }
 
 .team-name {
-  font-family: var(--font-family-heading);
-  font-size: 1.125rem;
-  font-weight: 700;
+  font-family: 'Garamond', serif;
+  font-size: 1.35rem;
+  font-weight: bold;
   color: var(--color-text-primary);
   margin-bottom: 0.5rem;
   line-height: 1.3;
@@ -542,7 +542,7 @@ const props = defineProps({
 
 .team-role {
   font-family: var(--font-family-primary);
-  font-size: 0.9375rem;
+  font-size: 1.125rem;
   color: var(--color-primary);
   font-weight: 600;
   margin-bottom: 1rem;
@@ -552,7 +552,7 @@ const props = defineProps({
 .team-description {
   font-family: var(--font-family-primary);
   color: var(--color-text-secondary);
-  font-size: 0.9375rem;
+  font-size: 1.125rem;
   line-height: 1.7;
 }
 

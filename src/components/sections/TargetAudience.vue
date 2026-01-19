@@ -237,9 +237,9 @@ const handlePersonas = () => {
 }
 
 .section-title {
-  font-family: var(--font-family-heading);
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  font-weight: 800;
+  font-family: 'Garamond', serif;
+  font-size: clamp(2.4rem, 4.8vw, 3.3rem);
+  font-weight: bold;
   color: var(--color-text-primary);
   margin-bottom: 1rem;
   letter-spacing: -0.02em;
@@ -248,7 +248,7 @@ const handlePersonas = () => {
 
 .section-subtitle {
   font-family: var(--font-family-primary);
-  font-size: clamp(1rem, 2vw, 1.125rem);
+  font-size: clamp(1.2rem, 2.4vw, 1.35rem);
   color: var(--color-text-secondary);
   max-width: 650px;
   margin: 0 auto;
@@ -279,7 +279,7 @@ const handlePersonas = () => {
   font-family: var(--font-family-primary);
   flex: 1;
   padding: 1.5rem 2rem;
-  font-size: 1.0625rem;
+  font-size: 1.275rem;
   font-weight: 600;
   background: transparent;
   border: none;
@@ -353,9 +353,9 @@ const handlePersonas = () => {
 }
 
 .content-title {
-  font-family: var(--font-family-heading);
-  font-size: clamp(1.5rem, 3vw, 2.125rem);
-  font-weight: 700;
+  font-family: 'Garamond', serif;
+  font-size: clamp(1.8rem, 3.6vw, 2.55rem);
+  font-weight: bold;
   color: var(--color-text-primary);
   margin-bottom: 0.875rem;
   letter-spacing: -0.02em;
@@ -363,7 +363,7 @@ const handlePersonas = () => {
 
 .content-description {
   font-family: var(--font-family-primary);
-  font-size: 1.0625rem;
+  font-size: 1.275rem;
   color: var(--color-text-secondary);
   line-height: 1.7;
   font-weight: 400;
@@ -411,9 +411,9 @@ const handlePersonas = () => {
 }
 
 .service-title {
-  font-family: var(--font-family-heading);
-  font-size: 1.0625rem;
-  font-weight: 600;
+  font-family: 'Garamond', serif;
+  font-size: 1.275rem;
+  font-weight: bold;
   color: var(--color-text-primary);
   margin-bottom: 0.625rem;
   letter-spacing: -0.01em;
@@ -421,7 +421,7 @@ const handlePersonas = () => {
 
 .service-description {
   font-family: var(--font-family-primary);
-  font-size: 0.9375rem;
+  font-size: 1.125rem;
   color: var(--color-text-secondary);
   line-height: 1.6;
 }
@@ -449,9 +449,9 @@ const handlePersonas = () => {
 }
 
 .cta-title {
-  font-family: var(--font-family-heading);
-  font-size: clamp(1.25rem, 3vw, 1.625rem);
-  font-weight: 700;
+  font-family: 'Garamond', serif;
+  font-size: clamp(1.5rem, 3.6vw, 1.95rem);
+  font-weight: bold;
   margin-bottom: 1.5rem;
   position: relative;
   letter-spacing: -0.01em;
@@ -460,7 +460,7 @@ const handlePersonas = () => {
 .cta-button {
   font-family: var(--font-family-primary);
   padding: 1rem 2.75rem;
-  font-size: 1.0625rem;
+  font-size: 1.275rem;
   font-weight: 600;
   background: white;
   color: var(--color-primary);

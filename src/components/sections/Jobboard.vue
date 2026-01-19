@@ -638,9 +638,9 @@ onMounted(() => {
 }
 
 .section-title {
-  font-family: var(--font-family-heading);
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  font-weight: 800;
+  font-family: 'Garamond', serif;
+  font-size: clamp(2.4rem, 4.8vw, 3.3rem);
+  font-weight: bold;
   color: var(--color-text-primary);
   margin-bottom: 1rem;
   letter-spacing: -0.02em;
@@ -649,7 +649,7 @@ onMounted(() => {
 
 .section-subtitle {
   font-family: var(--font-family-primary);
-  font-size: clamp(1rem, 2vw, 1.125rem);
+  font-size: clamp(1.2rem, 2.4vw, 1.35rem);
   color: var(--color-text-secondary);
   font-weight: 500;
   line-height: 1.7;
@@ -859,7 +859,7 @@ onMounted(() => {
 
 .job-description {
   color: #4b5563;
-  font-size: 0.9375rem;
+  font-size: 1.125rem;
   line-height: 1.6;
   margin-bottom: 1rem;
 }
@@ -938,8 +938,9 @@ onMounted(() => {
 }
 
 .modal-title {
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-family: 'Garamond', serif;
+  font-size: 2.1rem;
+  font-weight: bold;
   color: #111827;
   margin-bottom: 0.5rem;
 }
@@ -999,8 +1000,9 @@ onMounted(() => {
 }
 
 .modal-section-title {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-family: 'Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: bold;
   color: #111827;
   margin-bottom: 1rem;
 }
@@ -1008,7 +1010,7 @@ onMounted(() => {
 .modal-text {
   color: #4b5563;
   line-height: 1.7;
-  font-size: 0.9375rem;
+  font-size: 1.125rem;
 }
 
 .modal-list {
@@ -1247,8 +1249,9 @@ onMounted(() => {
 }
 
 .form-title {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-family: 'Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: bold;
   color: #111827;
   margin-bottom: 0.5rem;
 }

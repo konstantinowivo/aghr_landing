@@ -295,9 +295,9 @@ const handleSubmit = async () => {
 }
 
 .title {
-  font-family: var(--font-family-heading);
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  font-weight: 800;
+  font-family: 'Garamond', serif;
+  font-size: clamp(2.4rem, 4.8vw, 3.3rem);
+  font-weight: bold;
   color: var(--color-text-primary);
   margin-bottom: 1rem;
   letter-spacing: -0.02em;
@@ -306,7 +306,7 @@ const handleSubmit = async () => {
 
 .subtitle {
   font-family: var(--font-family-primary);
-  font-size: clamp(1rem, 2vw, 1.125rem);
+  font-size: clamp(1.2rem, 2.4vw, 1.35rem);
   color: var(--color-text-secondary);
   font-weight: 500;
   line-height: 1.7;
@@ -328,8 +328,9 @@ const handleSubmit = async () => {
 }
 
 .form-title {
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-family: 'Garamond', serif;
+  font-size: 2.1rem;
+  font-weight: bold;
   color: #2d3748;
   margin-bottom: 2rem;
 }
@@ -347,7 +348,7 @@ const handleSubmit = async () => {
 }
 
 .form-label {
-  font-size: 0.875rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: #2d3748;
 }
@@ -358,7 +359,7 @@ const handleSubmit = async () => {
   padding: 0.875rem;
   border: 2px solid #e2e8f0;
   border-radius: 0.5rem;
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: #2d3748;
   transition: all 0.2s ease;
 }
@@ -382,7 +383,7 @@ const handleSubmit = async () => {
   color: white;
   border: none;
   border-radius: 0.75rem;
-  font-size: 1.125rem;
+  font-size: 1.35rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -427,8 +428,9 @@ const handleSubmit = async () => {
 }
 
 .info-title {
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-family: 'Garamond', serif;
+  font-size: 2.1rem;
+  font-weight: bold;
   color: #2d3748;
 }
 
@@ -473,14 +475,14 @@ a.info-item:hover {
 }
 
 .info-label {
-  font-size: 0.875rem;
+  font-size: 1.05rem;
   color: #5a6a7a;
   margin: 0 0 0.25rem 0;
   font-weight: 600;
 }
 
 .info-value {
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: #2d3748;
   font-weight: 600;
   margin: 0;
