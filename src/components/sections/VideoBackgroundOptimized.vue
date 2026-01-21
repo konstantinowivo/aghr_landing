@@ -129,7 +129,7 @@ const videoSourceWebm = computed(() => props.videoWebm)
 
 // Device Detection
 const detectMobile = () => {
-  // Detectar mobile usando matchMedia
+  // Detectar mobile usando matchMedia - cambiado a max-width: 768px para forzar imagen
   const mobileQuery = window.matchMedia('(max-width: 768px)')
   isMobile.value = mobileQuery.matches
 

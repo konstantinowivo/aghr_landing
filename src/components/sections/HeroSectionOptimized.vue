@@ -78,6 +78,7 @@ import VideoBackgroundOptimized from './VideoBackgroundOptimized.vue'
 
 // Assets
 import aghrLogo from '../../assets/images/logo/aghr_logo.svg'
+import heroMobileImage from '../../assets/images/hero/hero_mobile.jpg'
 
 // Cloudinary Configuration
 const CLOUD_NAME = 'dav0f6jpk'
@@ -88,7 +89,8 @@ const videoMp4 = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/f_auto,q
 const videoMp4Mobile = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/f_auto,q_auto:good,w_768/${PUBLIC_ID}.mp4`
 const videoWebm = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/f_auto,q_auto:good,w_1280/${PUBLIC_ID}.webm`
 const posterDesktop = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/f_auto,q_auto,w_1280,so_0/${PUBLIC_ID}.jpg`
-const posterMobile = `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/f_auto,q_auto,w_768,so_0/${PUBLIC_ID}.jpg`
+// Usar imagen local optimizada para mobile en lugar del poster de Cloudinary
+const posterMobile = heroMobileImage
 
 // Router
 const router = useRouter()
