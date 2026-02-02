@@ -216,11 +216,7 @@ onMounted(() => {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(79, 70, 229, 0.4) 0%,
-    rgba(124, 58, 237, 0.4) 100%
-  );
+  background: rgba(0, 0, 0, 0.3);
   z-index: 1;
   backdrop-filter: blur(0px);
   transition: backdrop-filter var(--transition-slow);
