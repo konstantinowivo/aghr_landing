@@ -1,0 +1,1 @@
+import{J as o}from"./Jobboard-BlsSf_4Q.js";import{F as a}from"./FloatingButtons-KbpVIPIh.js";import{_ as s}from"./components-fJBiyJNa.js";import{c as r,d as t,i as e}from"./vue-vendor-BawW5DB-.js";const m={class:"jobboard-page"},p=s({__name:"Jobboardpage",setup:s=>(s,p)=>(e(),r("div",m,[t(o),t(a)]))},[["__scopeId","data-v-76e5e272"]]);export{p as default};

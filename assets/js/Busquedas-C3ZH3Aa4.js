@@ -1,0 +1,1 @@
+import{J as s}from"./Jobboard-BlsSf_4Q.js";import{F as a}from"./FloatingButtons-KbpVIPIh.js";import{_ as o}from"./components-fJBiyJNa.js";import{c as t,d,i as e}from"./vue-vendor-BawW5DB-.js";const r={class:"busquedas-page"},m=o({__name:"Busquedas",setup:o=>(o,m)=>(e(),t("div",r,[d(s),d(a)]))},[["__scopeId","data-v-df11d7a2"]]);export{m as default};
