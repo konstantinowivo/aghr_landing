@@ -387,19 +387,30 @@ const fetchJobs = async () => {
     }
 
     // Parse rows (skip header)
+    // Column mapping from Google Sheets:
+    // A: id, B: categoría, C: ubicación, D: Rubro, E: tipo, F: vacante,
+    // G: descripción, H: Requisitos, I: se ofrece, J: contacto, K: activo, L: fechaPublicacion
     const headers = rows[0]
-    const jobsData = rows.slice(1).map((row, index) => ({
-      id: index + 1,
-      title: row[0] || '',
-      company: row[1] || '',
-      location: row[2] || '',
-      type: row[3] || 'Full-time',
-      category: row[4] || 'general',
-      description: row[5] || '',
-      requirements: row[6] || '',
-      benefits: row[7] || '',
-      date: row[8] || new Date().toISOString()
-    }))
+    const jobsData = rows.slice(1)
+      .filter(row => {
+        // Filter only active jobs (column K - activo)
+        const active = row[10]
+        return active && (active.toLowerCase() === 'true' || active.toLowerCase() === 'verdadero' || active === '1')
+      })
+      .map((row, index) => ({
+        id: row[0] || index + 1,
+        category: row[1] || 'general',
+        location: row[2] || '',
+        company: row[3] || '', // Rubro
+        type: row[4] || 'Full-time',
+        title: row[5] || '', // vacante -> job-title
+        description: row[6] || '',
+        requirements: row[7] || '',
+        benefits: row[8] || '', // se ofrece
+        contact: row[9] || '',
+        active: row[10] || 'true',
+        date: row[11] || new Date().toISOString()
+      }))
 
     jobs.value = jobsData
   } catch (err) {
