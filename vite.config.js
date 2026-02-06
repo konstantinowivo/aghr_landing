@@ -10,12 +10,15 @@ const devApiPlugin = () => ({
   configureServer(server) {
     server.middlewares.use((req, res, next) => {
       if (req.url && req.url.startsWith('/api/')) {
-        res.statusCode = 503
-        res.setHeader('Content-Type', 'application/json')
+        res.writeHead(200, {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        })
         res.end(JSON.stringify({
           success: false,
-          message: 'Las funciones API solo están disponibles en producción (Vercel). Para probar, despliega a Vercel o usa Vercel Dev CLI.',
-          dev: true
+          message: 'Las funciones API solo están disponibles en producción (Vercel). Para probar las funciones de contacto y aplicación, despliega a Vercel.',
+          dev: true,
+          endpoint: req.url
         }))
         return
       }
