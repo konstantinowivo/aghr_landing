@@ -4,9 +4,30 @@ import path from 'path'
 import viteCompression from 'vite-plugin-compression'
 import { visualizer } from 'rollup-plugin-visualizer'
 
+// Plugin para manejar llamadas API en desarrollo
+const devApiPlugin = () => ({
+  name: 'dev-api-handler',
+  configureServer(server) {
+    server.middlewares.use((req, res, next) => {
+      if (req.url && req.url.startsWith('/api/')) {
+        res.statusCode = 503
+        res.setHeader('Content-Type', 'application/json')
+        res.end(JSON.stringify({
+          success: false,
+          message: 'Las funciones API solo están disponibles en producción (Vercel). Para probar, despliega a Vercel o usa Vercel Dev CLI.',
+          dev: true
+        }))
+        return
+      }
+      next()
+    })
+  }
+})
+
 export default defineConfig({
   plugins: [
     vue(),
+    devApiPlugin(), // Manejar API calls en desarrollo
 
     // Compresión gzip
     viteCompression({
