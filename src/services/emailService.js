@@ -47,16 +47,16 @@ export const sendJobApplication = async (applicationData, jobData) => {
     }
 
     // ========================================
-    // OPCIÓN 1: EmailJS (Implementación actual)
+    // Usar Backend Propio (Node.js + Vercel Functions)
     // ========================================
-    return await sendViaEmailJS(applicationData, jobData)
+    return await sendViaBackend(applicationData, jobData)
 
     // ========================================
-    // OPCIÓN 2: Backend propio (Para el futuro)
+    // OPCIÓN FALLBACK: EmailJS (si necesitas volver)
     // ========================================
-    // Cuando implementes tu backend, comenta la línea de EmailJS arriba
+    // Si quieres volver a EmailJS, comenta la línea de arriba
     // y descomenta esta línea:
-    // return await sendViaBackend(applicationData, jobData)
+    // return await sendViaEmailJS(applicationData, jobData)
 
   } catch (error) {
     console.error('Error al enviar aplicación:', error)
@@ -112,27 +112,11 @@ const sendViaEmailJS = async (applicationData, jobData) => {
 }
 
 /**
- * Envío vía Backend propio (Para implementar en el futuro)
+ * Envío vía Backend propio (Vercel Serverless Functions)
  *
- * INSTRUCCIONES PARA IMPLEMENTAR TU BACKEND:
- *
- * 1. Crea un endpoint en tu backend (ej: POST /api/applications)
- * 2. El endpoint debe recibir FormData con los campos de la aplicación
- * 3. Usa un servicio de email (Nodemailer, SendGrid, AWS SES, etc.)
- * 4. Retorna un objeto con { success: true/false, message: string }
- *
- * Ejemplo de configuración:
- *
- * Backend URL: https://tudominio.com/api
- * Endpoint: /applications
- * Método: POST
- * Body: FormData con name, email, phone, message, cv, jobTitle, company
+ * Usa el endpoint /api/job-application para enviar aplicaciones con CV
  */
 const sendViaBackend = async (applicationData, jobData) => {
-  // TODO: Reemplazar esta URL con tu backend real
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'
-  const endpoint = `${BACKEND_URL}/api/applications`
-
   try {
     // Crear FormData para enviar al backend
     const formData = new FormData()
@@ -144,18 +128,18 @@ const sendViaBackend = async (applicationData, jobData) => {
     formData.append('jobTitle', jobData.title)
     formData.append('company', jobData.company)
 
-    // Enviar al backend
-    const response = await fetch(endpoint, {
+    // Enviar al backend (Vercel Function)
+    const response = await fetch('/api/job-application', {
       method: 'POST',
       body: formData
       // No agregar Content-Type header, el navegador lo configura automáticamente con boundary
     })
 
-    if (!response.ok) {
-      throw new Error(`Error del servidor: ${response.status}`)
-    }
-
     const result = await response.json()
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || 'Error al enviar la aplicación')
+    }
 
     return {
       success: true,
@@ -165,7 +149,7 @@ const sendViaBackend = async (applicationData, jobData) => {
 
   } catch (error) {
     console.error('Error en backend:', error)
-    throw new Error('No se pudo enviar la aplicación. Por favor, intenta nuevamente.')
+    throw new Error(error.message || 'No se pudo enviar la aplicación. Por favor, intenta nuevamente.')
   }
 }
 

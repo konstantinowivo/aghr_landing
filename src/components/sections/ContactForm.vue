@@ -236,31 +236,36 @@ const submitStatus = ref('');
 const handleSubmit = async () => {
   isSubmitting.value = true;
   submitMessage.value = '';
-  
+
   try {
-    // Aquí iría la integración con tu backend o servicio de email
-    // Por ahora simulamos el envío
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // Ejemplo de integración con FormSubmit.co o similar:
-    // const response = await fetch('https://formsubmit.co/ajax/tu-email@ejemplo.com', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(formData)
-    // });
-    
-    submitMessage.value = '¡Mensaje enviado con éxito! Te contactaremos pronto.';
+    // Enviar al backend (Vercel Function)
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || 'Error al enviar el mensaje');
+    }
+
+    submitMessage.value = result.message || '¡Mensaje enviado con éxito! Te contactaremos pronto.';
     submitStatus.value = 'success';
-    
+
     // Limpiar formulario
     Object.keys(formData).forEach(key => formData[key] = '');
-    
+
   } catch (error) {
-    submitMessage.value = 'Hubo un error al enviar el mensaje. Por favor, intentá nuevamente.';
+    console.error('Error al enviar formulario:', error);
+    submitMessage.value = error.message || 'Hubo un error al enviar el mensaje. Por favor, intentá nuevamente.';
     submitStatus.value = 'error';
   } finally {
     isSubmitting.value = false;
-    
+
     // Limpiar mensaje después de 5 segundos
     setTimeout(() => {
       submitMessage.value = '';
