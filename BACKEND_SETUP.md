@@ -197,6 +197,32 @@ curl -X POST http://localhost:3000/api/job-application \
 - Ve a la pestaña "Functions"
 - Revisa los logs de `/api/contact` o `/api/job-application`
 
+### Error: "Unexpected token 'A', is not valid JSON"
+
+**Causa**: Este error ocurre cuando:
+1. Las funciones serverless no están siendo detectadas por Vercel
+2. Las rutas `/api/*` están siendo redirigidas incorrectamente
+3. Las variables de entorno no están configuradas
+
+**Solución**:
+1. **Verifica que las variables de entorno estén configuradas en Vercel**:
+   - Ve a Settings → Environment Variables
+   - Asegúrate de tener: `EMAIL_USER`, `EMAIL_PASS`, `EMAIL_TO`
+   - Deben estar en el environment "Production" y "Preview"
+
+2. **Redeploy el proyecto**:
+   ```bash
+   git push
+   ```
+   O desde Vercel Dashboard: Deployments → Redeploy
+
+3. **Verifica la configuración de `vercel.json`**:
+   - Debe tener la sección `"functions"` configurada
+   - El rewrite debe excluir `/api/*`: `"source": "/((?!api).*)"`
+
+4. **Verifica los logs**:
+   - Si el error persiste, los logs te dirán exactamente qué falta
+
 ### Los emails no llegan
 
 **Solución**:
