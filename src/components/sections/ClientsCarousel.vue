@@ -77,7 +77,7 @@ onMounted(() => {
 
 .carousel-title {
   font-family: 'Garamond', serif;
-  font-size: clamp(2.1rem, 3.6vw, 2.7rem);
+  font-size: clamp(2.7rem, 5vw, 3.6rem);
   font-weight: bold;
   color: var(--color-text-primary);
   margin-bottom: 0.75rem;
@@ -252,7 +252,7 @@ onMounted(() => {
   }
 
   .carousel-title {
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
 
   .carousel-subtitle {
