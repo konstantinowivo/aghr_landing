@@ -82,13 +82,20 @@
           <p class="card-text">{{ vision }}</p>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- Team Section -->
-      <div v-if="team.length > 0" class="team-section">
+  <!-- Clients Carousel -->
+  <ClientsCarousel />
+
+  <!-- Team Section -->
+  <section v-if="team.length > 0" class="about-us-team">
+    <div class="container">
+      <div class="team-section">
         <h3 class="team-title">Nuestro Equipo</h3>
         <div class="team-grid">
-          <div 
-            v-for="(member, index) in team" 
+          <div
+            v-for="(member, index) in team"
             :key="index"
             class="team-card"
           >
@@ -118,6 +125,7 @@
 <script setup>
 import andreaPhoto from '../../assets/images/foto/ag_foto_optimized.png'
 import andreaPhotoWebP from '../../assets/images/foto/ag_foto.webp'
+import ClientsCarousel from './ClientsCarousel.vue'
 
 // Función para obtener iniciales
 const getInitials = (name) => {
@@ -455,8 +463,12 @@ const props = defineProps({
 }
 
 /* Team Section */
+.about-us-team {
+  padding: 4rem 0;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 100%);
+}
+
 .team-section {
-  margin-top: 4rem;
   animation: fadeInUp 1s ease-out 0.8s both;
 }
 
