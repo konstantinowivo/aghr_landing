@@ -134,18 +134,12 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
-  background: white;
-  border-radius: 1rem;
-  border: 1px solid #e5e7eb;
+  padding: 1rem;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .logo-item:hover {
-  transform: translateY(-8px) scale(1.05);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-  border-color: var(--color-primary);
+  transform: scale(1.1);
 }
 
 .logo-image {
