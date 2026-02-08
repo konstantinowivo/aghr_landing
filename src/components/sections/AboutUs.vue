@@ -390,7 +390,7 @@ const props = defineProps({
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2.5rem;
-  margin-bottom: 4rem;
+  margin-bottom: 0;
   animation: fadeInUp 0.8s ease-out 0.4s both;
 }
 

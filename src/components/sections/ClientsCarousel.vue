@@ -59,7 +59,7 @@ onMounted(() => {
 <style scoped>
 .clients-carousel {
   background: linear-gradient(180deg, #FAFBFC 0%, #FFFFFF 100%);
-  padding: 5rem 0 6rem 0;
+  padding: 3rem 0 6rem 0;
   overflow: hidden;
   animation: fadeInUp 0.8s ease-out 0.6s both;
 }
@@ -72,7 +72,7 @@ onMounted(() => {
 
 .carousel-header {
   text-align: center;
-  margin-bottom: 3.5rem;
+  margin-bottom: 2.5rem;
 }
 
 .carousel-title {
@@ -180,11 +180,11 @@ onMounted(() => {
 /* Responsive */
 @media (max-width: 968px) {
   .clients-carousel {
-    padding: 4rem 0;
+    padding: 2.5rem 0 4rem 0;
   }
 
   .carousel-header {
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
   }
 
   .carousel-track {
@@ -200,11 +200,11 @@ onMounted(() => {
 
 @media (max-width: 768px) {
   .clients-carousel {
-    padding: 3rem 0;
+    padding: 2rem 0 3rem 0;
   }
 
   .carousel-header {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
 
   .carousel-track {
