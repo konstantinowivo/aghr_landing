@@ -129,8 +129,8 @@ onMounted(() => {
 
 .logo-item {
   flex-shrink: 0;
-  width: 200px;
-  height: 120px;
+  width: 230px;
+  height: 138px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -192,8 +192,8 @@ onMounted(() => {
   }
 
   .logo-item {
-    width: 180px;
-    height: 110px;
+    width: 207px;
+    height: 127px;
     padding: 1.25rem;
   }
 }
@@ -213,8 +213,8 @@ onMounted(() => {
   }
 
   .logo-item {
-    width: 160px;
-    height: 100px;
+    width: 184px;
+    height: 115px;
     padding: 1rem;
   }
 }
@@ -233,8 +233,8 @@ onMounted(() => {
   }
 
   .logo-item {
-    width: 140px;
-    height: 90px;
+    width: 161px;
+    height: 104px;
     padding: 0.875rem;
   }
 }
@@ -258,8 +258,8 @@ onMounted(() => {
   }
 
   .logo-item {
-    width: 120px;
-    height: 80px;
+    width: 138px;
+    height: 92px;
     padding: 0.75rem;
   }
 }
