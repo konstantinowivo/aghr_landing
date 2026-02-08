@@ -58,8 +58,8 @@ onMounted(() => {
 
 <style scoped>
 .clients-carousel {
-  background: #ffffff;
-  padding: 5rem 0;
+  background: linear-gradient(180deg, #FAFBFC 0%, #FFFFFF 100%);
+  padding: 5rem 0 6rem 0;
   overflow: hidden;
   animation: fadeInUp 0.8s ease-out 0.6s both;
 }
