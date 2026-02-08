@@ -148,12 +148,16 @@ onMounted(() => {
   width: auto;
   height: auto;
   object-fit: contain;
-  filter: grayscale(100%) brightness(1.1) contrast(0.9);
-  transition: filter 0.3s ease;
+  filter: grayscale(100%) brightness(1.2) contrast(0.85);
+  transition: all 0.3s ease;
+  mix-blend-mode: multiply;
+  opacity: 0.85;
 }
 
 .logo-item:hover .logo-image {
   filter: grayscale(0%) brightness(1) contrast(1);
+  mix-blend-mode: normal;
+  opacity: 1;
 }
 
 /* Animación de scroll infinito */
