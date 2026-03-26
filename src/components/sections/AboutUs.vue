@@ -10,8 +10,10 @@
         </div>
 
       <!-- Founder Section - Andrea Gasparetti -->
-      <div class="founder-section">
-        <div class="founder-content">
+      <div class="team-category-section">
+        <h3 class="team-category-title">Fundadora</h3>
+        <div class="founder-section">
+          <div class="founder-content">
           <div class="founder-image-wrapper">
             <picture v-if="founder.image">
               <source :srcset="founder.imageWebP" type="image/webp">
@@ -53,6 +55,121 @@
                   <polyline points="20 6 9 17 4 12"/>
                 </svg>
                 <span>{{ credential }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- Mentoring Team Section -->
+      <div class="team-category-section">
+        <h3 class="team-category-title">Equipo Mentoring</h3>
+        <div
+          v-for="(member, index) in mentoringTeam"
+          :key="`mentoring-${index}`"
+          class="founder-section"
+        >
+          <div class="founder-content">
+            <div class="founder-image-wrapper">
+              <picture v-if="member.image">
+                <source :srcset="member.imageWebP" type="image/webp">
+                <img
+                  :src="member.image"
+                  :alt="member.name"
+                  class="founder-image"
+                  loading="lazy"
+                  width="800"
+                  height="800"
+                >
+              </picture>
+              <div v-else class="founder-image-placeholder">
+                {{ getInitials(member.name) }}
+              </div>
+              <div class="founder-badge">{{ member.title.split('&')[0].trim() }}</div>
+            </div>
+
+            <div class="founder-info">
+              <h3 class="founder-name">{{ member.name }}</h3>
+              <p class="founder-title">{{ member.title }}</p>
+
+              <div class="founder-bio">
+                <p v-for="(paragraph, idx) in member.bio" :key="idx" class="bio-paragraph">
+                  {{ paragraph }}
+                </p>
+              </div>
+
+              <div class="founder-credentials">
+                <div class="credentials-header">
+                  <h4>Formación y Experiencia:</h4>
+                </div>
+                <div
+                  v-for="(credential, idx) in member.credentials"
+                  :key="idx"
+                  class="credential-item"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  <span>{{ credential }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Brand Team Section -->
+      <div class="team-category-section">
+        <h3 class="team-category-title">Equipo Desarrollo de Marca</h3>
+        <div
+          v-for="(member, index) in brandTeam"
+          :key="`brand-${index}`"
+          class="founder-section"
+        >
+          <div class="founder-content">
+            <div class="founder-image-wrapper">
+              <picture v-if="member.image">
+                <source :srcset="member.imageWebP" type="image/webp">
+                <img
+                  :src="member.image"
+                  :alt="member.name"
+                  class="founder-image"
+                  loading="lazy"
+                  width="800"
+                  height="800"
+                >
+              </picture>
+              <div v-else class="founder-image-placeholder">
+                {{ getInitials(member.name) }}
+              </div>
+              <div class="founder-badge">{{ member.title.split('&')[0].trim() }}</div>
+            </div>
+
+            <div class="founder-info">
+              <h3 class="founder-name">{{ member.name }}</h3>
+              <p class="founder-title">{{ member.title }}</p>
+
+              <div class="founder-bio">
+                <p v-for="(paragraph, idx) in member.bio" :key="idx" class="bio-paragraph">
+                  {{ paragraph }}
+                </p>
+              </div>
+
+              <div class="founder-credentials">
+                <div class="credentials-header">
+                  <h4>Formación y Experiencia:</h4>
+                </div>
+                <div
+                  v-for="(credential, idx) in member.credentials"
+                  :key="idx"
+                  class="credential-item"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  <span>{{ credential }}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -125,6 +242,10 @@
 <script setup>
 import andreaPhoto from '../../assets/images/foto/ag_foto_optimized.png'
 import andreaPhotoWebP from '../../assets/images/foto/ag_foto.webp'
+import lauraPhoto from '../../assets/images/foto/perfil_laura.jpg'
+import anabellaPhoto from '../../assets/images/foto/perfil_anabella.jpg'
+import victoriaPhoto from '../../assets/images/foto/perfil_victoria.jpeg'
+import ivoPhoto from '../../assets/images/foto/perfil_ivo.png'
 import ClientsCarousel from './ClientsCarousel.vue'
 
 // Función para obtener iniciales
@@ -159,6 +280,84 @@ const props = defineProps({
         '15+ años de experiencia en Selección y Consultoría de RRHH'
       ]
     })
+  },
+  mentoringTeam: {
+    type: Array,
+    default: () => [
+      {
+        name: 'Laura Garcia',
+        title: 'Mentoring & Gestión del Cambio',
+        image: lauraPhoto,
+        imageWebP: null,
+        bio: [
+          'Especialista en Comunicación (UBA) y procesos educativos, con más de 17 años liderando proyectos de comunicación interna y transformación organizacional. Coach certificada y experta en PNL.',
+          'Laura facilita la adaptación de equipos en contextos de cambio, asegurando que el mensaje y la cultura organizacional evolucionen en sintonía. Domina el idioma inglés para proyectos de alcance global.'
+        ],
+        credentials: [
+          'Especialista en Comunicación | UBA',
+          'Coach Certificada y Experta en PNL',
+          '17+ años liderando proyectos de comunicación interna',
+          'Experta en transformación organizacional',
+          'Bilingüe - Inglés'
+        ]
+      },
+      {
+        name: 'Maria Anabella Pozniak',
+        title: 'Senior HR Consultant & Estrategia de Personas',
+        image: anabellaPhoto,
+        imageWebP: null,
+        bio: [
+          'Especialista en Dirección del Factor Humano con una sólida formación en Liderazgo, Coaching y Psicología Laboral (UB). Con más de 16 años de experiencia en multinacionales y PyMEs.',
+          'Anabella es la pieza clave para la profesionalización de áreas de RRHH y transformación cultural. Su visión estratégica permite estructurar procesos de personas con impacto local y regional. Bilingüe en el idioma inglés.'
+        ],
+        credentials: [
+          'Especialista en Dirección del Factor Humano | UB',
+          'Formación en Liderazgo, Coaching y Psicología Laboral',
+          '16+ años de experiencia en multinacionales y PyMEs',
+          'Experta en transformación cultural',
+          'Bilingüe - Inglés'
+        ]
+      }
+    ]
+  },
+  brandTeam: {
+    type: Array,
+    default: () => [
+      {
+        name: 'Victoria Passadore',
+        title: 'Estrategia de Marca & Comunicación',
+        image: victoriaPhoto,
+        imageWebP: null,
+        bio: [
+          'Licenciada en Publicidad (UCES) con más de 20 años de trayectoria en agencias y multinacionales.',
+          'Victoria aporta una mirada de negocio integral a AGHR, liderando el planeamiento estratégico, social listening e investigación de mercado. Su foco está en el desarrollo de marcas con propósito y campañas que conectan. Domina fluidamente inglés y portugués.'
+        ],
+        credentials: [
+          'Licenciada en Publicidad | UCES',
+          '20+ años de trayectoria en agencias y multinacionales',
+          'Experta en planeamiento estratégico y social listening',
+          'Especialista en desarrollo de marcas con propósito',
+          'Bilingüe - Inglés y Portugués'
+        ]
+      },
+      {
+        name: 'Ivo Konstantinow',
+        title: 'Desarrollo Web & Soluciones Digitales',
+        image: ivoPhoto,
+        imageWebP: null,
+        bio: [
+          'Full Stack Developer con una sólida base operativa en administración y ventas, lo que le permite entender los procesos empresariales desde adentro.',
+          'Especialista en el ecosistema JavaScript (React, Next.js, Node.js), Ivo traduce problemas organizacionales en herramientas digitales que optimizan recursos y mejoran la comunicación interna. Su enfoque combina la capacidad técnica con una visión estratégica orientada a resultados medibles. Domina fluidamente el idioma inglés.'
+        ],
+        credentials: [
+          'Full Stack Developer',
+          'Especialista en JavaScript (React, Next.js, Node.js)',
+          'Base operativa en administración y ventas',
+          'Enfoque estratégico orientado a resultados',
+          'Bilingüe - Inglés'
+        ]
+      }
+    ]
   },
   mission: {
     type: String,
@@ -392,6 +591,45 @@ const props = defineProps({
   gap: 2.5rem;
   margin-bottom: 0;
   animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+/* Team Category Section */
+.team-category-section {
+  margin-bottom: 4rem;
+  animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+.team-category-title {
+  font-family: 'Garamond', serif;
+  font-size: clamp(2.1rem, 3.6vw, 2.7rem);
+  font-weight: bold;
+  color: var(--color-text-primary);
+  text-align: center;
+  margin-bottom: 3rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.team-category-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  border-radius: 2px;
+}
+
+.team-category-section .founder-section {
+  margin-bottom: 2.5rem;
+}
+
+.team-category-section .founder-section:last-child {
+  margin-bottom: 0;
 }
 
 .mission-card {
@@ -656,6 +894,19 @@ const props = defineProps({
     font-size: clamp(1.75rem, 4vw, 2.25rem);
   }
 
+  .team-category-section {
+    margin-bottom: 3rem;
+  }
+
+  .team-category-title {
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
+    margin-bottom: 2rem;
+  }
+
+  .team-category-section .founder-section {
+    margin-bottom: 2rem;
+  }
+
   .founder-content {
     padding: 1.75rem 1.25rem;
     gap: 1.5rem;
@@ -733,6 +984,19 @@ const props = defineProps({
 
   .mission-vision {
     margin-bottom: 3rem;
+  }
+
+  .team-category-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .team-category-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .team-category-section .founder-section {
+    margin-bottom: 1.5rem;
   }
 
   .team-grid {
