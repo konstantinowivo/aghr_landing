@@ -1,11 +1,15 @@
 # robots.txt for AGHR Mentoring & HR
-# https://aghr-project.vercel.app
+# https://aghr.com.ar
 
 User-agent: *
 Allow: /
 
-# Sitemaps
-Sitemap: https://aghr-project.vercel.app/sitemap.xml
+# Bloquear acceso a archivos sensibles
+Disallow: /api/
+Disallow: /*.json$
 
-# Crawl-delay for respectful crawling
+# Sitemap
+Sitemap: https://aghr.com.ar/sitemap.xml
+
+# Crawl-delay para crawling respetuoso
 Crawl-delay: 1

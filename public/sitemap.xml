@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://aghr-project.vercel.app/</loc>
-    <lastmod>2026-01-02</lastmod>
+    <loc>https://aghr.com.ar/</loc>
+    <lastmod>2026-04-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://aghr-project.vercel.app/nosotros</loc>
-    <lastmod>2026-01-02</lastmod>
+    <loc>https://aghr.com.ar/nosotros</loc>
+    <lastmod>2026-04-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://aghr-project.vercel.app/servicios</loc>
-    <lastmod>2026-01-02</lastmod>
+    <loc>https://aghr.com.ar/servicios</loc>
+    <lastmod>2026-04-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://aghr-project.vercel.app/busquedas</loc>
-    <lastmod>2026-01-02</lastmod>
+    <loc>https://aghr.com.ar/busquedas</loc>
+    <lastmod>2026-04-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://aghr-project.vercel.app/contacto</loc>
-    <lastmod>2026-01-02</lastmod>
+    <loc>https://aghr.com.ar/contacto</loc>
+    <lastmod>2026-04-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
