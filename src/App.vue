@@ -61,6 +61,9 @@
         </p>
       </div>
     </footer>
+
+    <!-- Vercel Speed Insights -->
+    <SpeedInsights />
   </div>
 </template>
 
@@ -68,6 +71,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import Navbar from "./components/layout/Navbar.vue";
+import { SpeedInsights } from "@vercel/speed-insights/vue";
 
 const router = useRouter();
 
