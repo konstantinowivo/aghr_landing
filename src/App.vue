@@ -1,4 +1,5 @@
 <template>
+  <SpeedInsights />
   <div id="app">
     <!-- Navbar con todas las props y slots -->
     <Navbar
@@ -67,6 +68,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { SpeedInsights } from "@vercel/speed-insights/vue";
 import Navbar from "./components/layout/Navbar.vue";
 
 const router = useRouter();
