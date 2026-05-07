@@ -3,17 +3,13 @@
     <div class="container">
       <div class="carousel-header">
         <h3 class="carousel-title">Empresas que Confían en Nosotros</h3>
-        <p class="carousel-subtitle">Hemos trabajado con líderes de la industria</p>
+        <p class="carousel-subtitle">Trabajamos con líderes de la industria</p>
       </div>
 
       <div class="carousel-wrapper">
         <div class="carousel-track" ref="track">
           <!-- Primera iteración de logos -->
-          <div
-            v-for="(logo, index) in logos"
-            :key="`logo-${index}`"
-            class="logo-item"
-          >
+          <div v-for="(logo, index) in logos" :key="`logo-${index}`" class="logo-item">
             <img
               :src="logo"
               :alt="`Cliente ${index + 1}`"
@@ -41,24 +37,26 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from "vue";
 
 // Importar todos los logos
 const importLogos = () => {
-  const logoModules = import.meta.glob('@/assets/images/logos_clientes/*.png', { eager: true })
-  return Object.values(logoModules).map(module => module.default)
-}
+  const logoModules = import.meta.glob("@/assets/images/logos_clientes/*.png", {
+    eager: true,
+  });
+  return Object.values(logoModules).map((module) => module.default);
+};
 
-const logos = ref([])
+const logos = ref([]);
 
 onMounted(() => {
-  logos.value = importLogos()
-})
+  logos.value = importLogos();
+});
 </script>
 
 <style scoped>
 .clients-carousel {
-  background: linear-gradient(180deg, #FAFBFC 0%, #FFFFFF 100%);
+  background: linear-gradient(180deg, #fafbfc 0%, #ffffff 100%);
   padding: 3rem 0 6rem 0;
   overflow: hidden;
   animation: fadeInUp 0.8s ease-out 0.6s both;
@@ -76,7 +74,7 @@ onMounted(() => {
 }
 
 .carousel-title {
-  font-family: 'Garamond', serif;
+  font-family: "Garamond", serif;
   font-size: clamp(2.7rem, 5vw, 3.6rem);
   font-weight: bold;
   color: var(--color-text-primary);
