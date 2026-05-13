@@ -37,21 +37,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 
-// Importar todos los logos
-const importLogos = () => {
-  const logoModules = import.meta.glob("@/assets/images/logos_clientes/*.png", {
-    eager: true,
-  });
-  return Object.values(logoModules).map((module) => module.default);
-};
-
-const logos = ref([]);
-
-onMounted(() => {
-  logos.value = importLogos();
-});
+const logoModules = import.meta.glob("@/assets/images/logos_clientes/*.png", { eager: true });
+const logos = ref(Object.values(logoModules).map((module) => module.default));
 </script>
 
 <style scoped>

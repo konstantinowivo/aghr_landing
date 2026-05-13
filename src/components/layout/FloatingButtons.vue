@@ -24,26 +24,6 @@
       </button>
     </Transition>
 
-    <a
-      href="https://wa.me/5491169700260?text=Hola%20AGHR,%20me%20interesa%20conocer%20más%20sobre%20sus%20servicios"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="floating-btn floating-btn--whatsapp"
-      aria-label="Contactar por WhatsApp"
-      title="Contactar por WhatsApp"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 32 32"
-        width="28"
-        height="28"
-        fill="#fff"
-      >
-        <path
-          d="M16.001 3C9.373 3 4 8.373 4 15.001c0 2.646.86 5.1 2.315 7.08L4 29l7.106-2.246a11.94 11.94 0 004.895 1.04C22.628 27.794 28 22.422 28 15.794 28 9.166 22.628 3.794 16.001 3zm6.755 17.174c-.28.79-1.64 1.54-2.253 1.626-.578.085-1.29.12-2.08-.13-.48-.15-1.1-.36-1.9-.7-3.35-1.445-5.53-4.97-5.7-5.21-.17-.24-1.37-1.82-1.37-3.47 0-1.65.87-2.46 1.18-2.8.31-.34.68-.43.91-.43.23 0 .46 0 .66.01.21.01.5-.08.78.6.28.69.95 2.37 1.03 2.54.08.17.13.38.02.6-.11.23-.17.37-.34.57-.17.2-.36.45-.51.6-.17.17-.35.36-.15.7.2.35.9 1.48 1.93 2.4 1.33 1.18 2.45 1.55 2.8 1.72.35.17.56.15.77-.09.21-.24.89-1.04 1.13-1.4.24-.36.48-.3.8-.18.32.12 2.01.95 2.36 1.12.35.17.58.26.66.4.08.15.08.86-.2 1.65z"
-        />
-      </svg>
-    </a>
   </div>
 </template>
 
@@ -74,8 +54,12 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* Contenedor - Solo estilos de layout interno */
+/* Contenedor */
 .floating-buttons {
+  position: fixed;
+  top: 88px;
+  right: 2rem;
+  z-index: 9999;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -108,21 +92,6 @@ onUnmounted(() => {
   transform: translateY(-5px);
 }
 
-/* Botón WhatsApp con animación suave */
-.floating-btn--whatsapp {
-  width: 60px;
-  height: 60px;
-  background-color: #25d366;
-  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
-  animation: subtle-float 3s ease-in-out infinite;
-}
-
-.floating-btn--whatsapp:hover {
-  background-color: #1ebe5d;
-  transform: scale(1.1);
-  box-shadow: 0 8px 20px rgba(37, 211, 102, 0.6);
-}
-
 /* Transición para el botón de scroll */
 .fade-enter-active,
 .fade-leave-active {
@@ -135,21 +104,12 @@ onUnmounted(() => {
   transform: translateY(20px);
 }
 
-/* Animación de flotación (solo para WhatsApp) */
-@keyframes subtle-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
 /* Responsive - Solo tamaños de botones */
 @media (max-width: 768px) {
   .floating-buttons {
+    top: 88px;
+    right: 1.5rem;
     gap: 0.8rem;
-  }
-
-  .floating-btn--whatsapp {
-    width: 55px;
-    height: 55px;
   }
 
   .floating-btn--scroll-top {
