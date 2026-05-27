@@ -116,7 +116,7 @@
             © {{ currentYear }} AGHR Mentoring & HR. Todos los derechos reservados.
           </p>
           <div class="footer-legal">
-            <a href="#privacy" @click.prevent="scrollTo('#privacy')">Política de Privacidad</a>
+            <router-link to="/politica-de-privacidad">Política de Privacidad</router-link>
             <span class="separator">•</span>
             <a href="#terms" @click.prevent="scrollTo('#terms')">Términos y Condiciones</a>
           </div>

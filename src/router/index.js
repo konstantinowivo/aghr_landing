@@ -49,6 +49,14 @@ const routes = [
     meta: {
       title: 'Propuestas Laborales | AGHR'
     }
+  },
+  {
+    path: '/politica-de-privacidad',
+    name: 'politica-de-privacidad',
+    component: () => import('../views/PoliticaDePrivacidad.vue'),
+    meta: {
+      title: 'Política de Privacidad | AGHR'
+    }
   }
 ]
 
