@@ -16,6 +16,7 @@
     "analyze": "npm run build && start dist/stats.html"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.106.2",
     "@vercel/analytics": "^1.6.1",
     "@vercel/speed-insights": "^2.0.0",
     "multer": "^2.0.2",

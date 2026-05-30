@@ -6,26 +6,22 @@
         <p class="carousel-subtitle">Trabajamos con líderes de la industria</p>
       </div>
 
-      <div class="carousel-wrapper">
+      <div v-if="clients.length > 0" class="carousel-wrapper">
         <div class="carousel-track" ref="track">
           <!-- Primera iteración de logos -->
-          <div v-for="(logo, index) in logos" :key="`logo-${index}`" class="logo-item">
+          <div v-for="client in clients" :key="`logo-${client.id}`" class="logo-item">
             <img
-              :src="logo"
-              :alt="`Cliente ${index + 1}`"
+              :src="client.logo_url"
+              :alt="client.name"
               class="logo-image"
               loading="lazy"
             />
           </div>
           <!-- Duplicado para loop infinito -->
-          <div
-            v-for="(logo, index) in logos"
-            :key="`logo-duplicate-${index}`"
-            class="logo-item"
-          >
+          <div v-for="client in clients" :key="`logo-duplicate-${client.id}`" class="logo-item">
             <img
-              :src="logo"
-              :alt="`Cliente ${index + 1}`"
+              :src="client.logo_url"
+              :alt="client.name"
               class="logo-image"
               loading="lazy"
             />
@@ -37,10 +33,18 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { clientsService } from "@/services/clientsService";
 
-const logoModules = import.meta.glob("@/assets/images/logos_clientes/*.png", { eager: true });
-const logos = ref(Object.values(logoModules).map((module) => module.default));
+const clients = ref([]);
+
+onMounted(async () => {
+  try {
+    clients.value = await clientsService.getAll();
+  } catch (err) {
+    console.error("Error cargando clientes:", err);
+  }
+});
 </script>
 
 <style scoped>

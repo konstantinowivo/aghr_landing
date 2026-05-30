@@ -9,16 +9,16 @@
           <p class="subtitle">Conoce nuestro equipo</p>
         </div>
 
-        <!-- Founder Section - Andrea Gasparetti -->
-        <div class="team-category-section">
+        <!-- Founder Section -->
+        <div v-if="founder" class="team-category-section">
           <h3 class="team-category-title">Fundadora</h3>
           <div class="founder-section">
             <div class="founder-content">
               <div class="founder-image-wrapper">
-                <picture v-if="founder.image">
-                  <source :srcset="founder.imageWebP" type="image/webp" />
+                <picture v-if="founder.photo_url">
+                  <source v-if="founder.photo_webp_url" :srcset="founder.photo_webp_url" type="image/webp" />
                   <img
-                    :src="founder.image"
+                    :src="founder.photo_url"
                     :alt="founder.name"
                     class="founder-image"
                     loading="lazy"
@@ -34,7 +34,7 @@
 
               <div class="founder-info">
                 <h3 class="founder-name">{{ founder.name }}</h3>
-                <p class="founder-title">{{ founder.title }}</p>
+                <p class="founder-title">{{ founder.role }}</p>
 
                 <div class="founder-bio">
                   <p
@@ -86,10 +86,10 @@
           >
             <div class="founder-content">
               <div class="founder-image-wrapper">
-                <picture v-if="member.image">
-                  <source :srcset="member.imageWebP" type="image/webp" />
+                <picture v-if="member.photo_url">
+                  <source v-if="member.photo_webp_url" :srcset="member.photo_webp_url" type="image/webp" />
                   <img
-                    :src="member.image"
+                    :src="member.photo_url"
                     :alt="member.name"
                     class="founder-image"
                     loading="lazy"
@@ -100,12 +100,12 @@
                 <div v-else class="founder-image-placeholder">
                   {{ getInitials(member.name) }}
                 </div>
-                <div class="founder-badge">{{ member.title.split("&")[0].trim() }}</div>
+                <div class="founder-badge">{{ member.role.split("&")[0].trim() }}</div>
               </div>
 
               <div class="founder-info">
                 <h3 class="founder-name">{{ member.name }}</h3>
-                <p class="founder-title">{{ member.title }}</p>
+                <p class="founder-title">{{ member.role }}</p>
 
                 <div class="founder-bio">
                   <p
@@ -157,10 +157,10 @@
           >
             <div class="founder-content">
               <div class="founder-image-wrapper">
-                <picture v-if="member.image">
-                  <source :srcset="member.imageWebP" type="image/webp" />
+                <picture v-if="member.photo_url">
+                  <source v-if="member.photo_webp_url" :srcset="member.photo_webp_url" type="image/webp" />
                   <img
-                    :src="member.image"
+                    :src="member.photo_url"
                     :alt="member.name"
                     class="founder-image"
                     loading="lazy"
@@ -171,12 +171,12 @@
                 <div v-else class="founder-image-placeholder">
                   {{ getInitials(member.name) }}
                 </div>
-                <div class="founder-badge">{{ member.title.split("&")[0].trim() }}</div>
+                <div class="founder-badge">{{ member.role.split("&")[0].trim() }}</div>
               </div>
 
               <div class="founder-info">
                 <h3 class="founder-name">{{ member.name }}</h3>
-                <p class="founder-title">{{ member.title }}</p>
+                <p class="founder-title">{{ member.role }}</p>
 
                 <div class="founder-bio">
                   <p
@@ -269,190 +269,46 @@
     <!-- Clients Carousel -->
     <ClientsCarousel />
 
-    <!-- Team Section -->
-    <section v-if="team.length > 0" class="about-us-team">
-      <div class="container">
-        <div class="team-section">
-          <h3 class="team-title">Nuestro Equipo</h3>
-          <div class="team-grid">
-            <div v-for="(member, index) in team" :key="index" class="team-card">
-              <div class="team-image-wrapper">
-                <img
-                  v-if="member.image"
-                  :src="member.image"
-                  :alt="member.name"
-                  class="team-image"
-                  loading="lazy"
-                />
-                <div v-else class="team-image-placeholder">
-                  {{ getInitials(member.name) }}
-                </div>
-              </div>
-              <h4 class="team-name">{{ member.name }}</h4>
-              <p class="team-role">{{ member.role }}</p>
-              <p class="team-description">{{ member.description }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
 </template>
 
 <script setup>
-import andreaPhoto from "../../assets/images/foto/ag_foto_optimized.png";
-import andreaPhotoWebP from "../../assets/images/foto/ag_foto.webp";
-import lauraPhoto from "../../assets/images/foto/perfil_laura.jpg";
-import anabellaPhoto from "../../assets/images/foto/perfil_anabella.jpg";
-import rominaPhoto from "../../assets/images/foto/romina_perfil.jpeg";
-import victoriaPhoto from "../../assets/images/foto/perfil_victoria.jpeg";
-import ivoPhoto from "../../assets/images/foto/perfil_ivo.png";
-import ClientsCarousel from "./ClientsCarousel.vue";
+import { ref, computed, onMounted } from 'vue'
+import ClientsCarousel from './ClientsCarousel.vue'
+import { teamService } from '@/services/teamService'
+import { siteContentService } from '@/services/siteContentService'
 
-// Función para obtener iniciales
+const allTeam = ref([])
+const mission = ref('')
+const vision = ref('')
+
+onMounted(async () => {
+  try {
+    const [teamData, content] = await Promise.all([
+      teamService.getAll(),
+      siteContentService.getMany(['mission', 'vision'])
+    ])
+    allTeam.value = teamData
+    mission.value = content.mission || ''
+    vision.value = content.vision || ''
+  } catch (err) {
+    console.error('Error cargando equipo:', err)
+  }
+})
+
+const founder = computed(() =>
+  allTeam.value.find(m => m.category === 'founding') || null
+)
+const mentoringTeam = computed(() =>
+  allTeam.value.filter(m => m.category === 'mentoring')
+)
+const brandTeam = computed(() =>
+  allTeam.value.filter(m => m.category === 'brand')
+)
+
 const getInitials = (name) => {
-  return name
-    .split(" ")
-    .map((word) => word[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
-};
-
-const props = defineProps({
-  founder: {
-    type: Object,
-    default: () => ({
-      name: "Andrea Gasparetti",
-      title: "Fundadora & Consultora Senior en RH",
-      image: andreaPhoto,
-      imageWebP: andreaPhotoWebP,
-      bio: [
-        "Licenciada en Psicología por la Universidad del Salvador, con especialización en RRHH y Empleabilidad.",
-        "Mentora Coach con más de 15 años de experiencia en Selección y Consultoría de RRHH en consultoras multinacionales y empresas líderes a nivel mundial.",
-        "Docente en Recursos Humanos en la Universidad de Palermo y Profesora de Coaching en la Universidad del Salvador.",
-      ],
-      credentials: [
-        "Licenciada en Psicología | Universidad del Salvador",
-        "Especialista en RRHH y Empleabilidad",
-        "Mentora Coach Certificada",
-        "Profesora de Recursos Humanos | Universidad de Palermo",
-        "Profesora de Coaching | Universidad del Salvador",
-        "15+ años de experiencia en Selección y Consultoría de RRHH",
-      ],
-    }),
-  },
-  mentoringTeam: {
-    type: Array,
-    default: () => [
-      {
-        name: "Laura Garcia",
-        title: "Mentoring & Oratoria",
-        image: lauraPhoto,
-        imageWebP: null,
-        bio: [
-          "Especialista en Comunicación (UBA) y procesos educativos, con más de 17 años liderando proyectos de comunicación interna y transformación organizacional. Coach certificada y experta en PNL.",
-          "Laura facilita la adaptación de equipos en contextos de cambio, asegurando que el mensaje y la cultura organizacional evolucionen en sintonía. Domina el idioma inglés para proyectos de alcance global.",
-        ],
-        credentials: [
-          "Especialista en Comunicación | UBA",
-          "Coach Certificada y Experta en PNL",
-          "17+ años liderando proyectos de comunicación interna",
-          "Experta en transformación organizacional",
-          "Bilingüe - Inglés",
-        ],
-      },
-      {
-        name: "Maria Anabella Pozniak",
-        title: "Senior HR Consultant & Estrategia de Personas",
-        image: anabellaPhoto,
-        imageWebP: null,
-        bio: [
-          "Especialista en Dirección del Factor Humano con una sólida formación en Liderazgo, Coaching y Psicología Laboral (UB), con más de 16 años de experiencia en multinacionales y PyMEs.",
-          "Anabella es la pieza clave para la profesionalización de áreas de RRHH y transformación cultural. Su visión estratégica permite estructurar procesos de personas con impacto local y regional.",
-        ],
-        credentials: [
-          "Especialista en Dirección del Factor Humano | UB",
-          "Formación en Liderazgo, Coaching y Psicología Laboral",
-          "16+ años de experiencia en multinacionales y PyMEs",
-          "Experta en transformación cultural",
-          "Bilingüe - Inglés",
-        ],
-      },
-      {
-        name: "Romina Corigliano",
-        title: "Mentoring & Oratoria",
-        image: rominaPhoto,
-        imageWebP: null,
-        bio: [
-          "Especialista en comunicación organizacional y management con más de 15 años de experiencia. Integra una mirada estratégica con el desarrollo humano, enfocándose en la resolución de conflictos y la efectividad organizacional.",
-          "Subdirectora Académica en la UBA y experta en Oratoria, Romina lidera procesos de capacitación bilingües que fortalecen el liderazgo y la cultura interna en empresas de diversos rubros.",
-        ],
-        credentials: [
-          "Contadora Pública | UBA",
-          "Psicóloga Social | Escuela de Psicología Social del Sur",
-          "Subdirectora Académica Maestría en Comunicación | UBA",
-          "Coach de Equipos Certificada | Mindful Quest",
-          "15+ años en consultoría y capacitación organizacional",
-          "Bilingüe - Inglés",
-        ],
-      },
-    ],
-  },
-  brandTeam: {
-    type: Array,
-    default: () => [
-      {
-        name: "Victoria Passadore",
-        title: "Estrategia de Marca & Comunicación",
-        image: victoriaPhoto,
-        imageWebP: null,
-        bio: [
-          "Licenciada en Publicidad (UCES) con más de 20 años de trayectoria en agencias y multinacionales.",
-          "Victoria aporta una mirada de negocio integral a AGHR, liderando el planeamiento estratégico, social listening e investigación de mercado. Su foco está en el desarrollo de marcas con propósito y campañas que conectan.",
-        ],
-        credentials: [
-          "Licenciada en Publicidad | UCES",
-          "20+ años de trayectoria en agencias y multinacionales",
-          "Experta en planeamiento estratégico y social listening",
-          "Especialista en desarrollo de marcas con propósito",
-          "Bilingüe - Inglés y Portugués",
-        ],
-      },
-      {
-        name: "Ivo Konstantinow",
-        title: "Desarrollo Web & Soluciones Digitales",
-        image: ivoPhoto,
-        imageWebP: null,
-        bio: [
-          "Full Stack Developer con una sólida base operativa en administración y ventas, lo que le permite entender los procesos empresariales desde adentro.",
-          "Especialista en el ecosistema JavaScript (React, Next.js, Node.js), Ivo traduce problemas organizacionales en herramientas digitales que optimizan recursos y mejoran la comunicación interna. Su enfoque combina la capacidad técnica con una visión estratégica orientada a resultados medibles.",
-        ],
-        credentials: [
-          "Full Stack Developer",
-          "Especialista en JavaScript (React, Next.js, Node.js)",
-          "Base operativa en administración y ventas",
-          "Enfoque estratégico orientado a resultados",
-          "Bilingüe - Inglés",
-        ],
-      },
-    ],
-  },
-  mission: {
-    type: String,
-    default:
-      "Acompañar el crecimiento profesional y organizacional a través de soluciones personalizadas en recursos humanos, conectando el talento con las oportunidades que impulsan el éxito.",
-  },
-  vision: {
-    type: String,
-    default:
-      "Ser el referente en mentoría y recursos humanos en la región, reconocidos por nuestra capacidad de transformar carreras y organizaciones a través de estrategias innovadoras y centradas en las personas.",
-  },
-  team: {
-    type: Array,
-    default: () => [],
-  },
-});
+  return name?.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) || ''
+}
 </script>
 
 <style scoped>

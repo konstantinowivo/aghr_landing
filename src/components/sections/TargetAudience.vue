@@ -51,7 +51,7 @@
                   class="service-card"
                 >
                   <div class="service-icon">
-                    <img :src="service.icon" :alt="service.title" />
+                    <img :src="service.icon_url" :alt="service.title" />
                   </div>
                   <div class="service-content">
                     <h4 class="service-title">{{ service.title }}</h4>
@@ -86,7 +86,7 @@
                   class="service-card"
                 >
                   <div class="service-icon">
-                    <img :src="service.icon" :alt="service.title" />
+                    <img :src="service.icon_url" :alt="service.title" />
                   </div>
                   <div class="service-content">
                     <h4 class="service-title">{{ service.title }}</h4>
@@ -111,121 +111,37 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { servicesService } from '@/services/servicesService'
 
-// Importar imágenes para Empresas
-import busquedaSeleccion from '@/assets/images/logos_empresas/busqueda_y_seleccion.png'
-import evaluaciones from '@/assets/images/logos_empresas/evaluaciones.png'
-import experienciaAprendizaje from '@/assets/images/logos_empresas/experiencia_de_aprendizaje.png'
-import hrManagement from '@/assets/images/logos_empresas/hr_managment.png'
-import desarrolloLiderazgo from '@/assets/images/logos_empresas/desarrollo_de_liderazgo.png'
-import desarrolloMarca from '@/assets/images/logos_empresas/desarrollo_de_marca.png'
-
-// Importar imágenes para Personas
-import mentoriasPersonalizadas from '@/assets/images/logos_persona/mentorias_personalizadas.png'
-import coachingEjecutivo from '@/assets/images/logos_persona/coaching_ejecutivo.png'
-import planCarrera from '@/assets/images/logos_persona/plan_de_carrera_estrategico.png'
-import preparacionEntrevistas from '@/assets/images/logos_persona/preparacion_para_entrevistas.png'
-import networkingProfesional from '@/assets/images/logos_persona/networking_profesional.png'
-import optimizacionCV from '@/assets/images/logos_persona/optimizacion_de_cv.png'
-import marcaPersonal from '@/assets/images/logos_persona/marca_personal.png'
-import staffSelectionTraining from '@/assets/images/logos_persona/staff_selection_training.png'
-
-// Estado del tab activo
 const activeTab = ref('empresas')
-
-// Router para navegación
 const router = useRouter()
-
-// Emit events para tracking/analytics (opcional)
 const emit = defineEmits(['empresas-click', 'personas-click'])
 
-// Servicios para Empresas
-const empresasServices = [
-  {
-    icon: busquedaSeleccion,
-    title: 'Búsqueda & Selección',
-    description: 'Identificamos y atraemos al mejor talento, garantizando las habilidades técnicas y blandas para ocupar la vacante.'
-  },
-  {
-    icon: evaluaciones,
-    title: 'Evaluaciones',
-    description: 'Implementamos evaluaciones psicotécnicas, de competencia y potencial, dentro de los procesos de selección y plan de carrera de los colaboradores de tu empresa.'
-  },
-  {
-    icon: experienciaAprendizaje,
-    title: 'Experiencia de aprendizaje',
-    description: 'Diseñamos e implementamos programas de capacitación y espacios de formación para desarrollar las habilidades blandas y competencias técnicas para el éxito de tu equipo.'
-  },
-  {
-    icon: hrManagement,
-    title: 'HR Management',
-    description: 'Asesoramiento estratégico en todas las áreas de recursos humanos.'
-  },
-  {
-    icon: desarrolloLiderazgo,
-    title: 'Desarrollo de Liderazgo',
-    description: 'Formamos líderes que inspiran y transforman equipos de alto rendimiento.'
-  },
-  {
-    icon: desarrolloMarca,
-    title: 'Desarrollo de Marca',
-    description: 'Construimos y fortalecemos la identidad de tu empresa en el mercado.'
-  }
-]
+const allServices = ref([])
 
-// Servicios para Personas
-const personasServices = [
-  {
-    icon: mentoriasPersonalizadas,
-    title: 'Mentorías Personalizadas',
-    description: 'Acompañamiento 1:1 con expertos que te guían para impulsar tu camino profesional.'
-  },
-  {
-    icon: coachingEjecutivo,
-    title: 'Coaching Ejecutivo',
-    description: 'Desarrollo de habilidades de liderazgo y gestión para potenciar tu carrera.'
-  },
-  {
-    icon: planCarrera,
-    title: 'Plan de Carrera Estratégico',
-    description: 'Diseñamos juntos tu roadmap profesional con objetivos claros y alcanzables.'
-  },
-  {
-    icon: preparacionEntrevistas,
-    title: 'Preparación para Entrevistas',
-    description: 'Te preparamos para destacar en tus próximos desafíos profesionales, en castellano e inglés.'
-  },
-  {
-    icon: networkingProfesional,
-    title: 'Networking Profesional',
-    description: 'Construí conexiones valiosas que aceleran tu desarrollo.'
-  },
-  {
-    icon: optimizacionCV,
-    title: 'Optimización de CV y LinkedIn',
-    description: 'Potenciamos tu marca personal para atraer las mejores oportunidades.'
-  },
-  {
-    icon: marcaPersonal,
-    title: 'Marca Personal',
-    description: 'Desarrollamos tu identidad profesional única para destacar en tu industria.'
-  },
-  {
-    icon: staffSelectionTraining,
-    title: 'STAFF SELECTION TRAINING',
-    description: 'Capacitamos en temáticas soft de RH, para ayudar a los profesionales del área a optimizar su gestión, dentro de sectores empresariales y educativos, como freelance.'
+onMounted(async () => {
+  try {
+    allServices.value = await servicesService.getAll()
+  } catch (err) {
+    console.error('Error cargando servicios:', err)
   }
-]
+})
 
-// Manejador de acciones para empresas
+const empresasServices = computed(() =>
+  allServices.value.filter(s => s.type === 'empresa')
+)
+
+const personasServices = computed(() =>
+  allServices.value.filter(s => s.type === 'persona')
+)
+
 const handleEmpresas = () => {
   emit('empresas-click')
   router.push('/contacto')
 }
 
-// Manejador de acciones para personas
 const handlePersonas = () => {
   emit('personas-click')
   router.push('/contacto')

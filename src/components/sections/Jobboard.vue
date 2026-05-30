@@ -110,7 +110,7 @@
           <!-- Job Footer -->
           <div class="job-card-footer">
             <span class="job-type">{{ job.type }}</span>
-            <span class="job-date">{{ formatDate(job.date) }}</span>
+            <span class="job-date">{{ formatDate(job.published_at) }}</span>
           </div>
         </article>
       </div>
@@ -164,7 +164,7 @@
                   <circle cx="12" cy="12" r="10"></circle>
                   <polyline points="12 6 12 12 16 14"></polyline>
                 </svg>
-                <span>{{ formatDate(selectedJob.date) }}</span>
+                <span>{{ formatDate(selectedJob.published_at) }}</span>
               </div>
             </div>
 
@@ -324,6 +324,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { sendJobApplication } from '@/services/emailService'
+import { jobsService } from '@/services/jobsService'
 
 // Props
 const props = defineProps({
@@ -352,11 +353,6 @@ const applicationForm = ref({
 const applicationLoading = ref(false)
 const applicationSuccess = ref(false)
 
-// Google Sheets Config
-const SHEET_ID = import.meta.env.VITE_GOOGLE_SHEET_ID || '1RxrJw6EGKrfXOs7QwX8efjeenhjsHW3A0QKDM9INjOA'
-const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY || 'AIzaSyBEevPLi34jF3djjhVHOXSETTNz1FR4eIo'
-const SHEET_NAME = import.meta.env.VITE_GOOGLE_SHEET_NAME || 'Trabajos'
-
 // Categories
 const categories = [
   { label: 'Todas', value: 'todas' },
@@ -365,57 +361,14 @@ const categories = [
   { label: 'Administración', value: 'administracion' }
 ]
 
-// Fetch jobs from Google Sheets
+// Fetch jobs from Supabase
 const fetchJobs = async () => {
   loading.value = true
   error.value = null
-
   try {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`
-    const response = await fetch(url)
-
-    if (!response.ok) {
-      throw new Error('Error al cargar las propuestas laborales')
-    }
-
-    const data = await response.json()
-    const rows = data.values || []
-
-    if (rows.length === 0) {
-      jobs.value = []
-      return
-    }
-
-    // Parse rows (skip header)
-    // Column mapping from Google Sheets:
-    // A: id, B: categoría, C: ubicación, D: Rubro, E: tipo, F: vacante,
-    // G: descripción, H: Requisitos, I: se ofrece, J: contacto, K: activo, L: fechaPublicacion
-    const headers = rows[0]
-    const jobsData = rows.slice(1)
-      .filter(row => {
-        // Filter only active jobs (column K - activo)
-        const active = row[10]
-        return active && (active.toLowerCase() === 'true' || active.toLowerCase() === 'verdadero' || active === '1')
-      })
-      .map((row, index) => ({
-        id: row[0] || index + 1,
-        category: row[1] || 'general',
-        location: row[2] || '',
-        company: row[3] || '', // Rubro
-        type: row[4] || 'Full-time',
-        title: row[5] || '', // vacante -> job-title
-        description: row[6] || '',
-        requirements: row[7] || '',
-        benefits: row[8] || '', // se ofrece
-        contact: row[9] || '',
-        active: row[10] || 'true',
-        date: row[11] || new Date().toISOString()
-      }))
-
-    jobs.value = jobsData
+    jobs.value = await jobsService.getPublished()
   } catch (err) {
     error.value = err.message
-    console.error('Error fetching jobs:', err)
   } finally {
     loading.value = false
   }
