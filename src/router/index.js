@@ -102,14 +102,19 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   document.title = to.meta.title || 'AGHR'
 
-  if (to.meta.requiresAuth) {
-    const isAdmin = await authService.isAdmin()
-    if (!isAdmin) return next('/admin/login')
-  }
+  try {
+    if (to.meta.requiresAuth) {
+      const isAdmin = await authService.isAdmin()
+      if (!isAdmin) return next('/admin/login')
+    }
 
-  if (to.path === '/admin/login') {
-    const isAdmin = await authService.isAdmin()
-    if (isAdmin) return next('/admin/dashboard')
+    if (to.path === '/admin/login') {
+      const isAdmin = await authService.isAdmin()
+      if (isAdmin) return next('/admin/dashboard')
+    }
+  } catch (err) {
+    console.error('Router guard error:', err)
+    if (to.meta.requiresAuth) return next('/admin/login')
   }
 
   next()

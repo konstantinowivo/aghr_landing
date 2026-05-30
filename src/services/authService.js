@@ -4,12 +4,8 @@ export const authService = {
   async login(email, password) {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) throw error
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', data.user.id)
-      .single()
-    if (profile?.role !== 'admin') {
+    const { data: role } = await supabase.rpc('get_my_role')
+    if (role !== 'admin') {
       await supabase.auth.signOut()
       throw new Error('No tenés permisos de administrador')
     }
@@ -29,11 +25,7 @@ export const authService = {
   async isAdmin() {
     const { data: { session } } = await supabase.auth.getSession()
     if (!session) return false
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('role')
-      .eq('id', session.user.id)
-      .single()
-    return profile?.role === 'admin'
+    const { data: role } = await supabase.rpc('get_my_role')
+    return role === 'admin'
   }
 }
