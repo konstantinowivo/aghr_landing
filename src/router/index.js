@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { authService } from '@/services/authService'
 
-// Lazy loading de rutas con dynamic imports para code splitting
 const routes = [
   {
     path: '/',
@@ -54,9 +54,28 @@ const routes = [
     path: '/politica-de-privacidad',
     name: 'politica-de-privacidad',
     component: () => import('../views/PoliticaDePrivacidad.vue'),
-    meta: {
-      title: 'Política de Privacidad | AGHR'
-    }
+    meta: { title: 'Política de Privacidad | AGHR' }
+  },
+  {
+    path: '/admin/login',
+    name: 'admin-login',
+    component: () => import('../views/admin/AdminLogin.vue'),
+    meta: { title: 'Admin | AGHR' }
+  },
+  {
+    path: '/admin',
+    component: () => import('../components/admin/AdminLayout.vue'),
+    meta: { requiresAuth: true },
+    children: [
+      { path: '', redirect: '/admin/dashboard' },
+      { path: 'dashboard', name: 'admin-dashboard', component: () => import('../views/admin/AdminDashboard.vue'), meta: { title: 'Dashboard | Admin AGHR' } },
+      { path: 'testimonials', name: 'admin-testimonials', component: () => import('../views/admin/AdminTestimonials.vue'), meta: { title: 'Testimonios | Admin AGHR' } },
+      { path: 'team', name: 'admin-team', component: () => import('../views/admin/AdminTeam.vue'), meta: { title: 'Equipo | Admin AGHR' } },
+      { path: 'services', name: 'admin-services', component: () => import('../views/admin/AdminServices.vue'), meta: { title: 'Servicios | Admin AGHR' } },
+      { path: 'jobs', name: 'admin-jobs', component: () => import('../views/admin/AdminJobs.vue'), meta: { title: 'Empleos | Admin AGHR' } },
+      { path: 'clients', name: 'admin-clients', component: () => import('../views/admin/AdminClients.vue'), meta: { title: 'Clientes | Admin AGHR' } },
+      { path: 'content', name: 'admin-content', component: () => import('../views/admin/AdminContent.vue'), meta: { title: 'Contenido | Admin AGHR' } },
+    ]
   }
 ]
 
@@ -80,9 +99,19 @@ const router = createRouter({
   }
 })
 
-// Actualizar título de la página
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   document.title = to.meta.title || 'AGHR'
+
+  if (to.meta.requiresAuth) {
+    const isAdmin = await authService.isAdmin()
+    if (!isAdmin) return next('/admin/login')
+  }
+
+  if (to.path === '/admin/login') {
+    const isAdmin = await authService.isAdmin()
+    if (isAdmin) return next('/admin/dashboard')
+  }
+
   next()
 })
 
