@@ -8,19 +8,7 @@
       "maxDuration": 10
     }
   },
-  "redirects": [
-    {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "(?!aghr\\.com\\.ar).*\\.vercel\\.app"
-        }
-      ],
-      "destination": "https://aghr.com.ar/:path*",
-      "permanent": true
-    }
-  ],
+  "redirects": [],
   "rewrites": [
     {
       "source": "/((?!api).*)",
