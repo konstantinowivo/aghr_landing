@@ -9,6 +9,9 @@
         <router-link to="/admin/dashboard" class="nav-link">
           <span class="nav-icon">📊</span> Dashboard
         </router-link>
+        <router-link to="/admin/contacts" class="nav-link">
+          <span class="nav-icon">📩</span> Consultas
+        </router-link>
         <router-link to="/admin/testimonials" class="nav-link">
           <span class="nav-icon">💬</span> Testimonios
         </router-link>

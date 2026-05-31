@@ -69,6 +69,7 @@ const routes = [
     children: [
       { path: '', redirect: '/admin/dashboard' },
       { path: 'dashboard', name: 'admin-dashboard', component: () => import('../views/admin/AdminDashboard.vue'), meta: { title: 'Dashboard | Admin AGHR' } },
+      { path: 'contacts', name: 'admin-contacts', component: () => import('../views/admin/AdminContacts.vue'), meta: { title: 'Consultas | Admin AGHR' } },
       { path: 'testimonials', name: 'admin-testimonials', component: () => import('../views/admin/AdminTestimonials.vue'), meta: { title: 'Testimonios | Admin AGHR' } },
       { path: 'team', name: 'admin-team', component: () => import('../views/admin/AdminTeam.vue'), meta: { title: 'Equipo | Admin AGHR' } },
       { path: 'services', name: 'admin-services', component: () => import('../views/admin/AdminServices.vue'), meta: { title: 'Servicios | Admin AGHR' } },

@@ -20,6 +20,7 @@ import { ref, onMounted } from 'vue'
 import { supabase } from '@/lib/supabase'
 
 const stats = ref([
+  { label: 'Consultas recibidas', icon: '📩', count: null, route: '/admin/contacts' },
   { label: 'Testimonios', icon: '💬', count: null, route: '/admin/testimonials' },
   { label: 'Miembros del equipo', icon: '👥', count: null, route: '/admin/team' },
   { label: 'Servicios', icon: '🎯', count: null, route: '/admin/services' },
@@ -28,7 +29,7 @@ const stats = ref([
 ])
 
 onMounted(async () => {
-  const tables = ['testimonials', 'team_members', 'services', 'jobs', 'clients']
+  const tables = ['contact_submissions', 'testimonials', 'team_members', 'services', 'jobs', 'clients']
   const results = await Promise.all(
     tables.map(t => supabase.from(t).select('*', { count: 'exact', head: true }))
   )

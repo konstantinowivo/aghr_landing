@@ -83,6 +83,22 @@ module.exports = async (req, res) => {
     // Enviar email
     await sendContactEmail(sanitizedData);
 
+    // Guardar en Supabase (fire-and-forget — no bloquea la respuesta)
+    const supabaseUrl = process.env.VITE_SUPABASE_URL;
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (supabaseUrl && serviceKey) {
+      fetch(`${supabaseUrl}/rest/v1/contact_submissions`, {
+        method: 'POST',
+        headers: {
+          'apikey': serviceKey,
+          'Authorization': `Bearer ${serviceKey}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(sanitizedData)
+      }).catch(err => console.error('Supabase insert error:', err));
+    }
+
     // Respuesta exitosa
     return res.status(200).json({
       success: true,
