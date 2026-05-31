@@ -80,10 +80,7 @@ module.exports = async (req, res) => {
       message: sanitize(message)
     };
 
-    // Enviar email
-    await sendContactEmail(sanitizedData);
-
-    // Guardar en Supabase (fire-and-forget — no bloquea la respuesta)
+    // Guardar en Supabase primero (independiente del email)
     const supabaseUrl = process.env.VITE_SUPABASE_URL;
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
     if (supabaseUrl && serviceKey) {
@@ -98,6 +95,9 @@ module.exports = async (req, res) => {
         body: JSON.stringify(sanitizedData)
       }).catch(err => console.error('Supabase insert error:', err));
     }
+
+    // Enviar email (si falla, la consulta ya quedó guardada en Supabase)
+    await sendContactEmail(sanitizedData);
 
     // Respuesta exitosa
     return res.status(200).json({
