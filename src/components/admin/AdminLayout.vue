@@ -24,9 +24,6 @@
         <router-link to="/admin/clients" class="nav-link">
           <span class="nav-icon">🏢</span> Clientes
         </router-link>
-        <router-link to="/admin/content" class="nav-link">
-          <span class="nav-icon">✏️</span> Contenido
-        </router-link>
       </nav>
 
       <div class="sidebar-footer">

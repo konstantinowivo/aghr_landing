@@ -74,7 +74,6 @@ const routes = [
       { path: 'services', name: 'admin-services', component: () => import('../views/admin/AdminServices.vue'), meta: { title: 'Servicios | Admin AGHR' } },
       { path: 'jobs', name: 'admin-jobs', component: () => import('../views/admin/AdminJobs.vue'), meta: { title: 'Empleos | Admin AGHR' } },
       { path: 'clients', name: 'admin-clients', component: () => import('../views/admin/AdminClients.vue'), meta: { title: 'Clientes | Admin AGHR' } },
-      { path: 'content', name: 'admin-content', component: () => import('../views/admin/AdminContent.vue'), meta: { title: 'Contenido | Admin AGHR' } },
     ]
   }
 ]
