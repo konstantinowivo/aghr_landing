@@ -5,9 +5,18 @@
       <span class="unread-badge" v-if="unreadCount > 0">{{ unreadCount }} sin leer</span>
     </div>
 
+    <div class="filters-bar">
+      <input v-model="search" class="filter-input" placeholder="Buscar por nombre o email..." />
+      <select v-model="filterRead" class="filter-select">
+        <option value="all">Todos</option>
+        <option value="unread">Sin leer</option>
+        <option value="read">Leídos</option>
+      </select>
+    </div>
+
     <div class="table-card">
       <div v-if="loading" class="state-msg">Cargando...</div>
-      <div v-else-if="records.length === 0" class="state-msg">No hay consultas aún.</div>
+      <div v-else-if="filtered.length === 0" class="state-msg">No hay consultas que coincidan.</div>
       <table v-else class="data-table">
         <thead>
           <tr>
@@ -21,7 +30,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="r in records" :key="r.id" :class="{ 'row-unread': !r.read }">
+          <tr v-for="r in filtered" :key="r.id" :class="{ 'row-unread': !r.read }">
             <td>{{ formatDate(r.submitted_at) }}</td>
             <td><strong>{{ r.name }}</strong></td>
             <td>
@@ -82,8 +91,20 @@ import { supabase } from '@/lib/supabase'
 const records = ref([])
 const loading = ref(true)
 const selected = ref(null)
+const search = ref('')
+const filterRead = ref('all')
 
 const unreadCount = computed(() => records.value.filter(r => !r.read).length)
+
+const filtered = computed(() => {
+  const q = search.value.toLowerCase().trim()
+  return records.value.filter(r => {
+    if (filterRead.value === 'unread' && r.read) return false
+    if (filterRead.value === 'read' && !r.read) return false
+    if (q && !r.name?.toLowerCase().includes(q) && !r.email?.toLowerCase().includes(q)) return false
+    return true
+  })
+})
 
 const fetch = async () => {
   loading.value = true

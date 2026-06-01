@@ -5,9 +5,18 @@
       <span class="unread-badge" v-if="unreadCount > 0">{{ unreadCount }} nuevas</span>
     </div>
 
+    <div class="filters-bar">
+      <input v-model="search" class="filter-input" placeholder="Buscar por nombre, email o puesto..." />
+      <select v-model="filterRead" class="filter-select">
+        <option value="all">Todas</option>
+        <option value="unread">Nuevas</option>
+        <option value="read">Vistas</option>
+      </select>
+    </div>
+
     <div class="table-card">
       <div v-if="loading" class="state-msg">Cargando...</div>
-      <div v-else-if="records.length === 0" class="state-msg">No hay postulaciones aún.</div>
+      <div v-else-if="filtered.length === 0" class="state-msg">No hay postulaciones que coincidan.</div>
       <table v-else class="data-table">
         <thead>
           <tr>
@@ -21,7 +30,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="r in records" :key="r.id" :class="{ 'row-unread': !r.read }">
+          <tr v-for="r in filtered" :key="r.id" :class="{ 'row-unread': !r.read }">
             <td>{{ formatDate(r.submitted_at) }}</td>
             <td><strong>{{ r.name }}</strong></td>
             <td>
@@ -93,8 +102,20 @@ const records = ref([])
 const loading = ref(true)
 const selected = ref(null)
 const loadingCv = ref(null)
+const search = ref('')
+const filterRead = ref('all')
 
 const unreadCount = computed(() => records.value.filter(r => !r.read).length)
+
+const filtered = computed(() => {
+  const q = search.value.toLowerCase().trim()
+  return records.value.filter(r => {
+    if (filterRead.value === 'unread' && r.read) return false
+    if (filterRead.value === 'read' && !r.read) return false
+    if (q && !r.name?.toLowerCase().includes(q) && !r.email?.toLowerCase().includes(q) && !r.job_title?.toLowerCase().includes(q)) return false
+    return true
+  })
+})
 
 const fetch = async () => {
   loading.value = true

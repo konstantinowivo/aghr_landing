@@ -5,9 +5,26 @@
       <button class="btn-primary" @click="openForm(null)">+ Nuevo</button>
     </div>
 
+    <div class="filters-bar">
+      <input v-model="search" class="filter-input" placeholder="Buscar por título o empresa..." />
+      <select v-model="filterStatus" class="filter-select">
+        <option value="all">Todos los estados</option>
+        <option value="published">Publicado</option>
+        <option value="draft">Borrador</option>
+        <option value="closed">Cerrado</option>
+      </select>
+      <select v-model="filterType" class="filter-select">
+        <option value="all">Todos los tipos</option>
+        <option value="full-time">Full-time</option>
+        <option value="part-time">Part-time</option>
+        <option value="contract">Contrato</option>
+        <option value="internship">Pasantía</option>
+      </select>
+    </div>
+
     <div class="table-card">
       <div v-if="loading" class="state-msg">Cargando...</div>
-      <div v-else-if="records.length === 0" class="state-msg">No hay empleos aún.</div>
+      <div v-else-if="filtered.length === 0" class="state-msg">No hay empleos que coincidan.</div>
       <table v-else class="data-table">
         <thead>
           <tr>
@@ -20,7 +37,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="r in records" :key="r.id">
+          <tr v-for="r in filtered" :key="r.id">
             <td>
               <strong>{{ r.title }}</strong>
               <span class="sub">{{ r.location }}</span>
@@ -125,11 +142,24 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { supabase } from '@/lib/supabase'
 
 const records = ref([])
 const loading = ref(true)
+const search = ref('')
+const filterStatus = ref('all')
+const filterType = ref('all')
+
+const filtered = computed(() => {
+  const q = search.value.toLowerCase().trim()
+  return records.value.filter(r => {
+    if (filterStatus.value !== 'all' && r.status !== filterStatus.value) return false
+    if (filterType.value !== 'all' && r.type !== filterType.value) return false
+    if (q && !r.title?.toLowerCase().includes(q) && !r.company?.toLowerCase().includes(q)) return false
+    return true
+  })
+})
 const showForm = ref(false)
 const editing = ref(null)
 const saving = ref(false)
