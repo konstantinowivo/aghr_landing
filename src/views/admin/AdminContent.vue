@@ -67,7 +67,7 @@ const groups = [
   }
 ]
 
-const fetch = async () => {
+const fetchContent = async () => {
   loading.value = true
   const { data } = await supabase.from('site_content').select('key, value')
   data?.forEach(r => { values[r.key] = r.value })
@@ -81,7 +81,7 @@ const save = async (key) => {
   setTimeout(() => { saving.value = null }, 1500)
 }
 
-onMounted(fetch)
+onMounted(fetchContent)
 </script>
 
 <style scoped src="./admin.css"></style>

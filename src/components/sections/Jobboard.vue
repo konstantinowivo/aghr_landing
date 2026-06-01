@@ -323,7 +323,6 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { sendJobApplication } from '@/services/emailService'
 import { jobsService } from '@/services/jobsService'
 
 // Props
@@ -503,30 +502,24 @@ const submitApplication = async () => {
   applicationLoading.value = true
 
   try {
-    // Usar el servicio de email (EmailJS o Backend)
-    const result = await sendJobApplication(
-      {
-        name: applicationForm.value.name,
-        email: applicationForm.value.email,
-        phone: applicationForm.value.phone,
-        cv: applicationForm.value.cv,
-        message: applicationForm.value.message
-      },
-      {
-        title: selectedJob.value.title,
-        company: selectedJob.value.company
-      }
-    )
+    const formData = new FormData()
+    formData.append('name', applicationForm.value.name)
+    formData.append('email', applicationForm.value.email)
+    formData.append('phone', applicationForm.value.phone || '')
+    formData.append('message', applicationForm.value.message || '')
+    formData.append('cv', applicationForm.value.cv)
+    formData.append('jobTitle', selectedJob.value.title)
+    formData.append('company', selectedJob.value.company)
 
-    // Mostrar éxito
-    applicationSuccess.value = true
+    const response = await fetch('/api/job-application', { method: 'POST', body: formData })
+    const result = await response.json()
 
-    // Si es fallback (mailto), mostrar mensaje diferente
-    if (result.fallback) {
-      alert(result.message)
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || 'Error al enviar la aplicación')
     }
 
-    // Resetear formulario después de 2 segundos
+    applicationSuccess.value = true
+
     setTimeout(() => {
       resetApplicationForm()
     }, 2000)
