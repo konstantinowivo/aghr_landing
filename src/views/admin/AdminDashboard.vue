@@ -25,11 +25,12 @@ const stats = ref([
   { label: 'Miembros del equipo', icon: '👥', count: null, route: '/admin/team' },
   { label: 'Servicios', icon: '🎯', count: null, route: '/admin/services' },
   { label: 'Empleos publicados', icon: '💼', count: null, route: '/admin/jobs' },
+  { label: 'Postulaciones', icon: '📋', count: null, route: '/admin/applications' },
   { label: 'Clientes', icon: '🏢', count: null, route: '/admin/clients' },
 ])
 
 onMounted(async () => {
-  const tables = ['contact_submissions', 'testimonials', 'team_members', 'services', 'jobs', 'clients']
+  const tables = ['contact_submissions', 'testimonials', 'team_members', 'services', 'jobs', 'applications', 'clients']
   const results = await Promise.all(
     tables.map(t => supabase.from(t).select('*', { count: 'exact', head: true }))
   )
