@@ -19,7 +19,7 @@
             </p>
             <div class="footer-social">
               <a 
-                href="https://instagram.com/aghr" 
+                href="https://www.instagram.com/aghr_mentoring_rh/"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="social-link instagram"

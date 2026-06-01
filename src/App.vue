@@ -13,7 +13,7 @@
       <template #social>
         <div class="social-buttons">
           <a
-            href="https://www.instagram.com/aghr_metoring_rh/"
+            href="https://www.instagram.com/aghr_mentoring_rh/"
             target="_blank"
             rel="noopener noreferrer"
             class="social-button instagram"
