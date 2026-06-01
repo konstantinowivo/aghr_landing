@@ -197,26 +197,37 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
+import { siteContentService } from '@/services/siteContentService';
 
 const props = defineProps({
-  contactInfo: {
-    type: Object,
-    default: () => ({
-      email: 'hola@aghr-consulting.com',
-      phone: '+5491169700260',
-      phoneDisplay: '+549 11 6970 0260',
-      whatsapp: '5491169700260',
-      location: 'Buenos Aires, Argentina'
-    })
-  },
   socialLinks: {
     type: Array,
-    default: () => [
-      // { name: 'LinkedIn', url: 'https://linkedin.com/company/aghr', icon: 'LinkedInIcon' },
-      // { name: 'Instagram', url: 'https://instagram.com/aghr', icon: 'InstagramIcon' },
-      // { name: 'Facebook', url: 'https://facebook.com/aghr', icon: 'FacebookIcon' }
-    ]
+    default: () => []
+  }
+});
+
+const contactInfo = reactive({
+  email: 'hola@aghr-consulting.com',
+  phone: '+5491169700260',
+  phoneDisplay: '+549 11 6970 0260',
+  whatsapp: '5491169700260',
+  location: 'Buenos Aires, Argentina'
+});
+
+onMounted(async () => {
+  try {
+    const content = await siteContentService.getMany([
+      'contact_email', 'contact_phone', 'contact_phone_display',
+      'contact_whatsapp', 'contact_location'
+    ])
+    if (content.contact_email) contactInfo.email = content.contact_email
+    if (content.contact_phone) contactInfo.phone = content.contact_phone
+    if (content.contact_phone_display) contactInfo.phoneDisplay = content.contact_phone_display
+    if (content.contact_whatsapp) contactInfo.whatsapp = content.contact_whatsapp
+    if (content.contact_location) contactInfo.location = content.contact_location
+  } catch (err) {
+    console.error('Error cargando info de contacto:', err)
   }
 });
 

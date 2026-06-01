@@ -23,26 +23,26 @@
           </div>
 
           <!-- Testimonial Content -->
-          <p class="testimonial-text">{{ testimonial.text }}</p>
+          <p class="testimonial-text">{{ testimonial.quote }}</p>
 
           <!-- Author Info -->
           <div class="author-info">
             <div class="author-avatar">
-              <img 
-                v-if="testimonial.avatar"
-                :src="testimonial.avatar" 
-                :alt="testimonial.author"
+              <img
+                v-if="testimonial.avatar_url"
+                :src="testimonial.avatar_url"
+                :alt="testimonial.author_name"
                 class="avatar-image"
               >
               <div v-else class="avatar-placeholder">
-                {{ getInitials(testimonial.author) }}
+                {{ getInitials(testimonial.author_name) }}
               </div>
             </div>
-            
+
             <div class="author-details">
-              <p class="author-name">{{ testimonial.author }}</p>
-              <p class="author-position">{{ testimonial.position }}</p>
-              <p v-if="testimonial.company" class="author-company">{{ testimonial.company }}</p>
+              <p class="author-name">{{ testimonial.author_name }}</p>
+              <p class="author-position">{{ testimonial.author_role }}</p>
+              <p v-if="testimonial.author_company" class="author-company">{{ testimonial.author_company }}</p>
             </div>
           </div>
 
@@ -75,53 +75,19 @@
 </template>
 
 <script setup>
-import { defineEmits, defineProps } from 'vue'
+import { ref, onMounted, defineEmits, defineProps } from 'vue'
+import { testimonialsService } from '@/services/testimonialsService'
 
 const props = defineProps({
-  testimonials: {
-    type: Array,
-    default: () => [
-      {
-        text: 'El proceso de mentoring con AGHR fue transformador. En 6 meses logré un ascenso que venía buscando hace años. Andrea me ayudó a identificar mis fortalezas y a comunicar mi valor de manera efectiva.',
-        author: 'María González',
-        position: 'Gerente de Marketing',
-        company: 'Tech Solutions SA',
-        avatar: '',
-        rating: 5,
-        featured: true
-      },
-      {
-        text: 'Contraté AGHR para optimizar nuestros procesos de selección y el resultado superó nuestras expectativas. Redujimos el tiempo de contratación en un 40% y mejoramos significativamente la calidad de los candidatos.',
-        author: 'Carlos Martínez',
-        position: 'CEO',
-        company: 'Startup Innovation',
-        avatar: '',
-        rating: 5,
-        featured: false
-      },
-      {
-        text: 'El training de team building que diseñaron para nuestro equipo fue excepcional. Logramos mejorar la comunicación interna y aumentar la productividad de manera notable.',
-        author: 'Laura Fernández',
-        position: 'Directora de RH',
-        company: 'Corporación ABC',
-        avatar: '',
-        rating: 5,
-        featured: false
-      }
-    ]
-  },
-  // Acción del CTA: 'scroll' para desplazarse a una sección, 'url' para abrir un enlace
   ctaAction: {
     type: String,
     default: 'scroll',
     validator: (value) => ['scroll', 'url'].includes(value)
   },
-  // Selector del elemento al que hacer scroll (por defecto, sección de contacto)
   ctaScroll: {
     type: String,
     default: '#contact'
   },
-  // URL a abrir si ctaAction es 'url'
   ctaUrl: {
     type: String,
     default: ''
@@ -129,6 +95,16 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['cta-click'])
+
+const testimonials = ref([])
+
+onMounted(async () => {
+  try {
+    testimonials.value = await testimonialsService.getAll()
+  } catch (err) {
+    console.error('Error cargando testimonios:', err)
+  }
+})
 
 const getInitials = (name) => {
   return name

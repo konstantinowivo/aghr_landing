@@ -69,29 +69,25 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import VideoBackground from './VideoBackground.vue'
+import { siteContentService } from '@/services/siteContentService'
 
 // Assets
 import aghrLogo from '../../assets/images/logo/aghr_logo.svg'
 
-// Video en public folder (no se puede importar directamente)
 const video1 = '/videos/video_oficina.avi'
-
-// Router
 const router = useRouter()
 
-// Props
+// Contenido dinámico desde site_content
+const title = ref('Potenciá tu carrera y conectá con el mejor talento')
+const subtitle = ref('Soluciones integrales de Recursos Humanos y Mentoring para empresas y profesionales que buscan excelencia')
+const primaryButtonText = ref('Conocer Servicios')
+const secondaryButtonText = ref('Agendar Consulta')
+
+// Props funcionales (no son contenido editable)
 const props = defineProps({
-  title: {
-    type: String,
-    default: 'Potenciá tu carrera y conectá con el mejor talento'
-  },
-  subtitle: {
-    type: String,
-    default: 'Soluciones integrales de Recursos Humanos y Mentoring para empresas y profesionales que buscan excelencia'
-  },
   brandName: {
     type: String,
     default: 'Mentoring & HR Consulting'
@@ -103,14 +99,6 @@ const props = defineProps({
   logoAlt: {
     type: String,
     default: 'AGHR Logo'
-  },
-  primaryButtonText: {
-    type: String,
-    default: 'Conocer Servicios'
-  },
-  secondaryButtonText: {
-    type: String,
-    default: 'Agendar Consulta'
   },
   primaryButtonScroll: {
     type: String,
@@ -174,7 +162,19 @@ const scrollToContent = () => {
 }
 
 // Animations on mount
-onMounted(() => {
+onMounted(async () => {
+  try {
+    const content = await siteContentService.getMany([
+      'hero_title', 'hero_subtitle', 'hero_primary_cta', 'hero_secondary_cta'
+    ])
+    if (content.hero_title) title.value = content.hero_title
+    if (content.hero_subtitle) subtitle.value = content.hero_subtitle
+    if (content.hero_primary_cta) primaryButtonText.value = content.hero_primary_cta
+    if (content.hero_secondary_cta) secondaryButtonText.value = content.hero_secondary_cta
+  } catch (err) {
+    console.error('Error cargando hero content:', err)
+  }
+
   // Intersection Observer para animaciones
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, index) => {

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- Navbar con todas las props y slots -->
-    <Navbar
+    <Navbar v-if="!isAdminRoute"
       :heroRef="heroRef"
       :servicesRef="servicesRef"
       :aboutRef="aboutRef"
@@ -53,7 +53,7 @@
       <router-view @refs-ready="handlePageRefsReady" />
     </main>
 
-    <footer class="footer">
+    <footer v-if="!isAdminRoute" class="footer">
       <div class="container">
         <p class="footer-presence">ARGENTINA | LATAM | ESPAÑA</p>
         <p class="footer-text">
@@ -65,9 +65,12 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { ref, computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import Navbar from "./components/layout/Navbar.vue";
+
+const route = useRoute();
+const isAdminRoute = computed(() => route.path.startsWith('/admin'));
 
 const router = useRouter();
 

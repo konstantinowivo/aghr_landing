@@ -45,6 +45,11 @@
           <slot name="social"></slot>
         </div>
 
+        <!-- Admin Login -->
+        <router-link to="/admin/login" class="login-btn">
+          Iniciar sesión
+        </router-link>
+
         <!-- CTA Button -->
         <div class="navbar-cta">
           <slot name="cta">
@@ -102,6 +107,13 @@
               <button class="cta-button cta-button--mobile" @click="handleMobileCTA">
                 Agendar entrevista
               </button>
+            </div>
+
+            <!-- Admin Login Mobile -->
+            <div class="mobile-login">
+              <router-link to="/admin/login" class="login-btn login-btn--mobile" @click="closeMobileMenu">
+                Iniciar sesión
+              </router-link>
             </div>
           </div>
         </div>
@@ -343,6 +355,28 @@ onUnmounted(() => {
   width: 70%;
 }
 
+/* Login Button */
+.login-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.25rem;
+  font-family: var(--font-family-primary);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  border-radius: 0.75rem;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.login-btn:hover {
+  background: var(--color-primary);
+  color: white;
+}
+
 /* CTA Button - Solo visible en mobile */
 .navbar-cta {
   flex-shrink: 0;
@@ -493,6 +527,15 @@ onUnmounted(() => {
 
 .mobile-cta {
   padding: 1rem 1.5rem 0;
+}
+
+.mobile-login {
+  padding: 1rem 1.5rem 0.5rem;
+}
+
+.login-btn--mobile {
+  width: 100%;
+  justify-content: center;
 }
 
 .cta-button--mobile {
