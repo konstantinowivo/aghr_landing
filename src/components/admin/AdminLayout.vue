@@ -12,21 +12,40 @@
         <router-link to="/admin/contacts" class="nav-link">
           <span class="nav-icon">📩</span> Consultas
         </router-link>
-        <router-link to="/admin/testimonials" class="nav-link">
-          <span class="nav-icon">💬</span> Testimonios
-        </router-link>
-        <router-link to="/admin/team" class="nav-link">
-          <span class="nav-icon">👥</span> Equipo
-        </router-link>
-        <router-link to="/admin/services" class="nav-link">
-          <span class="nav-icon">🎯</span> Servicios
-        </router-link>
         <router-link to="/admin/jobs" class="nav-link">
           <span class="nav-icon">💼</span> Empleos
         </router-link>
-        <router-link to="/admin/clients" class="nav-link">
-          <span class="nav-icon">🏢</span> Clientes
+        <router-link to="/admin/applications" class="nav-link">
+          <span class="nav-icon">📋</span> Postulaciones
         </router-link>
+
+        <div class="nav-group">
+          <button
+            class="nav-group-header"
+            :class="{ open: groups.config, 'has-active': groupIsActive }"
+            @click="toggleGroup('config')"
+          >
+            <span class="nav-icon">⚙️</span>
+            <span class="nav-group-label">Configuración</span>
+            <span class="nav-group-arrow" :class="{ rotated: groups.config }">▶</span>
+          </button>
+          <div class="nav-group-children" :class="{ expanded: groups.config }">
+            <div>
+              <router-link to="/admin/team" class="nav-link nav-link-child">
+                <span class="nav-icon">👥</span> Equipo
+              </router-link>
+              <router-link to="/admin/services" class="nav-link nav-link-child">
+                <span class="nav-icon">🎯</span> Servicios
+              </router-link>
+              <router-link to="/admin/clients" class="nav-link nav-link-child">
+                <span class="nav-icon">🏢</span> Clientes
+              </router-link>
+              <router-link to="/admin/testimonials" class="nav-link nav-link-child">
+                <span class="nav-icon">💬</span> Testimonios
+              </router-link>
+            </div>
+          </div>
+        </div>
       </nav>
 
       <div class="sidebar-footer">
@@ -46,10 +65,28 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
+import { reactive, computed, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { authService } from '@/services/authService'
 
 const router = useRouter()
+const route = useRoute()
+
+const CONFIG_ROUTES = ['/admin/team', '/admin/services', '/admin/clients', '/admin/testimonials']
+
+const groupIsActive = computed(() => CONFIG_ROUTES.some(r => route.path.startsWith(r)))
+
+const groups = reactive({
+  config: groupIsActive.value
+})
+
+watch(groupIsActive, (active) => {
+  if (active) groups.config = true
+})
+
+const toggleGroup = (key) => {
+  groups[key] = !groups[key]
+}
 
 const handleLogout = async () => {
   await authService.logout()
@@ -95,6 +132,7 @@ const handleLogout = async () => {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  overflow-y: auto;
 }
 
 .nav-link {
@@ -121,10 +159,77 @@ const handleLogout = async () => {
   border-left-color: #818cf8;
 }
 
+.nav-link-child {
+  padding-left: 2.75rem;
+  font-size: 0.875rem;
+}
+
+/* Group */
+.nav-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-group-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  color: #94a3b8;
+  background: none;
+  border: none;
+  border-left: 3px solid transparent;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.nav-group-header:hover {
+  background: rgba(255,255,255,0.05);
+  color: #f1f5f9;
+}
+
+.nav-group-header.has-active {
+  color: #818cf8;
+  border-left-color: #818cf8;
+}
+
+.nav-group-label {
+  flex: 1;
+}
+
+.nav-group-arrow {
+  font-size: 0.625rem;
+  transition: transform 0.2s ease;
+  opacity: 0.6;
+}
+
+.nav-group-arrow.rotated {
+  transform: rotate(90deg);
+}
+
+.nav-group-children {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.2s ease;
+}
+
+.nav-group-children.expanded {
+  grid-template-rows: 1fr;
+}
+
+.nav-group-children > div {
+  overflow: hidden;
+}
+
 .nav-icon {
   font-size: 1rem;
   width: 20px;
   text-align: center;
+  flex-shrink: 0;
 }
 
 .sidebar-footer {
