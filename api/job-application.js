@@ -8,7 +8,6 @@
 
 const { sendJobApplicationEmail } = require('./utils/email');
 const multer = require('multer');
-const { createClient } = require('@supabase/supabase-js');
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -83,33 +82,52 @@ module.exports = async (req, res) => {
     const supabaseUrl = process.env.VITE_SUPABASE_URL;
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
     if (supabaseUrl && serviceKey) {
+      // Intentar subir CV al bucket 'applications' (no bloquea el insert si falla)
+      let cvPath = null;
       try {
-        const supabase = createClient(supabaseUrl, serviceKey);
-
-        // Subir CV al bucket 'applications'
-        const cvPath = `${Date.now()}-${cvFilename.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
-        const { error: uploadError } = await supabase.storage
-          .from('applications')
-          .upload(cvPath, cvBuffer, { contentType: req.file.mimetype, upsert: false });
-
-        if (!uploadError) {
-          // Guardar registro en tabla applications
-          await supabase.from('applications').insert({
-            job_title: jobData.title,
-            company: jobData.company,
-            name: sanitizedData.name,
-            email: sanitizedData.email,
-            phone: sanitizedData.phone,
-            message: sanitizedData.message,
-            cv_url: cvPath,   // guardamos el path, no la signed URL (que expira)
-            cv_filename: cvFilename,
-          });
-        } else {
-          console.error('Supabase storage upload error:', uploadError);
+        const safeName = cvFilename.replace(/[^a-zA-Z0-9._-]/g, '_');
+        cvPath = `${Date.now()}-${safeName}`;
+        const uploadRes = await fetch(
+          `${supabaseUrl}/storage/v1/object/applications/${cvPath}`,
+          {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${serviceKey}`,
+              'Content-Type': req.file.mimetype,
+            },
+            body: cvBuffer,
+          }
+        );
+        if (!uploadRes.ok) {
+          const errText = await uploadRes.text();
+          console.error('Supabase storage upload error:', errText);
+          cvPath = null;
         }
       } catch (err) {
-        console.error('Supabase error (non-blocking):', err);
+        console.error('Supabase storage fetch error:', err);
+        cvPath = null;
       }
+
+      // Guardar registro en tabla applications (siempre, independiente del CV)
+      fetch(`${supabaseUrl}/rest/v1/applications`, {
+        method: 'POST',
+        headers: {
+          'apikey': serviceKey,
+          'Authorization': `Bearer ${serviceKey}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal',
+        },
+        body: JSON.stringify({
+          job_title: jobData.title,
+          company: jobData.company,
+          name: sanitizedData.name,
+          email: sanitizedData.email,
+          phone: sanitizedData.phone,
+          message: sanitizedData.message,
+          cv_url: cvPath,
+          cv_filename: cvFilename,
+        }),
+      }).catch(err => console.error('Supabase insert error:', err));
     }
 
     // Enviar email con CV adjunto (independiente de Supabase)
