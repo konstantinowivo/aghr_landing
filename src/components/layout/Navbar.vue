@@ -565,11 +565,15 @@ onUnmounted(() => {
   .navbar-nav {
     display: none;
   }
-  
+
   .navbar-cta {
     display: none;
   }
-  
+
+  .login-btn {
+    display: none;
+  }
+
   .navbar-toggle {
     display: flex;
   }
