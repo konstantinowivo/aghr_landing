@@ -46,7 +46,7 @@
         </div>
 
         <!-- Admin Login -->
-        <router-link to="/admin/login" class="login-btn">
+        <router-link to="/admin/login" class="login-btn login-btn--desktop">
           Iniciar sesión
         </router-link>
 
@@ -563,7 +563,7 @@ onUnmounted(() => {
     display: none;
   }
 
-  .login-btn {
+  .login-btn--desktop {
     display: none;
   }
 
