@@ -527,7 +527,6 @@ onUnmounted(() => {
 }
 
 .login-btn--mobile {
-  display: inline-flex !important;
   width: 100%;
   justify-content: center;
 }
