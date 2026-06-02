@@ -570,10 +570,6 @@ onUnmounted(() => {
     display: none;
   }
 
-  .login-btn {
-    display: none;
-  }
-
   .navbar-toggle {
     display: flex;
   }
