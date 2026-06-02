@@ -8,32 +8,54 @@
     <div class="table-card">
       <div v-if="loading" class="state-msg">Cargando...</div>
       <div v-else-if="records.length === 0" class="state-msg">No hay servicios aún.</div>
-      <table v-else class="data-table">
-        <thead>
-          <tr>
-            <th>Título</th>
-            <th>Tipo</th>
-            <th>Orden</th>
-            <th>Activo</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="r in records" :key="r.id">
-            <td>
-              <strong>{{ r.title }}</strong>
-              <span class="sub">{{ r.description?.slice(0, 60) }}...</span>
-            </td>
-            <td><span :class="['badge', r.type === 'empresa' ? 'badge-yes' : 'badge-no']">{{ r.type }}</span></td>
-            <td>{{ r.display_order }}</td>
-            <td><span :class="['badge', r.active ? 'badge-yes' : 'badge-no']">{{ r.active ? 'Sí' : 'No' }}</span></td>
-            <td class="actions">
+      <template v-else>
+        <!-- Desktop table -->
+        <table v-if="!isMobile" class="data-table">
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Tipo</th>
+              <th>Orden</th>
+              <th>Activo</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="r in records" :key="r.id">
+              <td>
+                <strong>{{ r.title }}</strong>
+                <span class="sub">{{ r.description?.slice(0, 60) }}...</span>
+              </td>
+              <td><span :class="['badge', r.type === 'empresa' ? 'badge-yes' : 'badge-no']">{{ r.type }}</span></td>
+              <td>{{ r.display_order }}</td>
+              <td><span :class="['badge', r.active ? 'badge-yes' : 'badge-no']">{{ r.active ? 'Sí' : 'No' }}</span></td>
+              <td class="actions">
+                <button class="btn-edit" @click="openForm(r)">Editar</button>
+                <button class="btn-delete" @click="deleteRecord(r.id)">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Mobile cards -->
+        <div v-else class="mobile-cards">
+          <div v-for="r in records" :key="r.id" class="mobile-card">
+            <div class="card-top">
+              <strong class="card-name">{{ r.title }}</strong>
+              <span :class="['badge', r.active ? 'badge-yes' : 'badge-no']">{{ r.active ? 'Activo' : 'Inactivo' }}</span>
+            </div>
+            <div class="card-meta">
+              <span :class="['badge', r.type === 'empresa' ? 'badge-yes' : 'badge-no']">{{ r.type }}</span>
+              <span style="margin-left:0.5rem;">Orden: {{ r.display_order }}</span>
+            </div>
+            <div v-if="r.description" class="card-meta">{{ r.description.slice(0, 80) }}...</div>
+            <div class="card-actions">
               <button class="btn-edit" @click="openForm(r)">Editar</button>
               <button class="btn-delete" @click="deleteRecord(r.id)">Eliminar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            </div>
+          </div>
+        </div>
+      </template>
     </div>
 
     <div v-if="showForm" class="modal-overlay" @click.self="closeForm">
@@ -84,6 +106,9 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { supabase } from '@/lib/supabase'
+import { useIsMobile } from '@/composables/useIsMobile'
+
+const { isMobile } = useIsMobile()
 
 const records = ref([])
 const loading = ref(true)

@@ -80,20 +80,30 @@ module.exports = async (req, res) => {
       message: sanitize(message)
     };
 
-    // Guardar en Supabase primero (independiente del email)
-    const supabaseUrl = process.env.VITE_SUPABASE_URL;
+    // Guardar en Supabase
+    const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
     const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
     if (supabaseUrl && serviceKey) {
-      fetch(`${supabaseUrl}/rest/v1/contact_submissions`, {
-        method: 'POST',
-        headers: {
-          'apikey': serviceKey,
-          'Authorization': `Bearer ${serviceKey}`,
-          'Content-Type': 'application/json',
-          'Prefer': 'return=minimal'
-        },
-        body: JSON.stringify(sanitizedData)
-      }).catch(err => console.error('Supabase insert error:', err));
+      try {
+        const dbRes = await fetch(`${supabaseUrl}/rest/v1/contact_submissions`, {
+          method: 'POST',
+          headers: {
+            'apikey': serviceKey,
+            'Authorization': `Bearer ${serviceKey}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify(sanitizedData)
+        });
+        if (!dbRes.ok) {
+          const errText = await dbRes.text();
+          console.error('Supabase insert error:', dbRes.status, errText);
+        }
+      } catch (err) {
+        console.error('Supabase insert error:', err);
+      }
+    } else {
+      console.warn('Supabase env vars not set — contact submission not saved to DB');
     }
 
     // Enviar email (si falla, la consulta ya quedó guardada en Supabase)

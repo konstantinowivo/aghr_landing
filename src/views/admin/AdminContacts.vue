@@ -17,41 +17,74 @@
     <div class="table-card">
       <div v-if="loading" class="state-msg">Cargando...</div>
       <div v-else-if="filtered.length === 0" class="state-msg">No hay consultas que coincidan.</div>
-      <table v-else class="data-table">
-        <thead>
-          <tr>
-            <th>Fecha</th>
-            <th>Nombre</th>
-            <th>Email</th>
-            <th>Tipo</th>
-            <th>Servicio</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="r in filtered" :key="r.id" :class="{ 'row-unread': !r.read }">
-            <td>{{ formatDate(r.submitted_at) }}</td>
-            <td><strong>{{ r.name }}</strong></td>
-            <td>
-              <a :href="`mailto:${r.email}`" class="email-link">{{ r.email }}</a>
-              <span v-if="r.phone" class="sub">{{ r.phone }}</span>
-            </td>
-            <td>{{ r.type || '—' }}</td>
-            <td>{{ r.service || '—' }}</td>
-            <td>
+      <template v-else>
+        <!-- Desktop table -->
+        <table v-if="!isMobile" class="data-table">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Tipo</th>
+              <th>Servicio</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="r in filtered" :key="r.id" :class="{ 'row-unread': !r.read }">
+              <td>{{ formatDate(r.submitted_at) }}</td>
+              <td><strong>{{ r.name }}</strong></td>
+              <td>
+                <a :href="`mailto:${r.email}`" class="email-link">{{ r.email }}</a>
+                <span v-if="r.phone" class="sub">{{ r.phone }}</span>
+              </td>
+              <td>{{ r.type || '—' }}</td>
+              <td>{{ r.service || '—' }}</td>
+              <td>
+                <span :class="['badge', r.read ? 'badge-no' : 'badge-yes']">
+                  {{ r.read ? 'Leído' : 'Nuevo' }}
+                </span>
+              </td>
+              <td class="actions">
+                <button class="btn-edit" @click="openDetail(r)">Ver</button>
+                <button v-if="!r.read" class="btn-edit" @click="markRead(r)">Marcar leído</button>
+                <button class="btn-delete" @click="deleteRecord(r.id)">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Mobile cards -->
+        <div v-else class="mobile-cards">
+          <div
+            v-for="r in filtered"
+            :key="r.id"
+            class="mobile-card"
+            :class="{ 'card-unread': !r.read }"
+          >
+            <div class="card-top">
+              <strong class="card-name">{{ r.name }}</strong>
               <span :class="['badge', r.read ? 'badge-no' : 'badge-yes']">
                 {{ r.read ? 'Leído' : 'Nuevo' }}
               </span>
-            </td>
-            <td class="actions">
+            </div>
+            <a :href="`mailto:${r.email}`" class="email-link card-email">{{ r.email }}</a>
+            <div v-if="r.phone" class="card-meta">{{ r.phone }}</div>
+            <div class="card-meta">
+              <span v-if="r.type">{{ r.type }}</span>
+              <span v-if="r.type && r.service"> · </span>
+              <span v-if="r.service">{{ r.service }}</span>
+            </div>
+            <div class="card-date">{{ formatDate(r.submitted_at) }}</div>
+            <div class="card-actions">
               <button class="btn-edit" @click="openDetail(r)">Ver</button>
               <button v-if="!r.read" class="btn-edit" @click="markRead(r)">Marcar leído</button>
               <button class="btn-delete" @click="deleteRecord(r.id)">Eliminar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            </div>
+          </div>
+        </div>
+      </template>
     </div>
 
     <!-- Modal detalle -->
@@ -87,6 +120,9 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { supabase } from '@/lib/supabase'
+import { useIsMobile } from '@/composables/useIsMobile'
+
+const { isMobile } = useIsMobile()
 
 const records = ref([])
 const loading = ref(true)

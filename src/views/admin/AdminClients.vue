@@ -8,29 +8,50 @@
     <div class="table-card">
       <div v-if="loading" class="state-msg">Cargando...</div>
       <div v-else-if="records.length === 0" class="state-msg">No hay clientes aún.</div>
-      <table v-else class="data-table">
-        <thead>
-          <tr>
-            <th>Logo</th>
-            <th>Nombre</th>
-            <th>Orden</th>
-            <th>Activo</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="r in records" :key="r.id">
-            <td><img v-if="r.logo_url" :src="r.logo_url" :alt="r.name" style="height:40px;object-fit:contain;" /></td>
-            <td>{{ r.name }}</td>
-            <td>{{ r.display_order }}</td>
-            <td><span :class="['badge', r.active ? 'badge-yes' : 'badge-no']">{{ r.active ? 'Sí' : 'No' }}</span></td>
-            <td class="actions">
+      <template v-else>
+        <!-- Desktop table -->
+        <table v-if="!isMobile" class="data-table">
+          <thead>
+            <tr>
+              <th>Logo</th>
+              <th>Nombre</th>
+              <th>Orden</th>
+              <th>Activo</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="r in records" :key="r.id">
+              <td><img v-if="r.logo_url" :src="r.logo_url" :alt="r.name" style="height:40px;object-fit:contain;" /></td>
+              <td>{{ r.name }}</td>
+              <td>{{ r.display_order }}</td>
+              <td><span :class="['badge', r.active ? 'badge-yes' : 'badge-no']">{{ r.active ? 'Sí' : 'No' }}</span></td>
+              <td class="actions">
+                <button class="btn-edit" @click="openForm(r)">Editar</button>
+                <button class="btn-delete" @click="deleteRecord(r.id)">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Mobile cards -->
+        <div v-else class="mobile-cards">
+          <div v-for="r in records" :key="r.id" class="mobile-card">
+            <div class="card-top">
+              <div style="display:flex;align-items:center;gap:0.75rem;">
+                <img v-if="r.logo_url" :src="r.logo_url" :alt="r.name" class="card-logo" />
+                <strong class="card-name">{{ r.name }}</strong>
+              </div>
+              <span :class="['badge', r.active ? 'badge-yes' : 'badge-no']">{{ r.active ? 'Activo' : 'Inactivo' }}</span>
+            </div>
+            <div class="card-meta">Orden: {{ r.display_order }}</div>
+            <div class="card-actions">
               <button class="btn-edit" @click="openForm(r)">Editar</button>
               <button class="btn-delete" @click="deleteRecord(r.id)">Eliminar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            </div>
+          </div>
+        </div>
+      </template>
     </div>
 
     <div v-if="showForm" class="modal-overlay" @click.self="closeForm">
@@ -68,6 +89,9 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { supabase } from '@/lib/supabase'
+import { useIsMobile } from '@/composables/useIsMobile'
+
+const { isMobile } = useIsMobile()
 
 const records = ref([])
 const loading = ref(true)

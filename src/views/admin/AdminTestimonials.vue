@@ -8,34 +8,59 @@
     <div class="table-card">
       <div v-if="loading" class="state-msg">Cargando...</div>
       <div v-else-if="records.length === 0" class="state-msg">No hay testimonios aún.</div>
-      <table v-else class="data-table">
-        <thead>
-          <tr>
-            <th>Autor</th>
-            <th>Empresa</th>
-            <th>Rating</th>
-            <th>Destacado</th>
-            <th>Activo</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="r in records" :key="r.id">
-            <td>
-              <strong>{{ r.author_name }}</strong>
-              <span class="sub">{{ r.author_role }}</span>
-            </td>
-            <td>{{ r.author_company }}</td>
-            <td>{{ '★'.repeat(r.rating) }}</td>
-            <td><span :class="['badge', r.featured ? 'badge-yes' : 'badge-no']">{{ r.featured ? 'Sí' : 'No' }}</span></td>
-            <td><span :class="['badge', r.active ? 'badge-yes' : 'badge-no']">{{ r.active ? 'Sí' : 'No' }}</span></td>
-            <td class="actions">
+      <template v-else>
+        <!-- Desktop table -->
+        <table v-if="!isMobile" class="data-table">
+          <thead>
+            <tr>
+              <th>Autor</th>
+              <th>Empresa</th>
+              <th>Rating</th>
+              <th>Destacado</th>
+              <th>Activo</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="r in records" :key="r.id">
+              <td>
+                <strong>{{ r.author_name }}</strong>
+                <span class="sub">{{ r.author_role }}</span>
+              </td>
+              <td>{{ r.author_company }}</td>
+              <td>{{ '★'.repeat(r.rating) }}</td>
+              <td><span :class="['badge', r.featured ? 'badge-yes' : 'badge-no']">{{ r.featured ? 'Sí' : 'No' }}</span></td>
+              <td><span :class="['badge', r.active ? 'badge-yes' : 'badge-no']">{{ r.active ? 'Sí' : 'No' }}</span></td>
+              <td class="actions">
+                <button class="btn-edit" @click="openForm(r)">Editar</button>
+                <button class="btn-delete" @click="deleteRecord(r.id)">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Mobile cards -->
+        <div v-else class="mobile-cards">
+          <div v-for="r in records" :key="r.id" class="mobile-card">
+            <div class="card-top">
+              <div>
+                <strong class="card-name">{{ r.author_name }}</strong>
+                <div class="card-meta">{{ r.author_role }}</div>
+              </div>
+              <span :class="['badge', r.active ? 'badge-yes' : 'badge-no']">{{ r.active ? 'Activo' : 'Inactivo' }}</span>
+            </div>
+            <div v-if="r.author_company" class="card-meta">{{ r.author_company }}</div>
+            <div class="card-meta">
+              {{ '★'.repeat(r.rating) }}
+              <span v-if="r.featured" style="margin-left:0.5rem;" class="badge badge-yes">Destacado</span>
+            </div>
+            <div class="card-actions">
               <button class="btn-edit" @click="openForm(r)">Editar</button>
               <button class="btn-delete" @click="deleteRecord(r.id)">Eliminar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            </div>
+          </div>
+        </div>
+      </template>
     </div>
 
     <!-- Modal -->
@@ -85,6 +110,9 @@
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { supabase } from '@/lib/supabase'
+import { useIsMobile } from '@/composables/useIsMobile'
+
+const { isMobile } = useIsMobile()
 
 const records = ref([])
 const loading = ref(true)

@@ -25,34 +25,60 @@
     <div class="table-card">
       <div v-if="loading" class="state-msg">Cargando...</div>
       <div v-else-if="filtered.length === 0" class="state-msg">No hay empleos que coincidan.</div>
-      <table v-else class="data-table">
-        <thead>
-          <tr>
-            <th>Posición</th>
-            <th>Empresa</th>
-            <th>Tipo</th>
-            <th>Estado</th>
-            <th>Publicado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="r in filtered" :key="r.id">
-            <td>
-              <strong>{{ r.title }}</strong>
-              <span class="sub">{{ r.location }}</span>
-            </td>
-            <td>{{ r.company }}</td>
-            <td>{{ r.type }}</td>
-            <td><span :class="['badge', r.status === 'published' ? 'badge-yes' : 'badge-no']">{{ r.status }}</span></td>
-            <td>{{ r.published_at ? new Date(r.published_at).toLocaleDateString('es-AR') : '—' }}</td>
-            <td class="actions">
+      <template v-else>
+        <!-- Desktop table -->
+        <table v-if="!isMobile" class="data-table">
+          <thead>
+            <tr>
+              <th>Posición</th>
+              <th>Empresa</th>
+              <th>Tipo</th>
+              <th>Estado</th>
+              <th>Publicado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="r in filtered" :key="r.id">
+              <td>
+                <strong>{{ r.title }}</strong>
+                <span class="sub">{{ r.location }}</span>
+              </td>
+              <td>{{ r.company }}</td>
+              <td>{{ r.type }}</td>
+              <td><span :class="['badge', r.status === 'published' ? 'badge-yes' : 'badge-no']">{{ r.status }}</span></td>
+              <td>{{ r.published_at ? new Date(r.published_at).toLocaleDateString('es-AR') : '—' }}</td>
+              <td class="actions">
+                <button class="btn-edit" @click="openForm(r)">Editar</button>
+                <button class="btn-delete" @click="deleteRecord(r.id)">Eliminar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Mobile cards -->
+        <div v-else class="mobile-cards">
+          <div v-for="r in filtered" :key="r.id" class="mobile-card">
+            <div class="card-top">
+              <strong class="card-name">{{ r.title }}</strong>
+              <span :class="['badge', r.status === 'published' ? 'badge-yes' : 'badge-no']">
+                {{ r.status }}
+              </span>
+            </div>
+            <div class="card-meta">{{ r.company }}<span v-if="r.location"> · {{ r.location }}</span></div>
+            <div class="card-meta">
+              {{ r.type }}<span v-if="r.category"> · {{ r.category }}</span>
+            </div>
+            <div class="card-date">
+              {{ r.published_at ? new Date(r.published_at).toLocaleDateString('es-AR') : 'Sin publicar' }}
+            </div>
+            <div class="card-actions">
               <button class="btn-edit" @click="openForm(r)">Editar</button>
               <button class="btn-delete" @click="deleteRecord(r.id)">Eliminar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            </div>
+          </div>
+        </div>
+      </template>
     </div>
 
     <div v-if="showForm" class="modal-overlay" @click.self="closeForm">
@@ -144,6 +170,9 @@
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { supabase } from '@/lib/supabase'
+import { useIsMobile } from '@/composables/useIsMobile'
+
+const { isMobile } = useIsMobile()
 
 const records = ref([])
 const loading = ref(true)
