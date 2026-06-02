@@ -102,13 +102,6 @@
             <!-- Divider -->
             <div class="mobile-divider"></div>
 
-            <!-- CTA Button Mobile -->
-            <div class="mobile-cta">
-              <button class="cta-button cta-button--mobile" @click="handleMobileCTA">
-                Agendar entrevista
-              </button>
-            </div>
-
             <!-- Admin Login Mobile -->
             <div class="mobile-login">
               <router-link to="/admin/login" class="login-btn login-btn--mobile" @click="closeMobileMenu">
@@ -567,6 +560,10 @@ onUnmounted(() => {
   }
 
   .navbar-cta {
+    display: none;
+  }
+
+  .login-btn {
     display: none;
   }
 
