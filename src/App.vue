@@ -48,6 +48,8 @@
       </template>
     </Navbar>
 
+    <CartSidebar />
+
     <main>
       <!-- Vue Router View: Aquí se renderiza Home o JobBoardPage -->
       <router-view @refs-ready="handlePageRefsReady" />
@@ -68,6 +70,7 @@
 import { ref, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import Navbar from "./components/layout/Navbar.vue";
+import CartSidebar from "./components/layout/CartSidebar.vue";
 
 const route = useRoute();
 const isAdminRoute = computed(() => route.path.startsWith('/admin'));

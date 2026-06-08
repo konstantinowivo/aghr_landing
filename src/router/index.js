@@ -51,6 +51,18 @@ const routes = [
     }
   },
   {
+    path: '/pago-exitoso',
+    name: 'pago-exitoso',
+    component: () => import('../views/PagoExitoso.vue'),
+    meta: { title: 'Pago exitoso | AGHR' }
+  },
+  {
+    path: '/pago-fallido',
+    name: 'pago-fallido',
+    component: () => import('../views/PagoFallido.vue'),
+    meta: { title: 'Pago no completado | AGHR' }
+  },
+  {
     path: '/politica-de-privacidad',
     name: 'politica-de-privacidad',
     component: () => import('../views/PoliticaDePrivacidad.vue'),
